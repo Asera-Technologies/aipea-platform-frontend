@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@source "../**/*.{ts,tsx}";
+
+@theme {
+  --color-orange:     #E8501A;
+  --color-orange-dim: #c94314;
+  --color-navy:       #1B2A5E;
+  --color-navy-dark:  #111c42;
+  --color-void:       #080808;
+  --color-surface:    #111111;
+  --color-elevated:   #171717;
+}
+
+@theme inline {
+  --font-display: var(--font-syne);
+  --font-body:    var(--font-inter);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: clip; }
+body {
+  background: #ffffff;
+  color: #111c42;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.aipea * { box-sizing: border-box; margin: 0; padding: 0; }
+.aipea a { text-decoration: none; color: inherit; }
+.aipea select { appearance: none; -webkit-appearance: none; }
+.aipea ::selection { background: #E8501A; color: #fff; }
+
+@keyframes aipea-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.aipea-marquee      { animation: aipea-marquee 30s linear infinite; }
+.aipea-marquee-fast { animation: aipea-marquee 18s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .aipea-marquee, .aipea-marquee-fast { animation: none; }
+}
+
+/* ── Responsive grid overrides ────────────────────────────────── */
+@media (max-width: 1024px) {
+  .aipea-process-grid, .aipea-testi-grid { grid-template-columns: 1fr !important; }
+  .aipea-about-visual-grid, .aipea-landscape-grid, .aipea-membership-showcase, .aipea-course-showcase { grid-template-columns: 1fr !important; }
+  .aipea-course-grid { grid-template-columns: repeat(2,1fr) !important; }
+  .aipea-tier-row { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
+}
+@media (max-width: 768px) {
+  .aipea section { padding: 80px 24px !important; }
+  .aipea-hero-grid { grid-template-columns: 1fr !important; }
+  .aipea-eyebrow { display: none !important; }
+  .aipea-course-grid { grid-template-columns: 1fr !important; }
+  .aipea-tier-row { grid-template-columns: 1fr !important; margin: 0 !important; padding: 28px 24px !important; }
+  .aipea-contact-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+  .aipea-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
+  .aipea-testi-grid { gap: 32px !important; }
+}
