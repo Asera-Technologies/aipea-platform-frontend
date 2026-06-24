@@ -46,6 +46,7 @@ body {
   .aipea-tier-row { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
 }
 @media (max-width: 768px) {
+  .aipea-checkout-grid { grid-template-columns: 1fr !important; }
   .aipea section { padding: 80px 24px !important; }
   .aipea-hero-grid { grid-template-columns: 1fr !important; }
   .aipea-eyebrow { display: none !important; }

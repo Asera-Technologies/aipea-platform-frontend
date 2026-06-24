@@ -261,7 +261,7 @@ function ScrollWord({
   index: number
   progress: MotionValue<number>
 }) {
-  const start = 0.22 + index * 0.028
+  const start = 0.2 + index * 0.02
   const opacity = useTransform(progress, [start, start + 0.045, start + 0.1], [0.2, 1, 1])
   const y = useTransform(progress, [start, start + 0.065], [46, 0])
   const scale = useTransform(progress, [start, start + 0.065], [0.94, 1])
@@ -347,11 +347,12 @@ function Hero() {
     animate:    { opacity: 1, y: 0  },
     transition: { duration: 0.85, delay, ease: EASE } satisfies Transition,
   })
-  const introOpacity = useTransform(scrollYProgress, [0, 0.06, 0.16], [1, 1, 0])
-  const introY = useTransform(scrollYProgress, [0, 0.16], [0, -110])
-  const introScale = useTransform(scrollYProgress, [0, 0.16], [1, 0.96])
-  const statementOpacity = useTransform(scrollYProgress, [0.16, 0.24, 0.88, 1], [0, 1, 1, 0])
-  const statementY = useTransform(scrollYProgress, [0.16, 0.28, 0.9], [110, 0, -60])
+  const introOpacity = useTransform(scrollYProgress, [0, 0.05, 0.11], [1, 1, 0])
+  const introY = useTransform(scrollYProgress, [0, 0.11], [0, -130])
+  const introScale = useTransform(scrollYProgress, [0, 0.11], [1, 0.95])
+  const introVisibility = useTransform(scrollYProgress, (v) => (v >= 0.13 ? 'hidden' : 'visible'))
+  const statementOpacity = useTransform(scrollYProgress, [0.15, 0.22, 0.96, 1], [0, 1, 1, 0])
+  const statementY = useTransform(scrollYProgress, [0.15, 0.26], [110, 0])
   const starScale = useTransform(scrollYProgress, [0, 1], [1, 1.26])
   const glowOpacity = useTransform(scrollYProgress, [0, 0.4, 0.8], [0.32, 0.95, 0.6])
   const glowScale = useTransform(scrollYProgress, [0, 0.75], [0.85, 1.18])
@@ -361,7 +362,7 @@ function Hero() {
   const statement = ['We', 'set', 'the', 'standard', 'so', 'executive', 'assistants', 'can', 'lead', 'with', 'confidence.']
 
   return (
-    <section ref={heroRef} style={{ position: 'relative', height: '200vh', background: C.navyDark }}>
+    <section ref={heroRef} style={{ position: 'relative', height: '240vh', background: C.navyDark }}>
       <div style={{ position: 'sticky', top: 0, width: '100%', height: '100vh', overflow: 'hidden', background: `radial-gradient(circle at 52% 52%, rgba(255,255,255,0.08), transparent 34%), linear-gradient(135deg, ${C.navyDark} 0%, #071024 100%)` }}>
         <motion.div style={{ position: 'absolute', inset: 0, scale: starScale }}>
           <Starfield />
@@ -383,7 +384,7 @@ function Hero() {
 
         {/* First-stage hero content */}
         <motion.div
-          style={{ position: 'absolute', inset: 0, opacity: introOpacity, y: introY, scale: introScale }}
+          style={{ position: 'absolute', inset: 0, opacity: introOpacity, y: introY, scale: introScale, visibility: introVisibility }}
         >
           <div style={{ position: 'relative', zIndex: 10, width: '100%', height: '100%', ...INNER, padding: '0 40px', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '0 48px', alignItems: 'center' }} className="aipea-hero-grid">
             <motion.div {...fade(0.1)} style={{ borderLeft: `2px solid ${C.orange}`, paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 4 }} className="aipea-eyebrow">

@@ -7,6 +7,41 @@ export interface AIPEAUser {
   joinedAt: string
 }
 
+export interface PendingSignup {
+  name: string
+  email: string
+  country: string
+  tier: AIPEAUser['tier']
+}
+
+export const TIER_PRICING: Record<AIPEAUser['tier'], number> = {
+  Associate: 500,
+  Professional: 1200,
+  Fellow: 2500,
+}
+
+export function formatCedis(amount: number): string {
+  return `₵${amount.toLocaleString('en-GH')}`
+}
+
+export function savePendingSignup(pending: PendingSignup): void {
+  localStorage.setItem('aipea_pending', JSON.stringify(pending))
+}
+
+export function getPendingSignup(): PendingSignup | null {
+  if (typeof window === 'undefined') return null
+  try {
+    const raw = localStorage.getItem('aipea_pending')
+    return raw ? (JSON.parse(raw) as PendingSignup) : null
+  } catch {
+    return null
+  }
+}
+
+export function clearPendingSignup(): void {
+  localStorage.removeItem('aipea_pending')
+}
+
 export function getUser(): AIPEAUser | null {
   if (typeof window === 'undefined') return null
   try {
