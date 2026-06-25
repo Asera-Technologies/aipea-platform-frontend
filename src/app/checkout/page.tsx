@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Script from 'next/script'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Check, Lock, ShieldCheck } from 'lucide-react'
-import { Starfield } from '@/components/ui/Starfield'
 import {
   getPendingSignup,
   clearPendingSignup,
@@ -16,69 +16,112 @@ import {
   type PendingSignup,
 } from '@/lib/auth'
 
-const ORANGE     = '#E8501A'
-const ORANGE_DIM = '#c94314'
-const NAVY_DARK  = '#111c42'
-const NAVY_SURF  = '#16224d'
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-const dis = '"Helvetica Neue", Helvetica, Arial, sans-serif'
-const bod = 'var(--font-inter), sans-serif'
+// ─── Paystack types ───────────────────────────────────────────────────────────
 
-const inputBase: React.CSSProperties = {
-  width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-  borderRadius: 8, padding: '14px 16px', fontSize: 14, color: '#fff', outline: 'none',
-  transition: 'border-color 0.2s', fontFamily: bod, letterSpacing: '0.02em',
+declare global {
+  interface Window {
+    PaystackPop: {
+      setup(opts: {
+        key: string
+        email: string
+        amount: number
+        currency: string
+        ref: string
+        firstname?: string
+        lastname?: string
+        metadata?: object
+        callback: (resp: { reference: string }) => void
+        onClose: () => void
+      }): { openIframe(): void }
+    }
+  }
 }
-const labelBase: React.CSSProperties = {
-  display: 'block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
-  textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 8, fontFamily: bod,
-}
+
+const PAYSTACK_PK = 'pk_test_ba70cf9c8c2fa86023db7c13dc59fde20e6fe119'
+
+// ─── Tokens ───────────────────────────────────────────────────────────────────
+
+const ORANGE    = '#E8501A'
+const ORANGE_DIM = '#c94314'
+const NAVY_DARK = '#111c42'
+const SURFACE   = '#f7f8fc'
+const BORDER    = 'rgba(27,42,94,0.1)'
+const MUTED     = 'rgba(17,28,66,0.5)'
+const FAINT     = 'rgba(17,28,66,0.28)'
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
+const dis = 'var(--font-syne), sans-serif'
+const bod = 'var(--font-inter), sans-serif'
 
 type Status = 'idle' | 'processing' | 'success'
 
-// ── Input formatters ──────────────────────────────────────────────────────────
-const formatCardNumber = (v: string) =>
-  v.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim()
-const formatExpiry = (v: string) => {
-  const d = v.replace(/\D/g, '').slice(0, 4)
-  return d.length >= 3 ? `${d.slice(0, 2)}/${d.slice(2)}` : d
+const TIER_PERKS: Record<PendingSignup['tier'], string[]> = {
+  Associate:    ['Member directory listing', 'CPD hours tracker', 'Digital membership certificate'],
+  Professional: ['All Associate benefits', 'Conference access & discount', 'Course library — first access'],
+  Fellow:       ['All Professional benefits', 'Fellowship credential', 'Mentorship programme access'],
 }
-const formatCvc = (v: string) => v.replace(/\D/g, '').slice(0, 4)
 
-/**
- * Simulated charge. Replace the body with the Paystack inline call later — e.g.
- * resolve from the Paystack `onSuccess` callback and reject from `onClose`.
- */
-function simulateCharge(): Promise<{ reference: string }> {
-  return new Promise(resolve => {
-    setTimeout(() => resolve({ reference: `SIM-${Date.now()}` }), 1800)
-  })
-}
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Checkout() {
   const router = useRouter()
-  const [pending, setPending] = useState<PendingSignup | null>(null)
-  const [cardName,   setCardName]   = useState('')
-  const [cardNumber, setCardNumber] = useState('')
-  const [expiry,     setExpiry]     = useState('')
-  const [cvc,        setCvc]        = useState('')
-  const [status,     setStatus]     = useState<Status>('idle')
-  const [error,      setError]      = useState('')
+  const [pending,      setPending]      = useState<PendingSignup | null>(null)
+  const [scriptReady,  setScriptReady]  = useState(false)
+  const [status,       setStatus]       = useState<Status>('idle')
+  const [error,        setError]        = useState('')
 
   useEffect(() => {
     const p = getPendingSignup()
-    if (!p) {
-      router.push('/sign-up')
-      return
-    }
-    // One-time client-only read of the pending registration after mount.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!p) { router.push('/sign-up'); return }
     setPending(p)
   }, [router])
 
+  function handlePay() {
+    if (!pending || !scriptReady || status !== 'idle') return
+    setError('')
+    setStatus('processing')
+
+    const [first, ...rest] = pending.name.trim().split(' ')
+    const handler = window.PaystackPop.setup({
+      key:      PAYSTACK_PK,
+      email:    pending.email,
+      amount:   TIER_PRICING[pending.tier] * 100, // pesewas (GHS subunit)
+      currency: 'GHS',
+      ref:      `AIPEA-${Date.now()}`,
+      firstname: first,
+      lastname:  rest.join(' ') || undefined,
+      metadata: {
+        custom_fields: [
+          { display_name: 'Membership Tier', variable_name: 'tier',    value: pending.tier    },
+          { display_name: 'Country',         variable_name: 'country', value: pending.country },
+        ],
+      },
+      callback(response) {
+        // Payment confirmed — activate membership
+        saveUser({
+          name:     pending.name,
+          email:    pending.email,
+          country:  pending.country,
+          tier:     pending.tier,
+          memberId: generateMemberId(),
+          joinedAt: new Date().toISOString(),
+        })
+        clearPendingSignup()
+        setStatus('success')
+        setTimeout(() => router.push('/dashboard'), 1200)
+        void response.reference
+      },
+      onClose() {
+        setStatus('idle')
+        setError('Payment was cancelled. Try again when you\'re ready.')
+      },
+    })
+
+    handler.openIframe()
+  }
+
   if (!pending) {
     return (
-      <div style={{ minHeight: '100vh', background: NAVY_DARK, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <motion.span animate={{ opacity: [0.25, 1, 0.25] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
           style={{ fontFamily: dis, fontWeight: 800, fontSize: 16, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE }}>
           AIPEA
@@ -88,174 +131,158 @@ export default function Checkout() {
   }
 
   const amount = TIER_PRICING[pending.tier]
-
-  async function handlePay(e: React.FormEvent) {
-    e.preventDefault()
-    setError('')
-    if (!pending) return
-    if (!cardName.trim())                  { setError('Enter the cardholder name.'); return }
-    if (cardNumber.replace(/\s/g, '').length < 12) { setError('Enter a valid card number.'); return }
-    if (expiry.length < 5)                 { setError('Enter a valid expiry date.'); return }
-    if (cvc.length < 3)                    { setError('Enter a valid CVC.'); return }
-
-    setStatus('processing')
-
-    // TODO: swap simulateCharge() for the Paystack inline checkout here.
-    await simulateCharge()
-
-    saveUser({
-      name: pending.name,
-      email: pending.email,
-      country: pending.country,
-      tier: pending.tier,
-      memberId: generateMemberId(),
-      joinedAt: new Date().toISOString(),
-    })
-    clearPendingSignup()
-
-    setStatus('success')
-    await new Promise(r => setTimeout(r, 1100))
-    router.push('/dashboard')
-  }
-
-  const onFocus = (ev: React.FocusEvent<HTMLInputElement>) => (ev.target.style.borderColor = ORANGE)
-  const onBlur  = (ev: React.FocusEvent<HTMLInputElement>) => (ev.target.style.borderColor = 'rgba(255,255,255,0.08)')
-  const busy = status !== 'idle'
+  const perks  = TIER_PERKS[pending.tier]
 
   return (
-    <div style={{ minHeight: '100vh', background: NAVY_DARK, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px', position: 'relative', overflow: 'hidden' }}>
-      <Starfield />
-      <div style={{ position: 'absolute', top: '35%', left: '50%', transform: 'translate(-50%,-50%)', width: 700, height: 600, background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 68%)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: 0, right: 0, width: 480, height: 380, background: 'radial-gradient(ellipse at 100% 100%, rgba(232,80,26,0.14) 0%, transparent 60%)', pointerEvents: 'none' }} />
+    <>
+      <Script
+        src="https://js.paystack.co/v1/inline.js"
+        onReady={() => setScriptReady(true)}
+      />
 
-      <motion.div
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: EASE }}
-        style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: 880 }}
-      >
-        {/* Wordmark */}
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <Link href="/" style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE, textDecoration: 'none' }}>
-            AIPEA
-          </Link>
-        </div>
+      <div style={{ minHeight: '100vh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE }}
+          style={{ width: '100%', maxWidth: 860 }}
+        >
+          {/* Logo */}
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
+            <Link href="/" style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE, textDecoration: 'none' }}>
+              AIPEA
+            </Link>
+          </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: 20, alignItems: 'stretch' }} className="aipea-checkout-grid">
-          {/* ── Order summary ───────────────────────────────────────── */}
-          <div style={{ background: NAVY_SURF, border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${ORANGE}, transparent)` }} />
-            <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', height: '100%' }}>
-              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', fontFamily: bod, marginBottom: 22 }}>
-                Order summary
-              </p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.05fr', gap: 20, alignItems: 'stretch' }} className="aipea-checkout-grid">
 
-              <h1 style={{ fontFamily: dis, fontWeight: 800, fontSize: 26, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-                AIPEA {pending.tier}
-              </h1>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 6, fontFamily: bod }}>
-                Annual membership · billed yearly
-              </p>
+            {/* ── Order summary ─────────────────────────────────────── */}
+            <div style={{ background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 18, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ height: 3, background: `linear-gradient(90deg, ${ORANGE}, ${ORANGE_DIM})` }} />
+              <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: FAINT, marginBottom: 22 }}>
+                  Order summary
+                </p>
 
-              <div style={{ marginTop: 26, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {[
-                  ['Member', pending.name],
-                  ['Email', pending.email],
-                  ['Country', pending.country],
-                ].map(([l, v]) => (
-                  <div key={l} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, fontSize: 13, fontFamily: bod }}>
-                    <span style={{ color: 'rgba(255,255,255,0.4)' }}>{l}</span>
-                    <span style={{ color: 'rgba(255,255,255,0.8)', textAlign: 'right' }}>{v}</span>
+                <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 24, color: NAVY_DARK, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                  AIPEA {pending.tier}
+                </h2>
+                <p style={{ fontFamily: bod, fontSize: 13, color: MUTED, marginTop: 5 }}>
+                  Annual membership · billed yearly
+                </p>
+
+                <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {[['Member', pending.name], ['Email', pending.email], ['Country', pending.country]].map(([l, v]) => (
+                    <div key={l} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, fontFamily: bod, fontSize: 13 }}>
+                      <span style={{ color: MUTED }}>{l}</span>
+                      <span style={{ color: NAVY_DARK, fontWeight: 500, textAlign: 'right' }}>{v}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ marginTop: 28, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: FAINT, marginBottom: 4 }}>
+                    What&apos;s included
+                  </p>
+                  {perks.map(p => (
+                    <div key={p} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'rgba(232,80,26,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <Check size={10} color={ORANGE} strokeWidth={2.5} />
+                      </div>
+                      <span style={{ fontFamily: bod, fontSize: 13, color: MUTED }}>{p}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ marginTop: 'auto', paddingTop: 24 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderTop: `1px solid ${BORDER}`, paddingTop: 20 }}>
+                    <span style={{ fontFamily: bod, fontSize: 13, color: MUTED }}>Total due today</span>
+                    <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 30, color: ORANGE, letterSpacing: '-0.02em' }}>{formatCedis(amount)}</span>
                   </div>
-                ))}
-              </div>
-
-              <div style={{ marginTop: 'auto', paddingTop: 24 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 20 }}>
-                  <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontFamily: bod }}>Total due today</span>
-                  <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 30, color: '#fff', letterSpacing: '-0.02em' }}>{formatCedis(amount)}</span>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* ── Payment form ────────────────────────────────────────── */}
-          <div style={{ background: NAVY_SURF, border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, overflow: 'hidden', position: 'relative' }}>
-            <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${ORANGE}, transparent)` }} />
+            {/* ── Payment panel ─────────────────────────────────────── */}
+            <div style={{ background: '#fff', border: `1px solid ${BORDER}`, borderRadius: 18, overflow: 'hidden', boxShadow: '0 20px 60px rgba(27,42,94,0.07)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ height: 3, background: `linear-gradient(90deg, ${ORANGE}, ${ORANGE_DIM})` }} />
 
-            {status === 'success' ? (
-              <div style={{ padding: '72px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 18, minHeight: 360 }}>
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 240, damping: 20 }}
-                  style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(232,80,26,0.12)', border: '1px solid rgba(232,80,26,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Check size={28} color={ORANGE} strokeWidth={2.5} />
-                </motion.div>
-                <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 26, color: '#fff', letterSpacing: '-0.02em' }}>Payment confirmed</h2>
-                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)', fontFamily: bod }}>Activating your membership…</p>
-              </div>
-            ) : (
-              <form onSubmit={handlePay} noValidate style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', gap: 18 }}>
-                <div>
-                  <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, color: '#fff', letterSpacing: '-0.02em' }}>Payment details</h2>
-                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 6, fontFamily: bod }}>
-                    Test mode — no real charge. Use any card (e.g. 4242 4242 4242 4242).
-                  </p>
+              {status === 'success' ? (
+                <div style={{ flex: 1, padding: '72px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: 18 }}>
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+                    style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(232,80,26,0.09)', border: '1px solid rgba(232,80,26,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Check size={28} color={ORANGE} strokeWidth={2.5} />
+                  </motion.div>
+                  <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 24, color: NAVY_DARK, letterSpacing: '-0.02em' }}>Payment confirmed</h2>
+                  <p style={{ fontFamily: bod, fontSize: 14, color: MUTED }}>Activating your membership…</p>
                 </div>
-
-                <div>
-                  <label style={labelBase}>Cardholder name</label>
-                  <input value={cardName} onChange={e => setCardName(e.target.value)} placeholder={pending.name} disabled={busy}
-                    style={inputBase} onFocus={onFocus} onBlur={onBlur} />
-                </div>
-
-                <div>
-                  <label style={labelBase}>Card number</label>
-                  <input value={cardNumber} onChange={e => setCardNumber(formatCardNumber(e.target.value))} inputMode="numeric"
-                    placeholder="4242 4242 4242 4242" disabled={busy} style={inputBase} onFocus={onFocus} onBlur={onBlur} />
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              ) : (
+                <div style={{ flex: 1, padding: '40px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
-                    <label style={labelBase}>Expiry</label>
-                    <input value={expiry} onChange={e => setExpiry(formatExpiry(e.target.value))} inputMode="numeric"
-                      placeholder="MM/YY" disabled={busy} style={inputBase} onFocus={onFocus} onBlur={onBlur} />
+                    <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, color: NAVY_DARK, letterSpacing: '-0.02em' }}>
+                      Complete your membership
+                    </h2>
+                    <p style={{ fontFamily: bod, fontSize: 13, color: MUTED, marginTop: 8, lineHeight: 1.65 }}>
+                      Click below to pay securely. Paystack&apos;s checkout handles your card details — we never see them.
+                    </p>
+
+                    {/* Paystack trust badge */}
+                    <div style={{ marginTop: 28, padding: '18px 20px', background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                      <ShieldCheck size={20} color={ORANGE} strokeWidth={1.8} style={{ flexShrink: 0, marginTop: 1 }} />
+                      <div>
+                        <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 13, color: NAVY_DARK }}>Secured by Paystack</p>
+                        <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, marginTop: 3, lineHeight: 1.55 }}>
+                          Your card details are entered directly in Paystack&apos;s encrypted iframe. PCI-DSS compliant.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Test mode hint */}
+                    <div style={{ marginTop: 14, padding: '12px 16px', background: 'rgba(232,80,26,0.05)', border: '1px solid rgba(232,80,26,0.15)', borderRadius: 10 }}>
+                      <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, lineHeight: 1.55 }}>
+                        <strong style={{ color: ORANGE }}>Test mode.</strong> Use card <strong>4084 0840 8408 4081</strong>, CVV <strong>408</strong>, PIN <strong>0000</strong>, any future expiry.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <label style={labelBase}>CVC</label>
-                    <input value={cvc} onChange={e => setCvc(formatCvc(e.target.value))} inputMode="numeric"
-                      placeholder="123" disabled={busy} style={inputBase} onFocus={onFocus} onBlur={onBlur} />
+
+                  <div style={{ marginTop: 36 }}>
+                    {error && (
+                      <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+                        style={{ fontFamily: bod, fontSize: 13, color: '#c0392b', marginBottom: 14 }}>
+                        {error}
+                      </motion.p>
+                    )}
+
+                    <button
+                      onClick={handlePay}
+                      disabled={!scriptReady || status === 'processing'}
+                      style={{
+                        width: '100%', background: (!scriptReady || status === 'processing') ? ORANGE_DIM : ORANGE,
+                        color: '#fff', fontFamily: dis, fontWeight: 700, fontSize: 15, padding: '16px',
+                        borderRadius: 8, border: 'none', cursor: (!scriptReady || status === 'processing') ? 'default' : 'pointer',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                        transition: 'background 0.2s',
+                      }}
+                      onMouseEnter={e => { if (scriptReady && status === 'idle') e.currentTarget.style.background = ORANGE_DIM }}
+                      onMouseLeave={e => { if (scriptReady && status === 'idle') e.currentTarget.style.background = ORANGE }}>
+                      {status === 'processing'
+                        ? <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1, repeat: Infinity }}>Opening Paystack…</motion.span>
+                        : !scriptReady
+                        ? 'Loading…'
+                        : <><Lock size={14} /> Pay {formatCedis(amount)} with Paystack</>
+                      }
+                    </button>
+
+                    <Link href="/sign-up" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontFamily: bod, fontSize: 13, color: MUTED, textDecoration: 'none', marginTop: 16 }}>
+                      <ArrowLeft size={13} /> Back to details
+                    </Link>
                   </div>
                 </div>
-
-                {error && (
-                  <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
-                    style={{ fontSize: 13, color: '#ff7b7b', fontFamily: bod, marginTop: -4 }}>
-                    {error}
-                  </motion.p>
-                )}
-
-                <button type="submit" disabled={busy}
-                  style={{ width: '100%', background: busy ? ORANGE_DIM : ORANGE, color: '#fff', fontFamily: dis, fontWeight: 700, fontSize: 14, padding: '15px', borderRadius: 8, border: 'none', cursor: busy ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'background 0.2s', marginTop: 2 }}
-                  onMouseEnter={e => { if (!busy) e.currentTarget.style.background = ORANGE_DIM }}
-                  onMouseLeave={e => { if (!busy) e.currentTarget.style.background = ORANGE }}>
-                  {status === 'processing'
-                    ? <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1, repeat: Infinity }}>Processing…</motion.span>
-                    : <><Lock size={14} /> Pay {formatCedis(amount)}</>
-                  }
-                </button>
-
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 2 }}>
-                  <ShieldCheck size={13} color="rgba(255,255,255,0.3)" />
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.28)', fontFamily: bod }}>Secured by Paystack · coming soon</span>
-                </div>
-
-                <Link href="/sign-up" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 13, color: 'rgba(255,255,255,0.45)', textDecoration: 'none', marginTop: 2 }}>
-                  <ArrowLeft size={13} /> Back to details
-                </Link>
-              </form>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      </motion.div>
-    </div>
+        </motion.div>
+      </div>
+    </>
   )
 }

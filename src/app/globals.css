@@ -34,14 +34,48 @@ body {
 @keyframes aipea-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .aipea-marquee      { animation: aipea-marquee 30s linear infinite; }
 .aipea-marquee-fast { animation: aipea-marquee 18s linear infinite; }
+
+.aipea-marquee-rev  { animation: aipea-marquee 34s linear infinite reverse; }
+
+@keyframes aipea-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.aipea-spin     { animation: aipea-spin 22s linear infinite; }
+.aipea-spin-rev { animation: aipea-spin 28s linear infinite reverse; }
+
+@keyframes aipea-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.82); }
+}
+.aipea-pulse { animation: aipea-pulse 1.8s ease-in-out infinite; }
+
+@keyframes aipea-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+.aipea-float { animation: aipea-float 6s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
-  .aipea-marquee, .aipea-marquee-fast { animation: none; }
+  .aipea-marquee, .aipea-marquee-fast, .aipea-marquee-rev,
+  .aipea-spin, .aipea-spin-rev, .aipea-pulse, .aipea-float { animation: none; }
+}
+
+/* ── Auth split-screen ────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .aipea-auth-panel { display: none !important; }
+}
+
+/* ── Dashboard ────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .aipea-dash-grid { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 560px) {
+  .aipea-dash-bento { grid-template-columns: 1fr !important; }
 }
 
 /* ── Responsive grid overrides ────────────────────────────────── */
 @media (max-width: 1024px) {
   .aipea-process-grid, .aipea-testi-grid { grid-template-columns: 1fr !important; }
   .aipea-about-visual-grid, .aipea-landscape-grid, .aipea-membership-showcase, .aipea-course-showcase { grid-template-columns: 1fr !important; }
+  .aipea-values-grid { grid-template-columns: 1fr !important; }
   .aipea-course-grid { grid-template-columns: repeat(2,1fr) !important; }
   .aipea-tier-row { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
 }
