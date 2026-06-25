@@ -69,8 +69,10 @@ export default function SignIn() {
           style={{ width: '100%', maxWidth: 420 }}
         >
           <div style={{ marginBottom: 40 }}>
-            <Link href="/" style={{ fontFamily: bod, fontSize: 13, color: 'rgba(17,28,66,0.4)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              ← Back to AIPEA
+            <Link href="/" style={{ fontFamily: bod, fontSize: 13, color: 'rgba(17,28,66,0.55)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'color 0.2s' }}
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = ORANGE)}
+              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = 'rgba(17,28,66,0.55)')}>
+              ← Back to home
             </Link>
           </div>
 

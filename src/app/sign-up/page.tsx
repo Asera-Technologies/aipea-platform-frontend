@@ -73,7 +73,11 @@ export default function SignUp() {
           style={{ width: '100%', maxWidth: 480 }}>
 
           <div style={{ marginBottom: 36 }}>
-                <Link href="/" style={{ fontFamily: bod, fontSize: 13, color: 'rgba(17,28,66,0.4)', textDecoration: 'none' }}>← Back to AIPEA</Link>
+                <Link href="/" style={{ fontFamily: bod, fontSize: 13, color: 'rgba(17,28,66,0.55)', textDecoration: 'none', transition: 'color 0.2s' }}
+                  onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = ORANGE)}
+                  onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.color = 'rgba(17,28,66,0.55)')}>
+                  ← Back to home
+                </Link>
               </div>
 
               <h1 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(26px,3.2vw,38px)', color: NAVY_DARK, letterSpacing: '-0.025em', lineHeight: 1, marginBottom: 8 }}>

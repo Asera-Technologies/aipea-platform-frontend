@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 const ORANGE = '#E8501A'
@@ -52,7 +53,7 @@ export function BrandPanel({ headline, sub, flex = '0 0 46%' }: {
 
       <div style={{ position: 'relative', zIndex: 2, height: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '46px 50px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#fff' }}>AIPEA</span>
+          <Link href="/" style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none' }}>AIPEA</Link>
           <RotatingSeal />
         </div>
 

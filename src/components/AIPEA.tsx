@@ -297,6 +297,88 @@ function Navbar() {
   )
 }
 
+// ─── Hero visual — animated member network ────────────────────────────────────
+
+const HERO_MEMBERS = [
+  { initials: 'AA', name: 'Adwoa Akuffo',  role: 'EA to MD · Accra',       color: '#E8501A', dur: 6.2, pDel: 0.0 },
+  { initials: 'JO', name: 'James Osei',    role: 'Chief of Staff · Lagos',  color: '#1B2A5E', dur: 7.0, pDel: 1.4 },
+  { initials: 'NK', name: 'Nyambura K.',   role: 'Executive PA · Nairobi',  color: '#059669', dur: 5.8, pDel: 0.7 },
+  { initials: 'FM', name: 'Fatima Moussa', role: 'PA to CEO · Cairo',       color: '#7c3aed', dur: 6.6, pDel: 2.0 },
+  { initials: 'TM', name: 'Thandiwe M.',   role: 'EA · Johannesburg',       color: '#0891b2', dur: 7.4, pDel: 0.3 },
+]
+
+type HeroMember = typeof HERO_MEMBERS[0]
+
+function MemberCard({ m, pos, delay }: { m: HeroMember; pos: React.CSSProperties; delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 18, scale: 0.92 }}
+      animate={{ opacity: 1, y: [0, -9, 0], scale: 1 }}
+      transition={{
+        opacity: { duration: 0.55, delay, ease: EASE },
+        scale:   { duration: 0.55, delay, ease: EASE },
+        y:       { duration: m.dur, delay: delay + 0.7, ease: 'easeInOut', repeat: Infinity, times: [0, 0.5, 1] },
+      }}
+      style={{
+        position: 'absolute', background: C.white,
+        border: `1px solid ${C.border}`, borderRadius: 14,
+        padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10,
+        boxShadow: '0 8px 32px rgba(27,42,94,0.10), inset 0 1px 0 rgba(255,255,255,0.9)',
+        minWidth: 204, ...pos,
+      }}
+    >
+      <div style={{ width: 34, height: 34, borderRadius: '50%', background: m.color, display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: C.white, flexShrink: 0, boxShadow: `0 4px 10px ${m.color}55` }}>
+        {m.initials}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 12, color: C.text, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.name}</div>
+        <div style={{ fontFamily: bod, fontSize: 11, color: C.muted, marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.role}</div>
+      </div>
+      <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 6px rgba(34,197,94,0.7)', flexShrink: 0 }} />
+    </motion.div>
+  )
+}
+
+function HeroVisual() {
+  return (
+    <div style={{ position: 'relative', width: '100%', height: 480 }}>
+      {/* Rings */}
+      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.1 }}
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 356, height: 356, borderRadius: '50%', border: `1px solid ${C.border}`, pointerEvents: 'none' }} />
+      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.2 }}
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 226, height: 226, borderRadius: '50%', border: '1px dashed rgba(232,80,26,0.2)', pointerEvents: 'none' }} />
+      {/* Glow */}
+      <div style={{ position: 'absolute', top: '16%', right: '10%', width: 180, height: 180, background: 'radial-gradient(circle, rgba(232,80,26,0.16) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+      {/* Centre badge */}
+      <motion.div initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
+        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 3 }}>
+        <div style={{ position: 'relative' }}>
+          <motion.div animate={{ scale: [1, 1.35, 1], opacity: [0.28, 0, 0.28] }} transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ position: 'absolute', inset: -14, borderRadius: '50%', background: 'rgba(232,80,26,0.1)', pointerEvents: 'none' }} />
+          <div style={{ width: 72, height: 72, borderRadius: '50%', background: C.orange, display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, letterSpacing: '0.14em', color: C.white, boxShadow: '0 12px 44px rgba(232,80,26,0.38)' }}>
+            AIPEA
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Member cards */}
+      <MemberCard m={HERO_MEMBERS[0]} delay={0.30} pos={{ top: '3%',   left: '0%'   }} />
+      <MemberCard m={HERO_MEMBERS[1]} delay={0.45} pos={{ top: '23%',  right: '0%'  }} />
+      <MemberCard m={HERO_MEMBERS[2]} delay={0.28} pos={{ top: '50%',  left: '2%'   }} />
+      <MemberCard m={HERO_MEMBERS[3]} delay={0.58} pos={{ top: '70%',  right: '2%'  }} />
+      <MemberCard m={HERO_MEMBERS[4]} delay={0.40} pos={{ bottom: '3%', left: '6%'  }} />
+
+      {/* Live count */}
+      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.9, ease: EASE }}
+        style={{ position: 'absolute', bottom: 0, right: 0, display: 'inline-flex', alignItems: 'center', gap: 8, background: C.navyDark, borderRadius: 100, padding: '8px 18px', boxShadow: '0 4px 20px rgba(17,28,66,0.22)' }}>
+        <span className="aipea-pulse" style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'block', flexShrink: 0 }} />
+        <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, color: C.white, whiteSpace: 'nowrap' }}>5,000+ members across Africa</span>
+      </motion.div>
+    </div>
+  )
+}
+
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function ScrollWord({ children, index, progress }: { children: React.ReactNode; index: number; progress: MotionValue<number> }) {
@@ -313,28 +395,6 @@ function ScrollWord({ children, index, progress }: { children: React.ReactNode; 
   )
 }
 
-function FloatingShapes({ progress }: { progress: MotionValue<number> }) {
-  const yLarge = useTransform(progress, [0.1, 0.72], [120, -90])
-  const yMid   = useTransform(progress, [0.08, 0.78], [190, -20])
-  const ySmall = useTransform(progress, [0.12, 0.84], [230, 30])
-  const opacity = useTransform(progress, [0.1, 0.22, 0.78, 0.94], [0, 1, 1, 0])
-  const rotL = useTransform(progress, [0.1, 0.88], [-16, 18])
-  const rotM = useTransform(progress, [0.1, 0.88], [18, -12])
-  const shapeStyle: React.CSSProperties = {
-    position: 'absolute',
-    borderRadius: '28% 42% 34% 38%',
-    background: 'linear-gradient(145deg, #E8501A 0%, #f46b35 45%, #9b2f10 100%)',
-    boxShadow: '0 24px 60px rgba(232,80,26,0.28), inset 14px 14px 28px rgba(255,255,255,0.12), inset -14px -14px 24px rgba(68,16,2,0.28)',
-    border: '1px solid rgba(255,255,255,0.18)',
-  }
-  return (
-    <motion.div style={{ position: 'absolute', inset: 0, opacity, pointerEvents: 'none' }}>
-      <motion.div style={{ ...shapeStyle, width: 140, height: 140, right: '11%', top: '36%', y: yLarge, rotate: rotL }} />
-      <motion.div style={{ ...shapeStyle, width: 86, height: 86, right: '29%', top: '51%', y: yMid, rotate: rotM, filter: 'blur(0.5px)' }} />
-      <motion.div style={{ ...shapeStyle, width: 68, height: 68, right: '7%', top: '57%', y: ySmall, opacity: 0.8, filter: 'blur(2px)' }} />
-    </motion.div>
-  )
-}
 
 function Hero() {
   const heroRef = useRef<HTMLElement>(null)
@@ -355,7 +415,7 @@ function Hero() {
   const orangeY      = useTransform(scrollYProgress, [0.1, 0.8], [160, -100])
   const orangeOpacity = useTransform(scrollYProgress, [0.1, 0.3, 0.78], [0, 0.18, 0.1])
 
-  const statement = ['We', 'set', 'the', 'standard', 'so', 'executive', 'assistants', 'can', 'lead', 'with', 'confidence.']
+  const statement = ['Behind', "Africa's", 'most', 'powerful', 'executives', 'are', 'professionals', 'who', 'deserve', 'recognition.', 'We', 'provide', 'it.']
 
   return (
     <section ref={heroRef} style={{ position: 'relative', height: '240vh' }}>
@@ -369,48 +429,45 @@ function Hero() {
         {/* Soft orange glow bottom-right */}
         <motion.div style={{ position: 'absolute', right: '8%', bottom: '10%', y: orangeY, width: 480, height: 480, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,80,26,0.22), rgba(232,80,26,0.06) 42%, transparent 70%)', opacity: orangeOpacity, filter: 'blur(2px)', pointerEvents: 'none' }} />
 
-        {/* Floating orange shapes (parallax) */}
-        <FloatingShapes progress={scrollYProgress} />
-
-        {/* Crosshairs */}
-        {([{ top: 28, left: 40 }, { top: 28, right: 40 }, { bottom: 28, left: 40 }, { bottom: 28, right: 40 }] as React.CSSProperties[]).map((pos, i) => (
-          <span key={i} style={{ position: 'absolute', ...pos, fontFamily: 'monospace', fontSize: 11, color: C.faint, pointerEvents: 'none' }}>+</span>
-        ))}
-
         {/* Phase 1 — intro */}
         <motion.div style={{ position: 'absolute', inset: 0, opacity: introOpacity, y: introY, scale: introScale, visibility: introVis }}>
-          <div style={{ position: 'relative', zIndex: 10, width: '100%', height: '100%', ...INNER, padding: '0 40px', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '0 48px', alignItems: 'center' }} className="aipea-hero-grid">
+          <div style={{ position: 'relative', zIndex: 10, width: '100%', height: '100%', ...INNER, padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 420px', gap: '0 72px', alignItems: 'center' }} className="aipea-hero-grid">
 
-            <motion.div {...fade(0.1)} className="aipea-eyebrow" style={{ borderLeft: `2px solid ${C.orange}`, paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 4 }}>
-              <span style={{ fontFamily: bod, fontSize: 14, color: C.muted }}>You lead,</span>
-              <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 15, color: C.text }}>we credential.</span>
-            </motion.div>
+            {/* Left: headline + CTA + stats */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+              <motion.div {...fade(0.08)} className="aipea-eyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ display: 'inline-block', width: 28, height: 2, background: C.orange, borderRadius: 2 }} />
+                <span style={{ fontFamily: bod, fontSize: 13, color: C.muted }}>Africa&apos;s professional membership body for EAs</span>
+              </motion.div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-              <motion.h1 {...fade(0.18)} style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(48px,6.5vw,88px)', lineHeight: 0.93, letterSpacing: '-0.025em', color: C.text }}>
+              <motion.h1 {...fade(0.18)} style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(42px,5.8vw,82px)', lineHeight: 0.94, letterSpacing: '-0.025em', color: C.text }}>
                 <RotatingWord words={['Elevating', 'Certifying', 'Connecting', 'Championing']} style={{ color: C.orange }} /> the<br /><span style={{ color: C.orange }}>executive assistant</span><br />profession.
               </motion.h1>
 
-              <motion.div {...fade(0.32)} style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-                <span style={{ fontFamily: bod, fontSize: 14, color: C.muted }}>Africa&apos;s professional membership body</span>
-                <span style={{ height: 1, width: 36, background: C.border }} />
+              <motion.div {...fade(0.30)} style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
                 <a href="#contact"
                   style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.white, background: C.orange, padding: '13px 28px', borderRadius: 100, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', transition: 'background 0.2s, transform 0.15s' }}
                   onMouseEnter={e => { e.currentTarget.style.background = C.orangeDim; e.currentTarget.style.transform = 'translateY(-1px)' }}
                   onMouseLeave={e => { e.currentTarget.style.background = C.orange; e.currentTarget.style.transform = 'none' }}>
                   Apply for membership <ArrowRight size={15} />
                 </a>
+                <Link href="/sign-in" style={{ fontFamily: bod, fontSize: 14, color: C.muted, textDecoration: 'none' }}>Sign in →</Link>
               </motion.div>
 
-              <motion.div {...fade(0.44)} style={{ display: 'flex', alignItems: 'flex-start', gap: 44, flexWrap: 'wrap' }}>
+              <motion.div {...fade(0.42)} style={{ display: 'flex', alignItems: 'flex-start', gap: 40, flexWrap: 'wrap', paddingTop: 8, borderTop: `1px solid ${C.border}` }}>
                 {([[5000, '+', 'Members'], [33, '', 'Countries'], [12, '+', 'Years']] as const).map(([n, s, l]) => (
                   <div key={l}>
-                    <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(22px,2.5vw,30px)', color: C.orange }}><CountUp to={n} suffix={s} /></div>
-                    <div style={{ fontFamily: bod, fontSize: 13, color: C.text, marginTop: 4 }}>{l}</div>
+                    <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(20px,2.2vw,28px)', color: C.orange }}><CountUp to={n} suffix={s} /></div>
+                    <div style={{ fontFamily: bod, fontSize: 12, color: C.muted, marginTop: 4 }}>{l}</div>
                   </div>
                 ))}
               </motion.div>
             </div>
+
+            {/* Right: animated member network */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} style={{ position: 'relative' }}>
+              <HeroVisual />
+            </motion.div>
           </div>
         </motion.div>
 
@@ -474,18 +531,38 @@ function About() {
         <SectionHeader number="001" align="stacked" statement="Africa's home for executive professionals." aside="One membership. Everything you need." />
           <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 18, alignItems: 'stretch' }} className="aipea-about-visual-grid">
             <Reveal from="left"><TiltCard><CredentialCard title="Professional recognition for the people behind executive performance." tier="Institutional standard" number="AIPEA-STD-001" /></TiltCard></Reveal>
-            <Reveal from="right" delay={0.12} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 32, border: `1px solid ${C.border}`, borderRadius: 22, background: C.surface, padding: 'clamp(32px,4vw,52px)', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: -90, right: -90, width: 260, height: 260, borderRadius: '50%', border: `1px solid ${C.border}` }} />
-              <div className="aipea-spin" style={{ position: 'absolute', bottom: -70, left: -70, width: 200, height: 200, borderRadius: '50%', border: `1px dashed rgba(232,80,26,0.25)` }} />
-              <div style={{ position: 'relative', zIndex: 1 }}>
-                <p style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, color: C.orange, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 22 }}>Our purpose</p>
-                <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(26px,3vw,46px)', lineHeight: 1.12, letterSpacing: '-0.02em', color: C.text }}>
-                  Where assistants and the leaders they support succeed together.
-                </p>
+            <Reveal from="right" delay={0.12} style={{ display: 'flex', flexDirection: 'column', border: `1px solid ${C.border}`, borderRadius: 22, background: C.surface, padding: 0, position: 'relative', overflow: 'hidden' }}>
+              {/* Community photo element */}
+              <div style={{ position: 'relative', height: 200, background: 'linear-gradient(135deg, #0d1831 0%, #1B2A5E 55%, #24396e 100%)', flexShrink: 0 }}>
+                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 76% 26%, rgba(232,80,26,0.32), transparent 42%)' }} />
+                <div style={{ position: 'absolute', inset: 0, opacity: 0.12, backgroundImage: 'repeating-linear-gradient(-45deg, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.12) 1px, transparent 1px, transparent 12px)' }} />
+                <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: dis, fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)' }}>
+                  AIPEA Community · 2025
+                </div>
+                <div style={{ position: 'absolute', bottom: 24, left: 24, display: 'flex', alignItems: 'center' }}>
+                  {([['AA', C.orange], ['JO', '#1B2A5E'], ['NK', '#059669'], ['FM', '#7c3aed'], ['TM', '#0891b2']] as [string, string][]).map(([ini, color], i) => (
+                    <div key={ini} style={{ width: 40, height: 40, borderRadius: '50%', background: color, border: '2.5px solid rgba(255,255,255,0.22)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: C.white, marginLeft: i > 0 ? -14 : 0, zIndex: 10 - i, position: 'relative' }}>{ini}</div>
+                  ))}
+                  <div style={{ marginLeft: 16 }}>
+                    <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 15, color: C.white, lineHeight: 1 }}>5,000+</div>
+                    <div style={{ fontFamily: bod, fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 3 }}>members · 33 countries</div>
+                  </div>
+                </div>
               </div>
-              <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-                <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.text, border: `1px solid ${C.border}`, borderRadius: 999, padding: '8px 16px' }}>Rooted in Ghana</span>
-                <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.text, border: `1px solid ${C.border}`, borderRadius: 999, padding: '8px 16px' }}>Serving Africa</span>
+
+              {/* Text section */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24, padding: 'clamp(28px,3.5vw,44px)', position: 'relative' }}>
+                <div style={{ position: 'absolute', top: -80, right: -80, width: 220, height: 220, borderRadius: '50%', border: `1px solid ${C.border}`, pointerEvents: 'none' }} />
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  <p style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, color: C.orange, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 18 }}>Our purpose</p>
+                  <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(24px,2.8vw,40px)', lineHeight: 1.12, letterSpacing: '-0.02em', color: C.text }}>
+                    Where assistants and the leaders they support succeed together.
+                  </p>
+                </div>
+                <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                  <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.text, border: `1px solid ${C.border}`, borderRadius: 999, padding: '8px 16px' }}>Rooted in Ghana</span>
+                  <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.text, border: `1px solid ${C.border}`, borderRadius: 999, padding: '8px 16px' }}>Serving Africa</span>
+                </div>
               </div>
             </Reveal>
           </div>
@@ -787,9 +864,27 @@ function Process() {
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 
 const testimonialData = [
-  { name: 'Amara Diallo',     title: 'Executive Assistant · Ghana', initials: 'AD', quote: '"AIPEA gave my career a language — and a credential that changed everything."' },
-  { name: 'Thandiwe Mokoena', title: 'PA to CEO · South Africa',    initials: 'TM', quote: '"The network alone is worth it. I\'ve found colleagues across the continent."' },
-  { name: 'Fatima Al-Hassan', title: 'Executive PA · Nigeria',      initials: 'FA', quote: '"Confidence, structure, and a credential I\'m proud to carry."' },
+  {
+    name: 'Amara Diallo',
+    title: 'Executive Assistant to the MD',
+    company: 'Ecobank Ghana',
+    initials: 'AD',
+    quote: '"Within six months of earning my AIPEA Professional credential, I was approached for a senior EA role I would never have been considered for before. The certificate changed how my entire organisation sees the EA function."',
+  },
+  {
+    name: 'Thandiwe Mokoena',
+    title: 'Personal Assistant to the CEO',
+    company: 'Standard Bank South Africa',
+    initials: 'TM',
+    quote: '"I used to struggle to get a seat at the table. Now I co-present at board meetings. AIPEA gave me the language, the framework, and the professional standing I couldn\'t claim on my own."',
+  },
+  {
+    name: 'Fatima Al-Hassan',
+    title: 'Executive PA',
+    company: 'Dangote Group, Lagos',
+    initials: 'FA',
+    quote: '"The CPD framework restructured how I approach my role entirely. I\'ve logged 80 hours in eight months — and just negotiated a 35% salary increase using my AIPEA credentials as evidence."',
+  },
 ]
 
 function Testimonials() {
@@ -821,7 +916,8 @@ function Testimonials() {
               <AnimatePresence initial={false} mode="wait">
                 <motion.div key={t.name} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.28 }} style={{ marginTop: 18 }}>
                   <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 16, color: C.text }}>{t.name}</div>
-                  <div style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginTop: 4 }}>{t.title}</div>
+                  <div style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginTop: 3 }}>{t.title}</div>
+                  <div style={{ fontFamily: bod, fontSize: 12, color: C.faint, marginTop: 2 }}>{t.company}</div>
                 </motion.div>
               </AnimatePresence>
             </div>
