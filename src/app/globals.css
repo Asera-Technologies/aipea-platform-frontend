@@ -64,11 +64,16 @@ body {
 }
 
 /* ── Dashboard ────────────────────────────────────────────────── */
-@media (max-width: 900px) {
-  .aipea-dash-grid { grid-template-columns: 1fr !important; }
+@media (max-width: 960px) {
+  .aipea-dash-hero    { grid-template-columns: 1fr !important; }
+  .aipea-dash-grid    { grid-template-columns: 1fr !important; }
+  .aipea-stats-row    { grid-template-columns: 1fr 1fr !important; }
+  .aipea-features-row { grid-template-columns: 1fr 1fr !important; }
 }
 @media (max-width: 560px) {
-  .aipea-dash-bento { grid-template-columns: 1fr !important; }
+  .aipea-dash-bento   { grid-template-columns: 1fr !important; }
+  .aipea-stats-row    { grid-template-columns: 1fr !important; }
+  .aipea-features-row { grid-template-columns: 1fr !important; }
 }
 
 /* ── Responsive grid overrides ────────────────────────────────── */
