@@ -14,7 +14,7 @@ import {
   type Transition,
 } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Plus, Check, ChevronLeft, ChevronRight, Lock, TrendingUp, Award, Users } from 'lucide-react'
+import { ArrowRight, Plus, Check, ChevronLeft, ChevronRight, Lock, TrendingUp, Award, Users, BookOpen, Calendar, GraduationCap } from 'lucide-react'
 
 // ─── Tokens ───────────────────────────────────────────────────────────────────
 
@@ -35,7 +35,7 @@ const C = {
 } as const
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-const dis = 'var(--font-syne), sans-serif'
+const dis = '"Helvetica Neue", Helvetica, Arial, sans-serif'
 const bod = 'var(--font-inter), sans-serif'
 const SECTION: React.CSSProperties = { padding: '120px 40px' }
 const INNER: React.CSSProperties   = { maxWidth: 1400, margin: '0 auto' }
@@ -441,8 +441,12 @@ function Hero() {
               </motion.div>
 
               <motion.h1 {...fade(0.18)} style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(42px,5.8vw,82px)', lineHeight: 0.94, letterSpacing: '-0.025em', color: C.text }}>
-                <span style={{ color: C.orange }}>Certifying</span> the<br /><span style={{ color: C.orange }}>executive assistant</span><br />profession.
+                <RotatingWord words={['Certifying', 'Elevating', 'Connecting', 'Championing']} style={{ color: C.orange }} /> the<br /><span style={{ color: C.orange }}>executive assistant</span><br />profession.
               </motion.h1>
+
+              <motion.p {...fade(0.24)} style={{ fontFamily: bod, fontSize: 'clamp(15px,1.6vw,18px)', lineHeight: 1.65, color: C.muted, maxWidth: 480 }}>
+                Take your place. Claim your credential. Own your path.
+              </motion.p>
 
               <motion.div {...fade(0.30)} style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
                 <a href="#contact"
@@ -519,6 +523,187 @@ function Marquee() {
         <MarqueeRow items={marqueeItemsB} reverse filled />
       </div>
     </div>
+  )
+}
+
+// ─── Editorial moment (ASAP / Nova-style typographic break) ────────────────────
+
+function EditorialMoment() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' as `${number}px` })
+  const reduced = useReducedMotion()
+  return (
+    <section style={{ padding: '100px 40px', background: C.bg, borderBottom: `1px solid ${C.border}` }}>
+      <div ref={ref} style={{ ...INNER, display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 48, alignItems: 'end' }} className="aipea-editorial-grid">
+        <div>
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, ease: EASE }}
+            style={{ fontFamily: bod, fontSize: 14, color: C.muted, marginBottom: 20 }}>
+            Rewrite your role.
+          </motion.p>
+          <motion.h2 initial={{ opacity: 0, y: reduced ? 0 : 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.75, delay: 0.08, ease: EASE }}
+            style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(36px,5.5vw,72px)', lineHeight: 0.95, letterSpacing: '-0.035em', color: C.text }}>
+            Go from support staff<br />to <span style={{ color: C.orange }}>strategic partner.</span>
+          </motion.h2>
+        </div>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.18, ease: EASE }}>
+          <p style={{ fontFamily: bod, fontSize: 16, lineHeight: 1.75, color: C.muted, marginBottom: 28 }}>
+            Your title doesn&apos;t capture the value you bring. AIPEA equips you with credentials, CPD, and a pan-African network built for executive assistants who lead from behind the desk.
+          </p>
+          <Link href="/sign-up"
+            style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.white, background: C.orange, padding: '12px 24px', borderRadius: 8, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', transition: 'background 0.2s' }}
+            onMouseEnter={e => (e.currentTarget.style.background = C.orangeDim)}
+            onMouseLeave={e => (e.currentTarget.style.background = C.orange)}>
+            Join AIPEA today <ArrowRight size={15} />
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+// ─── Pillar strip (ASAP homepage: Membership · Resources · Cert · Events) ─────
+
+const pillars = [
+  { icon: Users,         label: 'Membership',    title: 'Connect, learn, and grow.',     desc: 'Join a pan-African community of executive professionals.', href: '#membership' },
+  { icon: GraduationCap, label: 'Certification', title: 'Keep your career on standard.', desc: 'Earn credentials that employers and executives recognise.', href: '#membership' },
+  { icon: BookOpen,      label: 'Resources',     title: 'Tools for the role you want.',  desc: 'Courses, CPD tracking, and a library built for EAs.', href: '#courses' },
+  { icon: Calendar,      label: 'Events',        title: 'Peer-to-peer, face-to-face.',   desc: 'Annual conference and regional meetups across Africa.', href: '#events' },
+]
+
+function PillarStrip() {
+  return (
+    <section style={{ padding: '0 40px 100px', background: C.bg }}>
+      <div style={INNER}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }} className="aipea-pillars-grid">
+          {pillars.map((p, i) => {
+            const Icon = p.icon
+            return (
+              <ScrollReveal key={p.label} delay={0.06 * i}>
+                <a href={p.href} style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '28px 26px', borderRadius: 18, border: `1px solid ${C.border}`, background: C.surface, textDecoration: 'none', transition: 'border-color 0.22s, box-shadow 0.22s, transform 0.22s' }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = C.borderHover; e.currentTarget.style.boxShadow = '0 12px 40px rgba(27,42,94,0.07)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', marginBottom: 20 }}>
+                    <Icon size={20} color={C.orange} />
+                  </div>
+                  <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orange, marginBottom: 10 }}>{p.label}</p>
+                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, lineHeight: 1.15, letterSpacing: '-0.02em', color: C.text, marginBottom: 10 }}>{p.title}</h3>
+                  <p style={{ fontFamily: bod, fontSize: 13, lineHeight: 1.65, color: C.muted, flex: 1 }}>{p.desc}</p>
+                  <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 12, color: C.orange, marginTop: 18, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    Learn more <ArrowRight size={13} />
+                  </span>
+                </a>
+              </ScrollReveal>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── Event highlight (ASAP in-person event cards) ─────────────────────────────
+
+function useCountdown(target: Date) {
+  const [left, setLeft] = useState({ d: 0, h: 0, m: 0, s: 0 })
+  useEffect(() => {
+    const tick = () => {
+      const diff = Math.max(0, target.getTime() - Date.now())
+      setLeft({
+        d: Math.floor(diff / 86400000),
+        h: Math.floor((diff % 86400000) / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+      })
+    }
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [target])
+  return left
+}
+
+const CONFERENCE_DATE = new Date('2026-09-15T09:00:00')
+
+function EventHighlight() {
+  const { d, h, m, s } = useCountdown(CONFERENCE_DATE)
+  const units = [['Days', d], ['Hrs', h], ['Min', m], ['Sec', s]] as const
+  return (
+    <section id="events" style={{ ...SECTION, background: C.navyDark, color: C.white, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 78% 30%, rgba(232,80,26,0.2), transparent 40%)' }} />
+      <div style={{ ...INNER, position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }} className="aipea-event-grid">
+          <ScrollReveal>
+            <p style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 16 }}>Join us in person</p>
+            <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.02, letterSpacing: '-0.03em', marginBottom: 16 }}>
+              AIPEA Annual Conference
+            </h2>
+            <p style={{ fontFamily: bod, fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: 8 }}>Accra, Ghana · September 2026</p>
+            <p style={{ fontFamily: bod, fontSize: 14, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, maxWidth: 420 }}>
+              Connect with executive assistants across Africa. Elevate your skills, expand your network, and learn from industry leaders.
+            </p>
+            <a href="#contact"
+              style={{ marginTop: 28, display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.navyDark, background: C.white, padding: '13px 26px', borderRadius: 8, textDecoration: 'none', transition: 'transform 0.2s' }}
+              onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-1px)')}
+              onMouseLeave={e => (e.currentTarget.style.transform = 'none')}>
+              Register interest <ArrowRight size={15} />
+            </a>
+          </ScrollReveal>
+          <ScrollReveal delay={0.12}>
+            <div style={{ borderRadius: 20, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', padding: '36px 32px' }}>
+              <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 24 }}>Conference opens in</p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12 }}>
+                {units.map(([label, val]) => (
+                  <div key={label} style={{ textAlign: 'center', padding: '18px 8px', borderRadius: 14, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(28px,4vw,40px)', lineHeight: 1, letterSpacing: '-0.04em', color: val > 0 || label === 'Sec' ? C.white : 'rgba(255,255,255,0.25)' }}>
+                      {String(val).padStart(2, '0')}
+                    </div>
+                    <div style={{ fontFamily: bod, fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 8, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── Pathway strip (ASAP “What are you waiting for?”) ─────────────────────────
+
+const pathwaySteps = [
+  { n: '1', title: 'Join AIPEA',       desc: 'Choose your tier and apply.', href: '/sign-up' },
+  { n: '2', title: 'Get certified',   desc: 'Earn your AIPEA credential.', href: '#membership' },
+  { n: '3', title: 'Attend conference', desc: 'Meet peers across Africa.', href: '#events' },
+]
+
+function PathwayStrip() {
+  return (
+    <section style={{ padding: '80px 40px', background: C.surface, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <div style={INNER}>
+        <ScrollReveal>
+          <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(22px,3vw,32px)', color: C.text, letterSpacing: '-0.02em', marginBottom: 36, textAlign: 'center' }}>
+            What are you waiting for?
+          </p>
+        </ScrollReveal>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20 }} className="aipea-pathway-grid">
+          {pathwaySteps.map((step, i) => (
+            <ScrollReveal key={step.n} delay={0.08 * i}>
+              <Link href={step.href}
+                style={{ display: 'flex', alignItems: 'flex-start', gap: 18, padding: '28px 26px', borderRadius: 16, background: C.bg, border: `1px solid ${C.border}`, textDecoration: 'none', transition: 'border-color 0.2s, box-shadow 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(232,80,26,0.35)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(27,42,94,0.06)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = 'none' }}>
+                <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 32, lineHeight: 1, color: C.orange, letterSpacing: '-0.04em', flexShrink: 0 }}>{step.n}</span>
+                <div>
+                  <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 18, color: C.text, letterSpacing: '-0.01em' }}>{step.title}</div>
+                  <div style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginTop: 6, lineHeight: 1.55 }}>{step.desc}</div>
+                </div>
+              </Link>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -716,9 +901,9 @@ function Membership() {
 // ─── Courses ──────────────────────────────────────────────────────────────────
 
 const courses = [
-  { title: 'Executive Communication Mastery',  desc: 'Influence without authority.' },
-  { title: 'Calendar & Priorities Management', desc: 'Protect executive time.'       },
-  { title: 'Board & C-Suite Support',          desc: 'Support senior leadership.'     },
+  { title: 'Executive Communication Mastery',  desc: 'Influence without authority.', type: 'Workshop',  when: 'Q2 2026' },
+  { title: 'Calendar & Priorities Management', desc: 'Protect executive time.',       type: 'Seminar',   when: 'Q3 2026' },
+  { title: 'Board & C-Suite Support',          desc: 'Support senior leadership.',     type: 'Cert prep', when: 'Q4 2026' },
 ]
 
 function Courses() {
@@ -762,7 +947,10 @@ function Courses() {
                   onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = 'none' }}>
                   <div style={{ fontFamily: dis, fontSize: 42, fontWeight: 800, color: i === 1 ? C.orange : C.elevated, letterSpacing: '-0.08em' }}>0{i + 1}</div>
                   <div>
-                    <span style={{ display: 'inline-flex', border: `1px solid ${C.orange}`, color: C.orange, fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', padding: '3px 10px', borderRadius: 100, marginBottom: 12, fontFamily: dis }}>Coming soon</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+                      <span style={{ display: 'inline-flex', background: 'rgba(232,80,26,0.08)', color: C.orange, fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 100, fontFamily: dis }}>{c.type}</span>
+                      <span style={{ fontFamily: bod, fontSize: 12, color: C.faint }}>{c.when}</span>
+                    </div>
                     <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, color: C.text, lineHeight: 1.1, letterSpacing: '-0.02em' }}>{c.title}</h3>
                     <p style={{ fontFamily: bod, marginTop: 8, fontSize: 13, color: C.muted, lineHeight: 1.7 }}>{c.desc}</p>
                   </div>
@@ -865,6 +1053,7 @@ function Process() {
 
 const testimonialData = [
   {
+    theme: 'Confidence',
     name: 'Amara Diallo',
     title: 'Executive Assistant to the MD',
     company: 'Ecobank Ghana',
@@ -872,6 +1061,7 @@ const testimonialData = [
     quote: '"Within six months of earning my AIPEA Professional credential, I was approached for a senior EA role I would never have been considered for before. The certificate changed how my entire organisation sees the EA function."',
   },
   {
+    theme: 'Validation',
     name: 'Thandiwe Mokoena',
     title: 'Personal Assistant to the CEO',
     company: 'Standard Bank South Africa',
@@ -879,6 +1069,7 @@ const testimonialData = [
     quote: '"I used to struggle to get a seat at the table. Now I co-present at board meetings. AIPEA gave me the language, the framework, and the professional standing I couldn\'t claim on my own."',
   },
   {
+    theme: 'Community',
     name: 'Fatima Al-Hassan',
     title: 'Executive PA',
     company: 'Dangote Group, Lagos',
@@ -904,31 +1095,35 @@ function Testimonials() {
         <ScrollReveal delay={0.08}>
           <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: 24, alignItems: 'stretch' }} className="aipea-testi-grid">
             <div>
-              <div style={{ minHeight: '56vh', borderRadius: 24, overflow: 'hidden', background: `linear-gradient(160deg, ${C.navyDark} 0%, ${C.navy} 100%)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div style={{ minHeight: '56vh', borderRadius: 24, overflow: 'hidden', background: `linear-gradient(160deg, ${C.navyDark} 0%, ${C.navy} 100%)`, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 32, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 72% 24%, rgba(232,80,26,0.3), transparent 34%)' }} />
-                <div style={{ position: 'absolute', left: 26, top: 26, fontFamily: dis, fontSize: 10, fontWeight: 700, color: C.orange, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Member</div>
                 <AnimatePresence initial={false} mode="wait">
-                  <motion.span key={t.initials} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={{ duration: 0.38, ease: EASE }}
-                    style={{ position: 'relative', zIndex: 1, fontFamily: dis, fontWeight: 800, fontSize: 'clamp(90px,13vw,170px)', color: 'rgba(255,255,255,0.08)', letterSpacing: '-0.1em' }}>{t.initials}</motion.span>
+                  <motion.span key={t.theme} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35, ease: EASE }}
+                    style={{ position: 'relative', zIndex: 1, fontFamily: dis, fontWeight: 800, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.orange }}>
+                    {t.theme}
+                  </motion.span>
                 </AnimatePresence>
-                <div style={{ position: 'absolute', right: 24, bottom: 24, width: 88, height: 88, borderRadius: '50%', background: C.orange, display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: C.white }}>AIPEA</div>
+                <AnimatePresence initial={false} mode="wait">
+                  <motion.div key={t.initials} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}
+                    style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 16 }}>
+                    <div style={{ width: 56, height: 56, borderRadius: '50%', background: C.orange, display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 16, color: C.white, flexShrink: 0 }}>{t.initials}</div>
+                    <div>
+                      <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 17, color: C.white }}>{t.name}</div>
+                      <div style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 4 }}>{t.title}</div>
+                      <div style={{ fontFamily: bod, fontSize: 12, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>{t.company}</div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
-              <AnimatePresence initial={false} mode="wait">
-                <motion.div key={t.name} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.28 }} style={{ marginTop: 18 }}>
-                  <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 16, color: C.text }}>{t.name}</div>
-                  <div style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginTop: 3 }}>{t.title}</div>
-                  <div style={{ fontFamily: bod, fontSize: 12, color: C.faint, marginTop: 2 }}>{t.company}</div>
-                </motion.div>
-              </AnimatePresence>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 32, borderRadius: 24, background: C.surface, border: `1px solid ${C.border}`, padding: 40 }}
               onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
               <AnimatePresence initial={false} mode="wait">
-                <motion.p key={t.quote} initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -14 }} transition={{ duration: 0.42, ease: EASE }}
-                  style={{ fontFamily: dis, fontWeight: 800, fontStyle: 'italic', fontSize: 'clamp(24px,3vw,48px)', color: C.text, lineHeight: 1.08, letterSpacing: '-0.03em' }}>
-                  {t.quote}
-                </motion.p>
+                <motion.div key={t.theme} initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -14 }} transition={{ duration: 0.42, ease: EASE }}>
+                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(28px,3.5vw,44px)', color: C.text, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 24 }}>{t.theme}</h3>
+                  <p style={{ fontFamily: bod, fontSize: 'clamp(16px,1.8vw,19px)', color: C.muted, lineHeight: 1.75, fontStyle: 'italic' }}>{t.quote}</p>
+                </motion.div>
               </AnimatePresence>
               <div>
               <div style={{ height: 2, background: C.border, borderRadius: 2, marginBottom: 20, overflow: 'hidden' }}>
@@ -1125,12 +1320,16 @@ export function AIPEA() {
       <Navbar />
       <Hero />
       <Marquee />
+      <EditorialMoment />
+      <PillarStrip />
       <About />
       <CoreValues />
       <Membership />
+      <EventHighlight />
       <Courses />
       <Process />
       <Testimonials />
+      <PathwayStrip />
       <Contact />
       <CTABanner />
       <Footer />

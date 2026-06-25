@@ -79,7 +79,9 @@ body {
 
 /* ── Responsive grid overrides ────────────────────────────────── */
 @media (max-width: 1024px) {
-  .aipea-process-grid, .aipea-testi-grid { grid-template-columns: 1fr !important; }
+  .aipea-process-grid, .aipea-testi-grid, .aipea-event-grid, .aipea-editorial-grid { grid-template-columns: 1fr !important; }
+  .aipea-pillars-grid { grid-template-columns: repeat(2,1fr) !important; }
+  .aipea-pathway-grid { grid-template-columns: 1fr !important; }
   .aipea-about-visual-grid, .aipea-landscape-grid, .aipea-membership-showcase, .aipea-course-showcase { grid-template-columns: 1fr !important; }
   .aipea-values-grid { grid-template-columns: 1fr !important; }
   .aipea-course-grid { grid-template-columns: repeat(2,1fr) !important; }
@@ -95,4 +97,5 @@ body {
   .aipea-contact-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
   .aipea-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
   .aipea-testi-grid { gap: 32px !important; }
+  .aipea-pillars-grid { grid-template-columns: 1fr !important; }
 }
