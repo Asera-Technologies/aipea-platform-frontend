@@ -35,7 +35,7 @@ const C = {
 } as const
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-const dis = '"Helvetica Neue", Helvetica, Arial, sans-serif'
+const dis = 'var(--font-syne), sans-serif'
 const bod = 'var(--font-inter), sans-serif'
 const SECTION: React.CSSProperties = { padding: '120px 40px' }
 const INNER: React.CSSProperties   = { maxWidth: 1400, margin: '0 auto' }
@@ -441,7 +441,7 @@ function Hero() {
               </motion.div>
 
               <motion.h1 {...fade(0.18)} style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(42px,5.8vw,82px)', lineHeight: 0.94, letterSpacing: '-0.025em', color: C.text }}>
-                <RotatingWord words={['Elevating', 'Certifying', 'Connecting', 'Championing']} style={{ color: C.orange }} /> the<br /><span style={{ color: C.orange }}>executive assistant</span><br />profession.
+                <span style={{ color: C.orange }}>Certifying</span> the<br /><span style={{ color: C.orange }}>executive assistant</span><br />profession.
               </motion.h1>
 
               <motion.div {...fade(0.30)} style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>

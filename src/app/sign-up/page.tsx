@@ -12,7 +12,7 @@ const ORANGE     = '#E8501A'
 const ORANGE_DIM = '#c94314'
 const NAVY_DARK  = '#111c42'
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-const dis = '"Helvetica Neue", Helvetica, Arial, sans-serif'
+const dis = 'var(--font-syne), sans-serif'
 const bod = 'var(--font-inter), sans-serif'
 
 const inputBase: React.CSSProperties = {

@@ -1,14 +1,39 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
-const ORANGE = '#E8501A'
+const ORANGE    = '#E8501A'
 const NAVY_DARK = '#111c42'
-const dis = '"Helvetica Neue", Helvetica, Arial, sans-serif'
+const dis = 'var(--font-syne), sans-serif'
 const bod = 'var(--font-inter), sans-serif'
+
+const SLIDES = [
+  {
+    src: '/auth-side.jpg',
+    alt: 'An AIPEA executive assistant in a modern office',
+    local: true,
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Professional executive assistant at work',
+    local: false,
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Business professional in a modern workspace',
+    local: false,
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=80',
+    alt: 'EA networking across Africa',
+    local: false,
+  },
+]
+
+const INTERVAL_MS = 5500
 
 function RotatingSeal() {
   return (
@@ -37,39 +62,104 @@ export function BrandPanel({ headline, sub, flex = '0 0 46%' }: {
   sub: string
   flex?: string
 }) {
-  return (
-    <div className="aipea-auth-panel" style={{ flex, minHeight: '100vh', position: 'relative', overflow: 'hidden', background: NAVY_DARK }}>
-      <motion.div
-        initial={{ scale: 1.1 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 14, ease: 'easeOut' }}
-        style={{ position: 'absolute', inset: 0 }}
-      >
-        <Image src="/auth-side.jpg" alt="An AIPEA executive assistant in a modern office" fill priority sizes="50vw" style={{ objectFit: 'cover', objectPosition: '60% center' }} />
-      </motion.div>
+  const [current, setCurrent] = useState(0)
+  const [paused,  setPaused]  = useState(false)
 
+  useEffect(() => {
+    if (paused) return
+    const t = setTimeout(() => setCurrent(i => (i + 1) % SLIDES.length), INTERVAL_MS)
+    return () => clearTimeout(t)
+  }, [current, paused])
+
+  return (
+    <div
+      className="aipea-auth-panel"
+      style={{ flex, minHeight: '100vh', position: 'relative', overflow: 'hidden', background: NAVY_DARK }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* ── Slideshow images ── */}
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={current}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.1, ease: 'easeInOut' }}
+          style={{ position: 'absolute', inset: 0 }}
+        >
+          <motion.div
+            initial={{ scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: INTERVAL_MS / 1000 + 1.5, ease: 'easeOut' }}
+            style={{ position: 'absolute', inset: 0 }}
+          >
+            <Image
+              src={SLIDES[current].src}
+              alt={SLIDES[current].alt}
+              fill
+              priority={current === 0}
+              sizes="50vw"
+              style={{ objectFit: 'cover', objectPosition: '60% center' }}
+            />
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* ── Overlays ── */}
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(17,28,66,0.62) 0%, rgba(17,28,66,0.12) 26%, rgba(17,28,66,0.28) 58%, rgba(8,14,38,0.94) 100%)' }} />
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 82% 88%, rgba(232,80,26,0.34), transparent 46%)' }} />
 
+      {/* ── Content ── */}
       <div style={{ position: 'relative', zIndex: 2, height: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '46px 50px' }}>
+
+        {/* top row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link href="/" style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none' }}>AIPEA</Link>
           <RotatingSeal />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div style={{ width: 46, height: 3, background: ORANGE, marginBottom: 24 }} />
-          <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(26px,2.6vw,40px)', color: '#fff', lineHeight: 1.12, letterSpacing: '-0.025em', maxWidth: 420 }}>
-            {headline}
-          </h2>
-          <p style={{ fontFamily: bod, fontSize: 14.5, color: 'rgba(255,255,255,0.62)', lineHeight: 1.7, maxWidth: 360, marginTop: 18 }}>
-            {sub}
-          </p>
-        </motion.div>
+        {/* bottom — headline + dots */}
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div style={{ width: 46, height: 3, background: ORANGE, marginBottom: 24 }} />
+            <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(26px,2.6vw,40px)', color: '#fff', lineHeight: 1.12, letterSpacing: '-0.025em', maxWidth: 420 }}>
+              {headline}
+            </h2>
+            <p style={{ fontFamily: bod, fontSize: 14.5, color: 'rgba(255,255,255,0.62)', lineHeight: 1.7, maxWidth: 360, marginTop: 18 }}>
+              {sub}
+            </p>
+          </motion.div>
+
+          {/* slide dots */}
+          <div style={{ display: 'flex', gap: 8, marginTop: 32 }}>
+            {SLIDES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setCurrent(i); setPaused(false) }}
+                aria-label={`Slide ${i + 1}`}
+                style={{
+                  padding: 0, border: 'none', cursor: 'pointer', borderRadius: 99,
+                  background: 'none', display: 'flex', alignItems: 'center',
+                }}
+              >
+                <motion.span
+                  animate={{
+                    width:   i === current ? 28 : 8,
+                    opacity: i === current ? 1  : 0.38,
+                    background: i === current ? ORANGE : '#fff',
+                  }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ display: 'block', height: 8, borderRadius: 99 }}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )

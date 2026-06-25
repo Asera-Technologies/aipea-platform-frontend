@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
-import { Syne, Inter } from 'next/font/google'
+import { DM_Sans } from 'next/font/google'
 import Script from 'next/script'
 import { Providers } from './providers'
 import './globals.css'
 
-const syne = Syne({
+const dmSansDisplay = DM_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-syne',
   display: 'swap',
 })
 
-const inter = Inter({
+const dmSansBody = DM_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   variable: '--font-inter',
@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${inter.variable} antialiased`}
+      className={`${dmSansDisplay.variable} ${dmSansBody.variable} antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-screen antialiased" suppressHydrationWarning>
