@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import {
   motion,
   AnimatePresence,
@@ -421,9 +422,15 @@ function Hero() {
     <section ref={heroRef} style={{ position: 'relative', height: '240vh' }}>
       <div style={{ position: 'sticky', top: 0, width: '100%', height: '100vh', overflow: 'hidden', background: C.white }}>
 
-        {/* Subtle background watermark */}
-        <div style={{ position: 'absolute', right: '-4%', top: '50%', transform: 'translateY(-54%)', fontFamily: dis, fontWeight: 800, fontSize: '26vw', color: 'rgba(17,28,66,0.028)', letterSpacing: '-0.08em', userSelect: 'none', pointerEvents: 'none', lineHeight: 1 }}>
-          AIPEA
+        {/* Aspirational hero background image */}
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
+          <Image
+            src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1400&h=800&fit=crop"
+            alt="Aspirational professional women"
+            fill
+            sizes="100vw"
+            style={{ objectFit: 'cover' }}
+          />
         </div>
 
         {/* Soft orange glow bottom-right */}
@@ -546,6 +553,16 @@ function EditorialMoment() {
           </motion.h2>
         </div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.18, ease: EASE }}>
+          <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
+            <Image
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=280&fit=crop"
+              alt="Professional women in strategic meeting"
+              fill
+              sizes="(max-width: 768px) 100vw, 400px"
+              style={{ objectFit: 'cover' }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 100%)' }} />
+          </div>
           <p style={{ fontFamily: bod, fontSize: 16, lineHeight: 1.75, color: C.muted, marginBottom: 28 }}>
             Your title doesn&apos;t capture the value you bring. AIPEA equips you with credentials, CPD, and a pan-African network built for executive assistants who lead from behind the desk.
           </p>
@@ -577,12 +594,28 @@ function PillarStrip() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }} className="aipea-pillars-grid">
           {pillars.map((p, i) => {
             const Icon = p.icon
+            const pillarImages = [
+              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop',
+              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop',
+              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop',
+              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop',
+            ]
             return (
               <ScrollReveal key={p.label} delay={0.06 * i}>
-                <a href={p.href} style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '28px 26px', borderRadius: 18, border: `1px solid ${C.border}`, background: C.surface, textDecoration: 'none', transition: 'border-color 0.22s, box-shadow 0.22s, transform 0.22s' }}
+                <a href={p.href} style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '28px 26px', borderRadius: 18, border: `1px solid ${C.border}`, background: C.surface, textDecoration: 'none', transition: 'border-color 0.22s, box-shadow 0.22s, transform 0.22s', position: 'relative', overflow: 'hidden' }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = C.borderHover; e.currentTarget.style.boxShadow = '0 12px 40px rgba(27,42,94,0.07)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', marginBottom: 20 }}>
+                  {/* Subtle background image */}
+                  <div style={{ position: 'absolute', inset: 0, opacity: 0.04, zIndex: 0 }}>
+                    <Image
+                      src={pillarImages[i]}
+                      alt=""
+                      fill
+                      sizes="300px"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
+                  <div style={{ position: 'relative', zIndex: 1, width: 44, height: 44, borderRadius: 12, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', marginBottom: 20 }}>
                     <Icon size={20} color={C.orange} />
                   </div>
                   <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orange, marginBottom: 10 }}>{p.label}</p>
@@ -630,6 +663,15 @@ function EventHighlight() {
   return (
     <section id="events" style={{ ...SECTION, background: C.navyDark, color: C.white, position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 78% 30%, rgba(232,80,26,0.2), transparent 40%)' }} />
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.08 }}>
+        <Image
+          src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1400&h=600&fit=crop"
+          alt="Professional conference background"
+          fill
+          sizes="100vw"
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
       <div style={{ ...INNER, position: 'relative', zIndex: 1 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }} className="aipea-event-grid">
           <ScrollReveal>
@@ -718,13 +760,20 @@ function About() {
             <Reveal from="left"><TiltCard><CredentialCard title="Professional recognition for the people behind executive performance." tier="Institutional standard" number="AIPEA-STD-001" /></TiltCard></Reveal>
             <Reveal from="right" delay={0.12} style={{ display: 'flex', flexDirection: 'column', border: `1px solid ${C.border}`, borderRadius: 22, background: C.surface, padding: 0, position: 'relative', overflow: 'hidden' }}>
               {/* Community photo element */}
-              <div style={{ position: 'relative', height: 200, background: 'linear-gradient(135deg, #0d1831 0%, #1B2A5E 55%, #24396e 100%)', flexShrink: 0 }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 76% 26%, rgba(232,80,26,0.32), transparent 42%)' }} />
+              <div style={{ position: 'relative', height: 200, background: 'linear-gradient(135deg, #0d1831 0%, #1B2A5E 55%, #24396e 100%)', flexShrink: 0, overflow: 'hidden' }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=200&fit=crop"
+                  alt="Professional women in office setting"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  style={{ objectFit: 'cover', opacity: 0.7 }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(27,42,94,0.45) 0%, rgba(27,42,94,0.35) 55%, rgba(36,57,110,0.4) 100%)' }} />
                 <div style={{ position: 'absolute', inset: 0, opacity: 0.12, backgroundImage: 'repeating-linear-gradient(-45deg, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.12) 1px, transparent 1px, transparent 12px)' }} />
-                <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: dis, fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)' }}>
+                <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: dis, fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)', zIndex: 2 }}>
                   AIPEA Community · 2025
                 </div>
-                <div style={{ position: 'absolute', bottom: 24, left: 24, display: 'flex', alignItems: 'center' }}>
+                <div style={{ position: 'absolute', bottom: 24, left: 24, display: 'flex', alignItems: 'center', zIndex: 2 }}>
                   {([['AA', C.orange], ['JO', '#1B2A5E'], ['NK', '#059669'], ['FM', '#7c3aed'], ['TM', '#0891b2']] as [string, string][]).map(([ini, color], i) => (
                     <div key={ini} style={{ width: 40, height: 40, borderRadius: '50%', background: color, border: '2.5px solid rgba(255,255,255,0.22)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: C.white, marginLeft: i > 0 ? -14 : 0, zIndex: 10 - i, position: 'relative' }}>{ini}</div>
                   ))}
@@ -833,14 +882,24 @@ function Membership() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.15fr', gap: 22, alignItems: 'stretch' }} className="aipea-membership-showcase">
           <Reveal from="left">
             <div style={{ height: '100%', minHeight: 580, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 36, borderRadius: 24, background: C.bg, border: `1px solid ${C.border}`, position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, right: 0, width: 260, height: 260, background: 'radial-gradient(circle at 100% 0%, rgba(232,80,26,0.06), transparent 60%)', pointerEvents: 'none' }} />
-              <div style={{ position: 'relative', zIndex: 1 }}>
+              {/* Subtle credential background */}
+              <div style={{ position: 'absolute', inset: 0, opacity: 0.02, zIndex: 0 }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=580&fit=crop"
+                  alt=""
+                  fill
+                  sizes="500px"
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <div style={{ position: 'absolute', top: 0, right: 0, width: 260, height: 260, background: 'radial-gradient(circle at 100% 0%, rgba(232,80,26,0.06), transparent 60%)', pointerEvents: 'none', zIndex: 0 }} />
+              <div style={{ position: 'relative', zIndex: 2 }}>
                 <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, color: C.orange, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 20 }}>Credential preview</p>
                 <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(30px,3.5vw,52px)', lineHeight: 0.96, letterSpacing: '-0.04em', color: C.text }}>
                   Membership should feel earned, not purchased.
                 </h3>
               </div>
-              <div style={{ position: 'relative', zIndex: 1, marginTop: 40 }}>
+              <div style={{ position: 'relative', zIndex: 2, marginTop: 40 }}>
                 <CredentialCard title="Adwoa Mensah, AIPEA Professional" tier="Professional member" number="AIPEA-2025-04821" compact />
               </div>
             </div>
@@ -914,6 +973,15 @@ function Courses() {
         <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.2fr', gap: 22, alignItems: 'stretch' }} className="aipea-course-showcase">
           <Reveal from="left">
             <div style={{ minHeight: 520, borderRadius: 24, padding: 38, background: `linear-gradient(145deg, ${C.navyDark} 0%, ${C.navy} 100%)`, color: C.white, position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div style={{ position: 'absolute', inset: 0, opacity: 0.12 }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=520&fit=crop"
+                  alt="Professional training environment"
+                  fill
+                  sizes="600px"
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
               <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 76% 20%, rgba(232,80,26,0.28), transparent 34%)' }} />
               <div className="aipea-spin-rev" style={{ position: 'absolute', bottom: -80, right: -80, width: 260, height: 260, borderRadius: '50%', border: '1px dashed rgba(232,80,26,0.32)', pointerEvents: 'none' }} />
               <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -967,6 +1035,51 @@ function Courses() {
   )
 }
 
+// ─── Member Directory Preview ─────────────────────────────────────────────────
+
+const countryFeatures = [
+  { country: 'Ghana', members: '890', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop' },
+  { country: 'South Africa', members: '1,200', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop' },
+  { country: 'Nigeria', members: '950', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop' },
+  { country: 'Kenya', members: '670', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop' },
+  { country: 'Uganda', members: '420', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop' },
+  { country: 'Egypt', members: '780', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop' },
+]
+
+function MemberDirectory() {
+  return (
+    <section style={{ ...SECTION, background: C.surface }}>
+      <div style={INNER}>
+        <SectionHeader number="008" align="center" statement="A pan-African network." aside="Connected across 33 countries." />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }} className="aipea-directory-grid">
+          {countryFeatures.map((country, i) => (
+            <ScrollReveal key={country.country} delay={0.05 * i}>
+              <div style={{ borderRadius: 16, overflow: 'hidden', background: C.bg, border: `1px solid ${C.border}`, transition: 'transform 0.2s, box-shadow 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(27,42,94,0.1)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}>
+                <div style={{ position: 'relative', height: 120 }}>
+                  <Image
+                    src={country.image}
+                    alt={country.country}
+                    fill
+                    sizes="160px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(27,42,94,0.6) 100%)' }} />
+                </div>
+                <div style={{ padding: 16 }}>
+                  <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 16, color: C.text, marginBottom: 4 }}>{country.country}</div>
+                  <div style={{ fontFamily: bod, fontSize: 12, color: C.orange, fontWeight: 600 }}>{country.members} members</div>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ─── Process ──────────────────────────────────────────────────────────────────
 
 const steps = [
@@ -991,8 +1104,18 @@ function Process() {
         <SectionHeader number="005" align="center" statement="From application to member in under 24 hours." aside="Active before you close the tab." />
         <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: 22, alignItems: 'stretch' }} className="aipea-process-grid">
           <Reveal from="left" delay={0.08}>
-            <div style={{ minHeight: 580, borderRadius: 24, background: C.bg, border: `1px solid ${C.border}`, padding: 36, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div>
+            <div style={{ minHeight: 580, borderRadius: 24, background: C.bg, border: `1px solid ${C.border}`, padding: 36, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', overflow: 'hidden' }}>
+              {/* Subtle background image */}
+              <div style={{ position: 'absolute', inset: 0, opacity: 0.03, zIndex: 0 }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=580&fit=crop"
+                  alt=""
+                  fill
+                  sizes="500px"
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <div style={{ position: 'relative', zIndex: 1 }}>
                 <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, color: C.orange, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 20 }}>Membership activation</p>
                 <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(30px,3.8vw,58px)', lineHeight: 0.95, letterSpacing: '-0.05em', color: C.text }}>
                   From applicant to recognized professional.
@@ -1049,6 +1172,75 @@ function Process() {
   )
 }
 
+// ─── Member Spotlight ─────────────────────────────────────────────────────────
+
+const memberSpotlights = [
+  {
+    name: 'Amara Diallo',
+    title: 'Executive Assistant to the MD',
+    company: 'Ecobank Ghana',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop',
+    highlight: 'Promoted within 6 months',
+    story: 'The AIPEA credential transformed how my organisation values the EA role.',
+  },
+  {
+    name: 'Thandiwe Mokoena',
+    title: 'PA to CEO',
+    company: 'Standard Bank South Africa',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop',
+    highlight: 'Board-level visibility',
+    story: 'AIPEA gave me the framework to step into strategic leadership.',
+  },
+  {
+    name: 'Fatima Al-Hassan',
+    title: 'Executive PA',
+    company: 'Dangote Group, Lagos',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop',
+    highlight: '35% salary increase',
+    story: 'My AIPEA credentials became the evidence I needed for career advancement.',
+  },
+]
+
+function MemberSpotlight() {
+  return (
+    <section style={{ ...SECTION, background: C.surface, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <div style={INNER}>
+        <SectionHeader number="007" align="center" statement="Member success stories." aside="Real professionals, real impact." />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }} className="aipea-spotlight-grid">
+          {memberSpotlights.map((member, i) => (
+            <ScrollReveal key={member.name} delay={0.08 * i}>
+              <div style={{ borderRadius: 20, overflow: 'hidden', background: C.bg, border: `1px solid ${C.border}`, transition: 'transform 0.22s, box-shadow 0.22s', cursor: 'default' }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 16px 48px rgba(27,42,94,0.12)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}>
+                {/* Member image */}
+                <div style={{ position: 'relative', height: 200, overflow: 'hidden', background: 'linear-gradient(135deg, #f7f8fc 0%, #eef1f8 100%)' }}>
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="400px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                {/* Member info */}
+                <div style={{ padding: 28 }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(232,80,26,0.08)', color: C.orange, fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 12px', borderRadius: 100, marginBottom: 16 }}>
+                    ✓ {member.highlight}
+                  </div>
+                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, color: C.text, lineHeight: 1.1, marginBottom: 6 }}>{member.name}</h3>
+                  <p style={{ fontFamily: bod, fontSize: 12, color: C.orange, fontWeight: 600, marginBottom: 4 }}>{member.title}</p>
+                  <p style={{ fontFamily: bod, fontSize: 12, color: C.muted, marginBottom: 16 }}>{member.company}</p>
+                  <p style={{ fontFamily: bod, fontSize: 14, lineHeight: 1.6, color: C.muted, fontStyle: 'italic' }}>&quot;{member.story}&quot;</p>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 
 const testimonialData = [
@@ -1058,6 +1250,7 @@ const testimonialData = [
     title: 'Executive Assistant to the MD',
     company: 'Ecobank Ghana',
     initials: 'AD',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop',
     quote: '"Within six months of earning my AIPEA Professional credential, I was approached for a senior EA role I would never have been considered for before. The certificate changed how my entire organisation sees the EA function."',
   },
   {
@@ -1066,6 +1259,7 @@ const testimonialData = [
     title: 'Personal Assistant to the CEO',
     company: 'Standard Bank South Africa',
     initials: 'TM',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
     quote: '"I used to struggle to get a seat at the table. Now I co-present at board meetings. AIPEA gave me the language, the framework, and the professional standing I couldn\'t claim on my own."',
   },
   {
@@ -1074,6 +1268,7 @@ const testimonialData = [
     title: 'Executive PA',
     company: 'Dangote Group, Lagos',
     initials: 'FA',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop',
     quote: '"The CPD framework restructured how I approach my role entirely. I\'ve logged 80 hours in eight months — and just negotiated a 35% salary increase using my AIPEA credentials as evidence."',
   },
 ]
@@ -1106,7 +1301,15 @@ function Testimonials() {
                 <AnimatePresence initial={false} mode="wait">
                   <motion.div key={t.initials} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}
                     style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 16 }}>
-                    <div style={{ width: 56, height: 56, borderRadius: '50%', background: C.orange, display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 16, color: C.white, flexShrink: 0 }}>{t.initials}</div>
+                    <div style={{ position: 'relative', width: 56, height: 56, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid rgba(255,255,255,0.2)' }}>
+                      <Image
+                        src={t.image}
+                        alt={t.name}
+                        fill
+                        sizes="56px"
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
                     <div>
                       <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 17, color: C.white }}>{t.name}</div>
                       <div style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 4 }}>{t.title}</div>
@@ -1199,15 +1402,27 @@ function Contact() {
 
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 64, display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', gap: 24 }} className="aipea-contact-grid">
           <ScrollReveal delay={0.08}>
-            <div style={{ borderRadius: 24, background: C.bg, border: `1px solid ${C.border}`, padding: 34, height: '100%' }}>
-              <div style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 20 }}>What you get</div>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {benefits.map(b => (
-                  <li key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontFamily: bod, fontSize: 14, color: C.muted, lineHeight: 1.6 }}>
-                    <span style={{ fontFamily: dis, fontWeight: 700, color: C.orange, flexShrink: 0, marginTop: 1 }}>—</span>{b}
-                  </li>
-                ))}
-              </ul>
+            <div style={{ borderRadius: 24, background: C.bg, border: `1px solid ${C.border}`, padding: 34, height: '100%', position: 'relative', overflow: 'hidden' }}>
+              {/* Subtle benefits background */}
+              <div style={{ position: 'absolute', inset: 0, opacity: 0.02, zIndex: 0 }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=600&fit=crop"
+                  alt=""
+                  fill
+                  sizes="500px"
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <div style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 20 }}>What you get</div>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {benefits.map(b => (
+                    <li key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontFamily: bod, fontSize: 14, color: C.muted, lineHeight: 1.6 }}>
+                      <span style={{ fontFamily: dis, fontWeight: 700, color: C.orange, flexShrink: 0, marginTop: 1 }}>—</span>{b}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </ScrollReveal>
 
@@ -1273,6 +1488,48 @@ function CTABanner() {
   )
 }
 
+// ─── Leadership Section ───────────────────────────────────────────────────────
+
+const leaders = [
+  { name: 'Ama Mensah', title: 'Founder & Executive Director', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop' },
+  { name: 'Samuel Boateng', title: 'Director, Professional Standards', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop' },
+]
+
+function LeadershipSection() {
+  return (
+    <section style={{ ...SECTION, background: C.bg }}>
+      <div style={INNER}>
+        <ScrollReveal>
+          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+            <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 16 }}>Leadership</p>
+            <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(30px,3.5vw,48px)', color: C.text, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 16 }}>Visionaries leading the profession forward.</h2>
+            <p style={{ fontFamily: bod, fontSize: 15, color: C.muted, maxWidth: 480, margin: '0 auto' }}>Meet the team dedicated to elevating executive assistants across Africa.</p>
+          </div>
+        </ScrollReveal>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 40, maxWidth: 600, margin: '0 auto' }}>
+          {leaders.map((leader, i) => (
+            <ScrollReveal key={leader.name} delay={0.1 * i}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ position: 'relative', width: 140, height: 140, borderRadius: '50%', overflow: 'hidden', margin: '0 auto 20px', border: `3px solid ${C.border}` }}>
+                  <Image
+                    src={leader.image}
+                    alt={leader.name}
+                    fill
+                    sizes="140px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 18, color: C.text }}>{leader.name}</h3>
+                <p style={{ fontFamily: bod, fontSize: 13, color: C.orange, fontWeight: 600, marginTop: 4 }}>{leader.title}</p>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 const footerCols = [
@@ -1327,8 +1584,11 @@ export function AIPEA() {
       <Membership />
       <EventHighlight />
       <Courses />
+      <MemberDirectory />
       <Process />
+      <MemberSpotlight />
       <Testimonials />
+      <LeadershipSection />
       <PathwayStrip />
       <Contact />
       <CTABanner />
