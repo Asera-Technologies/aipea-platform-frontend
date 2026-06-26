@@ -1236,13 +1236,13 @@ function MemberSpotlight() {
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 16px 48px rgba(27,42,94,0.12)' }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}>
                 {/* Member image */}
-                <div style={{ position: 'relative', height: 200, overflow: 'hidden', background: 'linear-gradient(135deg, #f7f8fc 0%, #eef1f8 100%)' }}>
+                <div style={{ position: 'relative', height: 240, overflow: 'hidden', background: 'linear-gradient(135deg, #f7f8fc 0%, #eef1f8 100%)' }}>
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
                     sizes="400px"
-                    style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                    style={{ objectFit: 'cover', objectPosition: 'center center' }}
                   />
                 </div>
                 {/* Member info */}
@@ -1544,7 +1544,7 @@ function LeadershipSection() {
                   alt={leader.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                  style={{ objectFit: 'cover', objectPosition: 'center 35%' }}
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,14,38,0.86) 0%, rgba(8,14,38,0.2) 38%, transparent 62%)' }} />
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 28px 32px' }}>
