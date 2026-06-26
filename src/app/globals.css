@@ -86,16 +86,37 @@ body {
   .aipea-values-grid { grid-template-columns: 1fr !important; }
   .aipea-course-grid { grid-template-columns: repeat(2,1fr) !important; }
   .aipea-tier-row { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
+  .aipea-spotlight-grid { grid-template-columns: repeat(2,1fr) !important; }
+  .aipea-testi-left { min-height: 280px !important; }
+  .aipea section { padding: 96px 28px !important; }
 }
 @media (max-width: 768px) {
   .aipea-checkout-grid { grid-template-columns: 1fr !important; }
-  .aipea section { padding: 80px 24px !important; }
+  .aipea section { padding: 72px 20px !important; }
   .aipea-hero-grid { grid-template-columns: 1fr !important; }
   .aipea-eyebrow { display: none !important; }
   .aipea-course-grid { grid-template-columns: 1fr !important; }
-  .aipea-tier-row { grid-template-columns: 1fr !important; margin: 0 !important; padding: 28px 24px !important; }
-  .aipea-contact-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
-  .aipea-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 36px !important; }
-  .aipea-testi-grid { gap: 32px !important; }
+  .aipea-tier-row { grid-template-columns: 1fr !important; margin: 0 !important; padding: 28px 20px !important; }
+  .aipea-tier-perks { min-width: 0 !important; }
+  .aipea-contact-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .aipea-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+  .aipea-footer-wrap { padding: 48px 20px 28px !important; }
+  .aipea-testi-grid { gap: 24px !important; }
   .aipea-pillars-grid { grid-template-columns: 1fr !important; }
+  .aipea-hero-visual { display: none !important; }
+  .aipea-hero-inner  { padding: 0 20px !important; }
+  .aipea-nav         { padding: 0 20px !important; }
+}
+@media (max-width: 640px) {
+  .aipea-spotlight-grid { grid-template-columns: 1fr !important; }
+  .aipea-course-item    { grid-template-columns: auto 1fr !important; gap: 14px !important; }
+  .aipea-course-lock    { display: none !important; }
+  .aipea-form-row       { grid-template-columns: 1fr !important; }
+  .aipea-nav            { padding: 0 16px !important; }
+}
+@media (max-width: 480px) {
+  .aipea-footer-grid   { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .aipea-countdown     { grid-template-columns: repeat(2,1fr) !important; }
+  .aipea-process-item  { grid-template-columns: 48px 1fr !important; }
+  .aipea-process-dot   { display: none !important; }
 }

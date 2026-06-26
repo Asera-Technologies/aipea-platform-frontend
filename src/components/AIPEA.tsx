@@ -36,7 +36,7 @@ const C = {
 } as const
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-const dis = '"Helvetica Neue", Helvetica, Arial, sans-serif'
+const dis = 'var(--font-syne), sans-serif'
 const bod = 'var(--font-inter), sans-serif'
 const SECTION: React.CSSProperties = { padding: '120px 40px' }
 const INNER: React.CSSProperties   = { maxWidth: 1400, margin: '0 auto' }
@@ -276,7 +276,7 @@ function Navbar() {
     return () => window.removeEventListener('scroll', fn)
   }, [])
   return (
-    <nav style={{
+    <nav className="aipea-nav" style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, height: 60,
       padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       background: scrolled ? 'rgba(255,255,255,0.92)' : 'transparent',
@@ -476,7 +476,7 @@ function Hero() {
             </div>
 
             {/* Right: animated member network */}
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} style={{ position: 'relative' }}>
+            <motion.div className="aipea-hero-visual" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} style={{ position: 'relative' }}>
               <HeroVisual />
             </motion.div>
           </div>
@@ -484,7 +484,7 @@ function Hero() {
 
         {/* Phase 2 — scroll statement */}
         <motion.div style={{ position: 'absolute', inset: 0, zIndex: 12, opacity: stmtOpacity, y: stmtY, display: 'flex', alignItems: 'center', pointerEvents: 'none' }}>
-          <div style={{ ...INNER, width: '100%', padding: '0 40px', transform: 'translateY(-4vh)' }}>
+          <div className="aipea-hero-inner" style={{ ...INNER, width: '100%', padding: '0 40px', transform: 'translateY(-4vh)' }}>
             <p style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, color: C.orange, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 28 }}>
               AIPEA membership
             </p>
@@ -693,7 +693,7 @@ function EventHighlight() {
           <ScrollReveal delay={0.12}>
             <div style={{ borderRadius: 20, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', padding: '36px 32px' }}>
               <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 24 }}>Conference opens in</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12 }}>
+              <div className="aipea-countdown" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12 }}>
                 {units.map(([label, val]) => (
                   <div key={label} style={{ textAlign: 'center', padding: '18px 8px', borderRadius: 14, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(28px,4vw,40px)', lineHeight: 1, letterSpacing: '-0.04em', color: val > 0 || label === 'Sec' ? C.white : 'rgba(255,255,255,0.25)' }}>
@@ -933,7 +933,7 @@ function Membership() {
                       <span style={{ fontFamily: bod, fontSize: 13, color: t.featured ? 'rgba(255,255,255,0.65)' : C.muted }}>/year</span>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 240 }}>
+                  <div className="aipea-tier-perks" style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 240 }}>
                     {t.perks.map(p => (
                       <div key={p} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <span style={{ width: 5, height: 5, borderRadius: '50%', background: t.featured ? C.white : C.orange, flexShrink: 0 }} />
@@ -1010,7 +1010,7 @@ function Courses() {
           <div style={{ display: 'grid', gap: 14 }}>
             {courses.map((c, i) => (
               <Reveal key={c.title} from="right" delay={0.08 * i}>
-                <div style={{ display: 'grid', gridTemplateColumns: '80px 1fr auto', gap: 22, alignItems: 'center', padding: '26px 30px', background: C.bg, border: `1px solid ${C.border}`, borderRadius: 20, minHeight: 160, transition: 'transform 0.22s, border-color 0.22s, box-shadow 0.22s' }}
+                <div className="aipea-course-item" style={{ display: 'grid', gridTemplateColumns: '80px 1fr auto', gap: 22, alignItems: 'center', padding: '26px 30px', background: C.bg, border: `1px solid ${C.border}`, borderRadius: 20, minHeight: 160, transition: 'transform 0.22s, border-color 0.22s, box-shadow 0.22s' }}
                   onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.borderColor = C.borderHover; e.currentTarget.style.boxShadow = '0 12px 40px rgba(27,42,94,0.08)' }}
                   onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = 'none' }}>
                   <div style={{ fontFamily: dis, fontSize: 42, fontWeight: 800, color: i === 1 ? C.orange : C.elevated, letterSpacing: '-0.08em' }}>0{i + 1}</div>
@@ -1022,7 +1022,7 @@ function Courses() {
                     <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, color: C.text, lineHeight: 1.1, letterSpacing: '-0.02em' }}>{c.title}</h3>
                     <p style={{ fontFamily: bod, marginTop: 8, fontSize: 13, color: C.muted, lineHeight: 1.7 }}>{c.desc}</p>
                   </div>
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: C.surface, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                  <div className="aipea-course-lock" style={{ width: 44, height: 44, borderRadius: '50%', background: C.surface, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
                     <Lock size={14} color={C.orange} />
                   </div>
                 </div>
@@ -1123,13 +1123,13 @@ function Process() {
               </div>
               <div style={{ marginTop: 40, borderRadius: 20, overflow: 'hidden', border: `1px solid ${C.border}`, background: C.surface }}>
                 {[['Application', 'Profile submitted', '01'], ['Verification', 'Details reviewed', '02'], ['Payment', 'Paystack confirmed', '03'], ['Credential', 'Member ID issued', '04']].map(([title, detail, number], index) => (
-                  <div key={title} style={{ display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 16, alignItems: 'center', padding: '20px 22px', borderBottom: index < 3 ? `1px solid ${C.border}` : 'none' }}>
+                  <div key={title} className="aipea-process-item" style={{ display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 16, alignItems: 'center', padding: '20px 22px', borderBottom: index < 3 ? `1px solid ${C.border}` : 'none' }}>
                     <span style={{ fontFamily: dis, fontSize: 30, fontWeight: 800, color: index === 3 ? C.orange : C.elevated, letterSpacing: '-0.06em' }}>{number}</span>
                     <span>
                       <strong style={{ display: 'block', fontFamily: dis, color: C.text, fontSize: 16 }}>{title}</strong>
                       <small style={{ display: 'block', fontFamily: bod, color: C.muted, marginTop: 4, fontSize: 12 }}>{detail}</small>
                     </span>
-                    <span style={{ width: 10, height: 10, borderRadius: '50%', background: index === 3 ? C.orange : C.border, flexShrink: 0 }} />
+                    <span className="aipea-process-dot" style={{ width: 10, height: 10, borderRadius: '50%', background: index === 3 ? C.orange : C.border, flexShrink: 0 }} />
                   </div>
                 ))}
               </div>
@@ -1206,7 +1206,7 @@ function MemberSpotlight() {
     <section style={{ ...SECTION, background: C.surface, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
       <div style={INNER}>
         <SectionHeader number="007" align="center" statement="Member success stories." aside="Real professionals, real impact." />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }} className="aipea-spotlight-grid">
+        <div className="aipea-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
           {memberSpotlights.map((member, i) => (
             <ScrollReveal key={member.name} delay={0.08 * i}>
               <div style={{ borderRadius: 20, overflow: 'hidden', background: C.bg, border: `1px solid ${C.border}`, transition: 'transform 0.22s, box-shadow 0.22s', cursor: 'default' }}
@@ -1290,7 +1290,7 @@ function Testimonials() {
         <ScrollReveal delay={0.08}>
           <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: 24, alignItems: 'stretch' }} className="aipea-testi-grid">
             <div>
-              <div style={{ minHeight: '56vh', borderRadius: 24, overflow: 'hidden', background: `linear-gradient(160deg, ${C.navyDark} 0%, ${C.navy} 100%)`, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 32, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div className="aipea-testi-left" style={{ minHeight: '56vh', borderRadius: 24, overflow: 'hidden', background: `linear-gradient(160deg, ${C.navyDark} 0%, ${C.navy} 100%)`, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 32, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 72% 24%, rgba(232,80,26,0.3), transparent 34%)' }} />
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span key={t.theme} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35, ease: EASE }}
@@ -1440,7 +1440,7 @@ function Contact() {
                 <div>
                   <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: '-0.01em' }}>Tell us about yourself</div>
                   <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginBottom: 28, marginTop: 6 }}>We&apos;ll get back to you within 24 hours.</p>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                  <div className="aipea-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                     <div><label style={labelStyle}>Full name</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} placeholder="Adwoa Mensah" /></div>
                     <div><label style={labelStyle}>Email address</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} placeholder="you@email.com" /></div>
                   </div>
@@ -1540,7 +1540,7 @@ const footerCols = [
 
 function Footer() {
   return (
-    <footer style={{ background: C.navyDark, borderTop: `1px solid rgba(255,255,255,0.06)`, padding: '64px 40px 36px' }}>
+    <footer className="aipea-footer-wrap" style={{ background: C.navyDark, borderTop: `1px solid rgba(255,255,255,0.06)`, padding: '64px 40px 36px' }}>
       <div style={INNER}>
         <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: 64, paddingBottom: 48, borderBottom: '1px solid rgba(255,255,255,0.06)' }} className="aipea-footer-grid">
           <div>
