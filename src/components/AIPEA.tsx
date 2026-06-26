@@ -541,28 +541,51 @@ function EditorialMoment() {
   const reduced = useReducedMotion()
   return (
     <section style={{ padding: '100px 40px', background: C.bg, borderBottom: `1px solid ${C.border}` }}>
-      <div ref={ref} style={{ ...INNER, display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 48, alignItems: 'end' }} className="aipea-editorial-grid">
-        <div>
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, ease: EASE }}
-            style={{ fontFamily: bod, fontSize: 14, color: C.muted, marginBottom: 20 }}>
-            Rewrite your role.
-          </motion.p>
-          <motion.h2 initial={{ opacity: 0, y: reduced ? 0 : 28 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.75, delay: 0.08, ease: EASE }}
-            style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(36px,5.5vw,72px)', lineHeight: 0.95, letterSpacing: '-0.035em', color: C.text }}>
-            Go from support staff<br />to <span style={{ color: C.orange }}>strategic partner.</span>
-          </motion.h2>
-        </div>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.18, ease: EASE }}>
-          <div style={{ position: 'relative', height: 280, borderRadius: 16, overflow: 'hidden', marginBottom: 28 }}>
-            <Image
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=280&fit=crop"
-              alt="Professional women in strategic meeting"
-              fill
-              sizes="(max-width: 768px) 100vw, 400px"
-              style={{ objectFit: 'cover' }}
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 100%)' }} />
+      <div ref={ref} style={{ ...INNER }}>
+        {/* Full-width image with overlaid headline */}
+        <motion.div
+          initial={{ opacity: 0, y: reduced ? 0 : 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: EASE }}
+          style={{ position: 'relative', height: 480, borderRadius: 20, overflow: 'hidden', marginBottom: 48 }}
+        >
+          <Image
+            src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&h=480&fit=crop"
+            alt="Professionals in a strategic boardroom meeting"
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            style={{ objectFit: 'cover', objectPosition: 'center 35%' }}
+          />
+          {/* Base dim */}
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(8,14,38,0.52)' }} />
+          {/* Bottom gradient for text legibility */}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,14,38,0.82) 0%, rgba(8,14,38,0.18) 55%, transparent 100%)' }} />
+          <div style={{ position: 'absolute', bottom: 48, left: 48, right: 48, textAlign: 'center' }}>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.12, ease: EASE }}
+              style={{ fontFamily: bod, fontSize: 14, color: 'rgba(255,255,255,0.72)', marginBottom: 16, letterSpacing: '0.04em' }}
+            >
+              Rewrite your role.
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: reduced ? 0 : 28 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.75, delay: 0.2, ease: EASE }}
+              style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(36px,5.5vw,72px)', lineHeight: 0.95, letterSpacing: '-0.035em', color: C.white }}
+            >
+              Go from support staff<br />to <span style={{ color: C.orange }}>strategic partner.</span>
+            </motion.h2>
           </div>
+        </motion.div>
+        {/* Body text and CTA — centered below image */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.32, ease: EASE }}
+          style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto' }}
+        >
           <p style={{ fontFamily: bod, fontSize: 16, lineHeight: 1.75, color: C.muted, marginBottom: 28 }}>
             Your title doesn&apos;t capture the value you bring. AIPEA equips you with credentials, CPD, and a pan-African network built for executive assistants who lead from behind the desk.
           </p>
@@ -1290,31 +1313,37 @@ function Testimonials() {
         <ScrollReveal delay={0.08}>
           <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: 24, alignItems: 'stretch' }} className="aipea-testi-grid">
             <div>
-              <div className="aipea-testi-left" style={{ minHeight: '56vh', borderRadius: 24, overflow: 'hidden', background: `linear-gradient(160deg, ${C.navyDark} 0%, ${C.navy} 100%)`, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 32, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 72% 24%, rgba(232,80,26,0.3), transparent 34%)' }} />
+              <div className="aipea-testi-left" style={{ minHeight: '56vh', borderRadius: 24, overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 32, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
+                {/* Full-bleed background photo */}
+                <AnimatePresence initial={false}>
+                  <motion.div key={t.image} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.55 }}
+                    style={{ position: 'absolute', inset: 0 }}>
+                    <Image
+                      src={t.image}
+                      alt={t.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      style={{ objectFit: 'cover' }}
+                      priority
+                    />
+                  </motion.div>
+                </AnimatePresence>
+                {/* Gradient overlay */}
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(17,28,66,0.45) 0%, transparent 45%, rgba(8,14,38,0.82) 100%)', zIndex: 1 }} />
+                {/* Theme label — top */}
                 <AnimatePresence initial={false} mode="wait">
                   <motion.span key={t.theme} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35, ease: EASE }}
-                    style={{ position: 'relative', zIndex: 1, fontFamily: dis, fontWeight: 800, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.orange }}>
+                    style={{ position: 'relative', zIndex: 2, fontFamily: dis, fontWeight: 800, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.orange }}>
                     {t.theme}
                   </motion.span>
                 </AnimatePresence>
+                {/* Member info — bottom */}
                 <AnimatePresence initial={false} mode="wait">
                   <motion.div key={t.initials} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}
-                    style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: 16 }}>
-                    <div style={{ position: 'relative', width: 56, height: 56, borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid rgba(255,255,255,0.2)' }}>
-                      <Image
-                        src={t.image}
-                        alt={t.name}
-                        fill
-                        sizes="56px"
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </div>
-                    <div>
-                      <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 17, color: C.white }}>{t.name}</div>
-                      <div style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 4 }}>{t.title}</div>
-                      <div style={{ fontFamily: bod, fontSize: 12, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>{t.company}</div>
-                    </div>
+                    style={{ position: 'relative', zIndex: 2 }}>
+                    <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 17, color: C.white }}>{t.name}</div>
+                    <div style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.75)', marginTop: 4 }}>{t.title}</div>
+                    <div style={{ fontFamily: bod, fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{t.company}</div>
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -1491,36 +1520,37 @@ function CTABanner() {
 // ─── Leadership Section ───────────────────────────────────────────────────────
 
 const leaders = [
-  { name: 'Ama Mensah', title: 'Founder & Executive Director', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop' },
-  { name: 'Samuel Boateng', title: 'Director, Professional Standards', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop' },
+  { name: 'Ama Mensah', title: 'Founder & Executive Director', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=800&fit=crop' },
+  { name: 'Samuel Boateng', title: 'Director, Professional Standards', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop' },
 ]
 
 function LeadershipSection() {
   return (
-    <section style={{ ...SECTION, background: C.bg }}>
+    <section style={{ ...SECTION, background: C.navyDark }}>
       <div style={INNER}>
         <ScrollReveal>
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 16 }}>Leadership</p>
-            <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(30px,3.5vw,48px)', color: C.text, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 16 }}>Visionaries leading the profession forward.</h2>
-            <p style={{ fontFamily: bod, fontSize: 15, color: C.muted, maxWidth: 480, margin: '0 auto' }}>Meet the team dedicated to elevating executive assistants across Africa.</p>
+            <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(30px,3.5vw,48px)', color: C.white, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 16 }}>Visionaries leading the profession forward.</h2>
+            <p style={{ fontFamily: bod, fontSize: 15, color: 'rgba(255,255,255,0.52)', maxWidth: 480, margin: '0 auto' }}>Meet the team dedicated to elevating executive assistants across Africa.</p>
           </div>
         </ScrollReveal>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 40, maxWidth: 600, margin: '0 auto' }}>
+        <div className="aipea-leader-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 24 }}>
           {leaders.map((leader, i) => (
             <ScrollReveal key={leader.name} delay={0.1 * i}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ position: 'relative', width: 140, height: 140, borderRadius: '50%', overflow: 'hidden', margin: '0 auto 20px', border: `3px solid ${C.border}` }}>
-                  <Image
-                    src={leader.image}
-                    alt={leader.name}
-                    fill
-                    sizes="140px"
-                    style={{ objectFit: 'cover' }}
-                  />
+              <div style={{ position: 'relative', height: 420, borderRadius: 20, overflow: 'hidden' }}>
+                <Image
+                  src={leader.image}
+                  alt={leader.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,14,38,0.86) 0%, rgba(8,14,38,0.2) 38%, transparent 62%)' }} />
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 28px 32px' }}>
+                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, color: C.white, lineHeight: 1.15 }}>{leader.name}</h3>
+                  <p style={{ fontFamily: bod, fontSize: 13, color: C.orange, fontWeight: 600, marginTop: 6 }}>{leader.title}</p>
                 </div>
-                <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 18, color: C.text }}>{leader.name}</h3>
-                <p style={{ fontFamily: bod, fontSize: 13, color: C.orange, fontWeight: 600, marginTop: 4 }}>{leader.title}</p>
               </div>
             </ScrollReveal>
           ))}
