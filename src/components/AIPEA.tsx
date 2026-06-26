@@ -383,12 +383,12 @@ function HeroVisual() {
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function ScrollWord({ children, index, progress }: { children: React.ReactNode; index: number; progress: MotionValue<number> }) {
-  const start = 0.2 + index * 0.02
-  const opacity = useTransform(progress, [start, start + 0.045, start + 0.1], [0.12, 1, 1])
-  const y = useTransform(progress, [start, start + 0.065], [46, 0])
-  const scale = useTransform(progress, [start, start + 0.065], [0.94, 1])
-  const blur = useTransform(progress, [start, start + 0.06], ['blur(8px)', 'blur(0px)'])
-  const color = useTransform(progress, [start, start + 0.06], ['rgba(17,28,66,0.1)', 'rgba(17,28,66,0.95)'])
+  const start = 0.18 + index * 0.018
+  const opacity = useTransform(progress, [start, start + 0.06, start + 0.18], [0.08, 1, 1])
+  const y = useTransform(progress, [start, start + 0.14], [40, 0])
+  const scale = useTransform(progress, [start, start + 0.14], [0.94, 1])
+  const blur = useTransform(progress, [start, start + 0.18], ['blur(5px)', 'blur(0px)'])
+  const color = useTransform(progress, [start, start + 0.16], ['rgba(17,28,66,0.08)', 'rgba(17,28,66,0.95)'])
   return (
     <motion.span style={{ display: 'inline-block', opacity, y, scale, filter: blur, color, marginRight: '0.24em', whiteSpace: 'nowrap' }}>
       {children}
@@ -411,15 +411,15 @@ function Hero() {
   const introY       = useTransform(scrollYProgress, [0, 0.11], [0, -120])
   const introScale   = useTransform(scrollYProgress, [0, 0.11], [1, 0.96])
   const introVis     = useTransform(scrollYProgress, (v) => (v >= 0.13 ? 'hidden' : 'visible'))
-  const stmtOpacity  = useTransform(scrollYProgress, [0.15, 0.22, 0.96, 1], [0, 1, 1, 0])
-  const stmtY        = useTransform(scrollYProgress, [0.15, 0.26], [100, 0])
+  const stmtOpacity  = useTransform(scrollYProgress, [0.12, 0.18, 0.92, 0.97], [0, 1, 1, 0])
+  const stmtY        = useTransform(scrollYProgress, [0.12, 0.22], [100, 0])
   const orangeY      = useTransform(scrollYProgress, [0.1, 0.8], [160, -100])
   const orangeOpacity = useTransform(scrollYProgress, [0.1, 0.3, 0.78], [0, 0.18, 0.1])
 
   const statement = ['Behind', "Africa's", 'most', 'powerful', 'executives', 'are', 'professionals', 'who', 'deserve', 'recognition.', 'We', 'provide', 'it.']
 
   return (
-    <section ref={heroRef} style={{ position: 'relative', height: '240vh' }}>
+    <section ref={heroRef} style={{ position: 'relative', height: '280vh' }}>
       <div style={{ position: 'sticky', top: 0, width: '100%', height: '100vh', overflow: 'hidden', background: C.white }}>
 
         {/* Aspirational hero background image */}
