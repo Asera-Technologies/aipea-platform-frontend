@@ -75,9 +75,33 @@ export default function Checkout() {
     setPending(p)
   }, [router])
 
+  function activateMembership() {
+    if (!pending) return
+    saveUser({
+      name:     pending.name,
+      email:    pending.email,
+      country:  pending.country,
+      tier:     pending.tier,
+      memberId: generateMemberId(),
+      joinedAt: new Date().toISOString(),
+    })
+    clearPendingSignup()
+    setStatus('success')
+    setTimeout(() => router.push('/dashboard'), 1200)
+  }
+
   function handlePay() {
-    if (!pending || !scriptReady || status !== 'idle') return
+    if (!pending || status !== 'idle') return
     setError('')
+
+    // Free tier — no payment required, activate immediately
+    if (TIER_PRICING[pending.tier] === 0) {
+      setStatus('processing')
+      setTimeout(activateMembership, 500)
+      return
+    }
+
+    if (!scriptReady) return
     setStatus('processing')
 
     const [first, ...rest] = pending.name.trim().split(' ')
@@ -97,17 +121,7 @@ export default function Checkout() {
       },
       callback(response) {
         // Payment confirmed — activate membership
-        saveUser({
-          name:     pending.name,
-          email:    pending.email,
-          country:  pending.country,
-          tier:     pending.tier,
-          memberId: generateMemberId(),
-          joinedAt: new Date().toISOString(),
-        })
-        clearPendingSignup()
-        setStatus('success')
-        setTimeout(() => router.push('/dashboard'), 1200)
+        activateMembership()
         void response.reference
       },
       onClose() {
@@ -132,6 +146,7 @@ export default function Checkout() {
 
   const amount = TIER_PRICING[pending.tier]
   const perks  = TIER_PERKS[pending.tier]
+  const isFree = amount === 0
 
   return (
     <>

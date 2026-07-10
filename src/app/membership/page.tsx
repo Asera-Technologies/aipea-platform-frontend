@@ -15,7 +15,7 @@ const why = [
 ]
 
 const tiers: PriceTier[] = [
-  { name: 'Associate',    blurb: 'For emerging EAs',    price: '₵500',   cadence: '/yr', href: '/sign-up?tier=Associate' },
+  { name: 'Associate',    blurb: 'For emerging EAs',    price: 'Free',   cadence: '', href: '/sign-up?tier=Associate' },
   { name: 'Professional', blurb: 'For established EAs',  price: '₵1,200', cadence: '/yr', href: '/sign-up?tier=Professional', featured: true },
   { name: 'Fellow',       blurb: 'For senior leaders',  price: '₵2,500', cadence: '/yr', href: '/sign-up?tier=Fellow' },
 ]

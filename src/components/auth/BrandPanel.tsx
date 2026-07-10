@@ -17,17 +17,17 @@ const SLIDES = [
     local: true,
   },
   {
-    src: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80',
+    src: 'https://images.unsplash.com/photo-1618085222100-93f0eecad0aa?auto=format&fit=crop&w=1200&q=80',
     alt: 'Professional executive assistant at work',
     local: false,
   },
   {
-    src: 'https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1200&q=80',
-    alt: 'Business professional in a modern workspace',
+    src: 'https://images.unsplash.com/photo-1573497701240-345a300b8d36?auto=format&fit=crop&w=1200&q=80',
+    alt: 'Business professionals in a modern workspace',
     local: false,
   },
   {
-    src: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=80',
+    src: 'https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?auto=format&fit=crop&w=1200&q=80',
     alt: 'EA networking across Africa',
     local: false,
   },

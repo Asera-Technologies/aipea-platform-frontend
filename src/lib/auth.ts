@@ -15,13 +15,13 @@ export interface PendingSignup {
 }
 
 export const TIER_PRICING: Record<AIPEAUser['tier'], number> = {
-  Associate: 500,
+  Associate: 0,
   Professional: 1200,
   Fellow: 2500,
 }
 
 export function formatCedis(amount: number): string {
-  return `₵${amount.toLocaleString('en-GH')}`
+  return amount === 0 ? 'Free' : `₵${amount.toLocaleString('en-GH')}`
 }
 
 export function savePendingSignup(pending: PendingSignup): void {
