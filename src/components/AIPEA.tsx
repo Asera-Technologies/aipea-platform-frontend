@@ -16,6 +16,9 @@ import {
 } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Plus, Check, ChevronLeft, ChevronRight, Lock, TrendingUp, Award, Users, BookOpen, Calendar, GraduationCap } from 'lucide-react'
+import { SiteNav } from '@/components/site/SiteNav'
+import { SiteFooter } from '@/components/site/SiteFooter'
+import { PricingBreakdown, type PriceTier, type PriceRow } from '@/components/site/PageKit'
 
 // ─── Tokens ───────────────────────────────────────────────────────────────────
 
@@ -266,120 +269,6 @@ function CredentialCard({ title, tier, number, compact = false }: {
   )
 }
 
-// ─── Navbar ───────────────────────────────────────────────────────────────────
-
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 12)
-    window.addEventListener('scroll', fn, { passive: true })
-    return () => window.removeEventListener('scroll', fn)
-  }, [])
-  return (
-    <nav className="aipea-nav" style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, height: 60,
-      padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      background: scrolled ? 'rgba(255,255,255,0.92)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(20px)' : 'none',
-      borderBottom: `1px solid ${scrolled ? C.border : 'transparent'}`,
-      transition: 'background 0.35s, border-color 0.35s',
-    }}>
-      <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange }}>AIPEA</span>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-        <Link href="/sign-in" style={{ fontFamily: bod, fontSize: 13, color: C.text, textDecoration: 'none', opacity: 0.7 }}>Sign in</Link>
-        <Link href="/sign-up"
-          style={{ fontFamily: dis, fontWeight: 700, fontSize: 13, color: C.white, background: C.orange, padding: '9px 20px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none', transition: 'background 0.2s' }}
-          onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = C.orangeDim)}
-          onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = C.orange)}>
-          Join AIPEA <ArrowRight size={14} />
-        </Link>
-      </div>
-    </nav>
-  )
-}
-
-// ─── Hero visual — animated member network ────────────────────────────────────
-
-const HERO_MEMBERS = [
-  { initials: 'AA', name: 'Adwoa Akuffo',  role: 'EA to MD · Accra',       color: '#E8501A', dur: 6.2, pDel: 0.0 },
-  { initials: 'JO', name: 'James Osei',    role: 'Chief of Staff · Lagos',  color: '#1B2A5E', dur: 7.0, pDel: 1.4 },
-  { initials: 'NK', name: 'Nyambura K.',   role: 'Executive PA · Nairobi',  color: '#059669', dur: 5.8, pDel: 0.7 },
-  { initials: 'FM', name: 'Fatima Moussa', role: 'PA to CEO · Cairo',       color: '#7c3aed', dur: 6.6, pDel: 2.0 },
-  { initials: 'TM', name: 'Thandiwe M.',   role: 'EA · Johannesburg',       color: '#0891b2', dur: 7.4, pDel: 0.3 },
-]
-
-type HeroMember = typeof HERO_MEMBERS[0]
-
-function MemberCard({ m, pos, delay }: { m: HeroMember; pos: React.CSSProperties; delay: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 18, scale: 0.92 }}
-      animate={{ opacity: 1, y: [0, -9, 0], scale: 1 }}
-      transition={{
-        opacity: { duration: 0.55, delay, ease: EASE },
-        scale:   { duration: 0.55, delay, ease: EASE },
-        y:       { duration: m.dur, delay: delay + 0.7, ease: 'easeInOut', repeat: Infinity, times: [0, 0.5, 1] },
-      }}
-      style={{
-        position: 'absolute', background: C.white,
-        border: `1px solid ${C.border}`, borderRadius: 14,
-        padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10,
-        boxShadow: '0 8px 32px rgba(27,42,94,0.10), inset 0 1px 0 rgba(255,255,255,0.9)',
-        minWidth: 204, ...pos,
-      }}
-    >
-      <div style={{ width: 34, height: 34, borderRadius: '50%', background: m.color, display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: C.white, flexShrink: 0, boxShadow: `0 4px 10px ${m.color}55` }}>
-        {m.initials}
-      </div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 12, color: C.text, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.name}</div>
-        <div style={{ fontFamily: bod, fontSize: 11, color: C.muted, marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.role}</div>
-      </div>
-      <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 6px rgba(34,197,94,0.7)', flexShrink: 0 }} />
-    </motion.div>
-  )
-}
-
-function HeroVisual() {
-  return (
-    <div style={{ position: 'relative', width: '100%', height: 480 }}>
-      {/* Rings */}
-      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.1 }}
-        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 356, height: 356, borderRadius: '50%', border: `1px solid ${C.border}`, pointerEvents: 'none' }} />
-      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.2 }}
-        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 226, height: 226, borderRadius: '50%', border: '1px dashed rgba(232,80,26,0.2)', pointerEvents: 'none' }} />
-      {/* Glow */}
-      <div style={{ position: 'absolute', top: '16%', right: '10%', width: 180, height: 180, background: 'radial-gradient(circle, rgba(232,80,26,0.16) 0%, transparent 70%)', pointerEvents: 'none' }} />
-
-      {/* Centre badge */}
-      <motion.div initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
-        style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 3 }}>
-        <div style={{ position: 'relative' }}>
-          <motion.div animate={{ scale: [1, 1.35, 1], opacity: [0.28, 0, 0.28] }} transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ position: 'absolute', inset: -14, borderRadius: '50%', background: 'rgba(232,80,26,0.1)', pointerEvents: 'none' }} />
-          <div style={{ width: 72, height: 72, borderRadius: '50%', background: C.orange, display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, letterSpacing: '0.14em', color: C.white, boxShadow: '0 12px 44px rgba(232,80,26,0.38)' }}>
-            AIPEA
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Member cards */}
-      <MemberCard m={HERO_MEMBERS[0]} delay={0.30} pos={{ top: '3%',   left: '0%'   }} />
-      <MemberCard m={HERO_MEMBERS[1]} delay={0.45} pos={{ top: '23%',  right: '0%'  }} />
-      <MemberCard m={HERO_MEMBERS[2]} delay={0.28} pos={{ top: '50%',  left: '2%'   }} />
-      <MemberCard m={HERO_MEMBERS[3]} delay={0.58} pos={{ top: '70%',  right: '2%'  }} />
-      <MemberCard m={HERO_MEMBERS[4]} delay={0.40} pos={{ bottom: '3%', left: '6%'  }} />
-
-      {/* Live count */}
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.9, ease: EASE }}
-        style={{ position: 'absolute', bottom: 0, right: 0, display: 'inline-flex', alignItems: 'center', gap: 8, background: C.navyDark, borderRadius: 100, padding: '8px 18px', boxShadow: '0 4px 20px rgba(17,28,66,0.22)' }}>
-        <span className="aipea-pulse" style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'block', flexShrink: 0 }} />
-        <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, color: C.white, whiteSpace: 'nowrap' }}>5,000+ members across Africa</span>
-      </motion.div>
-    </div>
-  )
-}
-
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function ScrollWord({ children, index, progress }: { children: React.ReactNode; index: number; progress: MotionValue<number> }) {
@@ -438,15 +327,10 @@ function Hero() {
 
         {/* Phase 1 — intro */}
         <motion.div style={{ position: 'absolute', inset: 0, opacity: introOpacity, y: introY, scale: introScale, visibility: introVis }}>
-          <div style={{ position: 'relative', zIndex: 10, width: '100%', height: '100%', ...INNER, padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 420px', gap: '0 72px', alignItems: 'center' }} className="aipea-hero-grid">
+          <div style={{ position: 'relative', zIndex: 10, width: '100%', height: '100%', ...INNER, padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 0.92fr', gap: '0 64px', alignItems: 'center' }} className="aipea-hero-grid">
 
             {/* Left: headline + CTA + stats */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
-              <motion.div {...fade(0.08)} className="aipea-eyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ display: 'inline-block', width: 28, height: 2, background: C.orange, borderRadius: 2 }} />
-                <span style={{ fontFamily: bod, fontSize: 13, color: C.muted }}>Africa&apos;s professional membership body for EAs</span>
-              </motion.div>
-
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 28, maxWidth: 620 }}>
               <motion.h1 {...fade(0.18)} style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(42px,5.8vw,82px)', lineHeight: 0.94, letterSpacing: '-0.025em', color: C.text }}>
                 <RotatingWord words={['Certifying', 'Elevating', 'Connecting', 'Championing']} style={{ color: C.orange }} /> the<br /><span style={{ color: C.orange }}>executive assistant</span><br />profession.
               </motion.h1>
@@ -454,16 +338,6 @@ function Hero() {
               <motion.p {...fade(0.24)} style={{ fontFamily: bod, fontSize: 'clamp(15px,1.6vw,18px)', lineHeight: 1.65, color: C.muted, maxWidth: 480 }}>
                 Take your place. Claim your credential. Own your path.
               </motion.p>
-
-              <motion.div {...fade(0.30)} style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-                <a href="#contact"
-                  style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.white, background: C.orange, padding: '13px 28px', borderRadius: 100, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', transition: 'background 0.2s, transform 0.15s' }}
-                  onMouseEnter={e => { e.currentTarget.style.background = C.orangeDim; e.currentTarget.style.transform = 'translateY(-1px)' }}
-                  onMouseLeave={e => { e.currentTarget.style.background = C.orange; e.currentTarget.style.transform = 'none' }}>
-                  Apply for membership <ArrowRight size={15} />
-                </a>
-                <Link href="/sign-in" style={{ fontFamily: bod, fontSize: 14, color: C.muted, textDecoration: 'none' }}>Sign in →</Link>
-              </motion.div>
 
               <motion.div {...fade(0.42)} style={{ display: 'flex', alignItems: 'flex-start', gap: 40, flexWrap: 'wrap', paddingTop: 8, borderTop: `1px solid ${C.border}` }}>
                 {([[5000, '+', 'Members'], [33, '', 'Countries'], [12, '+', 'Years']] as const).map(([n, s, l]) => (
@@ -475,9 +349,23 @@ function Hero() {
               </motion.div>
             </div>
 
-            {/* Right: animated member network */}
-            <motion.div className="aipea-hero-visual" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} style={{ position: 'relative' }}>
-              <HeroVisual />
+            {/* Right: photo */}
+            <motion.div className="aipea-hero-visual" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25, ease: EASE }}
+              style={{ position: 'relative', height: 'min(560px, 66vh)', borderRadius: 24, overflow: 'hidden', border: `1px solid ${C.border}`, boxShadow: '0 32px 90px rgba(27,42,94,0.2)' }}>
+              <Image
+                src="https://images.unsplash.com/photo-1573497019418-b400bb3ab074?w=1000&h=1300&fit=crop"
+                alt="Confident executive assistant in her office"
+                fill
+                sizes="(max-width: 900px) 100vw, 50vw"
+                style={{ objectFit: 'cover', objectPosition: 'center 18%' }}
+                priority
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,14,38,0.52) 0%, transparent 42%)' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 88% 12%, rgba(232,80,26,0.12), transparent 44%)' }} />
+              <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24, display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(17,28,66,0.85)', backdropFilter: 'blur(6px)', borderRadius: 100, padding: '10px 18px', width: 'fit-content' }}>
+                <span className="aipea-pulse" style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'block', flexShrink: 0 }} />
+                <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, color: C.white, whiteSpace: 'nowrap' }}>5,000+ members across Africa</span>
+              </div>
             </motion.div>
           </div>
         </motion.div>
@@ -975,6 +863,39 @@ function Membership() {
           </div>
         </div>
         <p style={{ fontFamily: bod, fontSize: 12, color: C.faint, textAlign: 'center', marginTop: 24 }}>All payments processed securely via Paystack. Annual renewal. Cancel any time.</p>
+      </div>
+    </section>
+  )
+}
+
+// ─── Pricing breakdown (detailed tier comparison) ─────────────────────────────
+
+const priceTiers: PriceTier[] = [
+  { name: 'Associate',    blurb: 'For emerging EAs',    price: '₵500',   cadence: '/yr', href: '/sign-up?tier=associate' },
+  { name: 'Professional', blurb: 'For established EAs',  price: '₵1,200', cadence: '/yr', href: '/sign-up?tier=professional', featured: true },
+  { name: 'Fellow',       blurb: 'For senior leaders',  price: '₵2,500', cadence: '/yr', href: '/sign-up?tier=fellow' },
+]
+
+const priceRows: PriceRow[] = [
+  { feature: 'Member directory listing',              values: [true, true, true] },
+  { feature: 'CPD hours tracker',                     values: [true, true, true] },
+  { feature: 'Digital membership certificate',        values: [true, true, true] },
+  { feature: 'Member events & community',             values: [true, true, true] },
+  { feature: 'Annual conference discount',            values: ['10%', '25%', '40%'] },
+  { feature: 'Course library access',                 values: [false, true, true] },
+  { feature: 'Priority application review',           values: [false, true, true] },
+  { feature: 'Voting rights in AIPEA elections',      values: [false, true, true] },
+  { feature: 'Fellowship credential (post-nominals)', values: [false, false, true] },
+  { feature: '1:1 mentorship matching',               values: [false, false, true] },
+  { feature: 'Speaking & committee opportunities',    values: [false, false, true] },
+]
+
+function PricingSection() {
+  return (
+    <section id="pricing" style={{ ...SECTION, background: C.bg }}>
+      <div style={INNER}>
+        <SectionHeader number="Plans" align="center" statement="Compare every tier, line by line." aside="Exactly what's included at each level of membership — no surprises." />
+        <PricingBreakdown tiers={priceTiers} rows={priceRows} note="All payments processed securely via Paystack. Annual renewal. Cancel anytime." />
       </div>
     </section>
   )
@@ -1560,51 +1481,12 @@ function LeadershipSection() {
   )
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
-
-const footerCols = [
-  { h: 'Platform', links: ['Membership', 'Courses', 'Directory', 'Events']        },
-  { h: 'Company',  links: ['About AIPEA', 'Our Mission', 'Governance', 'Contact'] },
-  { h: 'Legal',    links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy'] },
-]
-
-function Footer() {
-  return (
-    <footer className="aipea-footer-wrap" style={{ background: C.navyDark, borderTop: `1px solid rgba(255,255,255,0.06)`, padding: '64px 40px 36px' }}>
-      <div style={INNER}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: 64, paddingBottom: 48, borderBottom: '1px solid rgba(255,255,255,0.06)' }} className="aipea-footer-grid">
-          <div>
-            <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 15, color: C.orange, letterSpacing: '0.18em' }}>AIPEA</div>
-            <p style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.38)', maxWidth: 220, marginTop: 16, lineHeight: 1.75 }}>Elevating the executive assistant profession across Africa. Setting the standard since 2013.</p>
-          </div>
-          {footerCols.map(col => (
-            <div key={col.h}>
-              <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)', marginBottom: 18 }}>{col.h}</div>
-              {col.links.map(l => (
-                <a key={l} href="#" style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.38)', display: 'block', marginBottom: 12, textDecoration: 'none', transition: '0.2s' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
-                  onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.38)')}>
-                  {l}
-                </a>
-              ))}
-            </div>
-          ))}
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 28, flexWrap: 'wrap', gap: 12 }}>
-          <span style={{ fontFamily: bod, fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>&copy; 2025 Africa Institute of Professional &amp; Executive Assistants. All rights reserved.</span>
-          <span style={{ fontFamily: bod, fontSize: 11, color: 'rgba(255,255,255,0.2)' }}>Elevating the profession across Africa.</span>
-        </div>
-      </div>
-    </footer>
-  )
-}
-
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
 export function AIPEA() {
   return (
     <div className="aipea" style={{ background: C.bg, color: C.text }}>
-      <Navbar />
+      <SiteNav />
       <Hero />
       <Marquee />
       <EditorialMoment />
@@ -1612,6 +1494,7 @@ export function AIPEA() {
       <About />
       <CoreValues />
       <Membership />
+      <PricingSection />
       <EventHighlight />
       <Courses />
       <MemberDirectory />
@@ -1622,7 +1505,7 @@ export function AIPEA() {
       <PathwayStrip />
       <Contact />
       <CTABanner />
-      <Footer />
+      <SiteFooter />
     </div>
   )
 }

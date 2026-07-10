@@ -17,7 +17,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; overflow-x: clip; }
+html { scroll-behavior: smooth; overflow-x: clip; scroll-padding-top: 76px; }
 body {
   background: #ffffff;
   color: #111c42;
@@ -119,4 +119,35 @@ body {
   .aipea-countdown     { grid-template-columns: repeat(2,1fr) !important; }
   .aipea-process-item  { grid-template-columns: 48px 1fr !important; }
   .aipea-process-dot   { display: none !important; }
+}
+
+/* ── Site nav (mega-menu) ─────────────────────────────────────── */
+@media (max-width: 980px) {
+  .aipea-nav-links, .aipea-nav-actions { display: none !important; }
+  .aipea-nav-burger { display: inline-flex !important; }
+  .aipea-megapanel  { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 640px) {
+  .aipea-nav-tag { display: none !important; }
+}
+
+/* ── Shared page kit ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .aipea-pagehero-grid, .aipea-split-grid, .aipea-contact-band { grid-template-columns: 1fr !important; }
+  .aipea-feature-grid { grid-template-columns: repeat(2,1fr) !important; }
+  .aipea-leader-grid  { grid-template-columns: repeat(2,1fr) !important; }
+}
+@media (max-width: 768px) {
+  .aipea-statband     { grid-template-columns: repeat(2,1fr) !important; }
+  .aipea-footer-grid  { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 640px) {
+  .aipea-feature-grid    { grid-template-columns: 1fr !important; }
+  .aipea-leader-grid     { grid-template-columns: 1fr !important; }
+  .aipea-megapanel-links { grid-template-columns: 1fr !important; }
+  .aipea-cal-row         { grid-template-columns: 84px 1fr !important; }
+  .aipea-cal-type        { display: none !important; }
+}
+@media (max-width: 560px) {
+  .aipea-statband { grid-template-columns: 1fr !important; }
 }
