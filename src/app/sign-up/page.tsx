@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -43,6 +43,12 @@ export default function SignUp() {
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
   const [error,    setError]    = useState('')
+
+  // Preselect the membership tier from ?tier= (e.g. from the pricing table CTAs)
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('tier')
+    if (t === 'Associate' || t === 'Professional' || t === 'Fellow') setTier(t)
+  }, [])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

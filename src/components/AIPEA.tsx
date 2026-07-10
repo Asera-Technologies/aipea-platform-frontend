@@ -851,11 +851,11 @@ function Membership() {
                         <span style={{ fontFamily: bod, fontSize: 13, color: t.featured ? 'rgba(255,255,255,0.85)' : C.muted }}>{p}</span>
                       </div>
                     ))}
-                    <a href="#contact" style={{ marginTop: 10, alignSelf: 'flex-start', fontFamily: dis, fontWeight: 700, fontSize: 12, padding: '10px 18px', borderRadius: 999, textDecoration: 'none', transition: 'transform 0.2s', background: t.featured ? C.white : C.orange, color: t.featured ? C.orange : C.white }}
+                    <Link href={`/sign-up?tier=${t.name}`} style={{ marginTop: 10, alignSelf: 'flex-start', fontFamily: dis, fontWeight: 700, fontSize: 12, padding: '10px 18px', borderRadius: 999, textDecoration: 'none', transition: 'transform 0.2s', background: t.featured ? C.white : C.orange, color: t.featured ? C.orange : C.white }}
                       onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-1px)')}
                       onMouseLeave={e => (e.currentTarget.style.transform = 'none')}>
                       Join {t.name} →
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </Reveal>
@@ -871,9 +871,9 @@ function Membership() {
 // ─── Pricing breakdown (detailed tier comparison) ─────────────────────────────
 
 const priceTiers: PriceTier[] = [
-  { name: 'Associate',    blurb: 'For emerging EAs',    price: '₵500',   cadence: '/yr', href: '/sign-up?tier=associate' },
-  { name: 'Professional', blurb: 'For established EAs',  price: '₵1,200', cadence: '/yr', href: '/sign-up?tier=professional', featured: true },
-  { name: 'Fellow',       blurb: 'For senior leaders',  price: '₵2,500', cadence: '/yr', href: '/sign-up?tier=fellow' },
+  { name: 'Associate',    blurb: 'For emerging EAs',    price: '₵500',   cadence: '/yr', href: '/sign-up?tier=Associate' },
+  { name: 'Professional', blurb: 'For established EAs',  price: '₵1,200', cadence: '/yr', href: '/sign-up?tier=Professional', featured: true },
+  { name: 'Fellow',       blurb: 'For senior leaders',  price: '₵2,500', cadence: '/yr', href: '/sign-up?tier=Fellow' },
 ]
 
 const priceRows: PriceRow[] = [

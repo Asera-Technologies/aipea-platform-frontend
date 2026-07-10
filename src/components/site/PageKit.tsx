@@ -248,7 +248,7 @@ export function PricingBreakdown({ tiers, rows, note }: { tiers: PriceTier[]; ro
   const cols = `minmax(200px, 1.4fr) ${tiers.map(() => 'minmax(140px, 1fr)').join(' ')}`
   return (
     <div style={{ overflowX: 'auto' }}>
-      <div style={{ minWidth: 720 }}>
+      <div style={{ minWidth: 720, paddingTop: 18 }}>
         {/* Header: tier + price + CTA */}
         <div style={{ display: 'grid', gridTemplateColumns: cols, alignItems: 'stretch', gap: 0 }}>
           <div />
@@ -287,6 +287,9 @@ export function PricingBreakdown({ tiers, rows, note }: { tiers: PriceTier[]; ro
                   background: tiers[vi]?.featured ? 'rgba(232,80,26,0.05)' : 'transparent',
                   borderLeft: tiers[vi]?.featured ? '1px solid rgba(232,80,26,0.28)' : '1px solid transparent',
                   borderRight: tiers[vi]?.featured ? '1px solid rgba(232,80,26,0.28)' : '1px solid transparent',
+                  borderBottom: tiers[vi]?.featured && ri === rows.length - 1 ? '1px solid rgba(232,80,26,0.28)' : '1px solid transparent',
+                  borderBottomLeftRadius: tiers[vi]?.featured && ri === rows.length - 1 ? 18 : 0,
+                  borderBottomRightRadius: tiers[vi]?.featured && ri === rows.length - 1 ? 18 : 0,
                 }}>
                   <Cell v={v} featured={tiers[vi]?.featured} />
                 </div>
