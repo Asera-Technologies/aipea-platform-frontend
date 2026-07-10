@@ -33,7 +33,7 @@ export default function ResourcesPage() {
         title="Tools for the role you"
         highlight="want."
         subtitle="Courses, templates, career guides and insights — a growing library built specifically for executive and personal assistants."
-        image="https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&h=1100&fit=crop"
+        image="https://images.unsplash.com/photo-1739298061707-cefee19941b7?w=900&h=1100&fit=crop"
         primary={{ label: 'Browse the library', href: '#courses' }}
         secondary={{ label: 'Read insights', href: '#insights' }}
       />

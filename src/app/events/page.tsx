@@ -46,7 +46,7 @@ export default function EventsPage() {
       <section id="conference" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
           <SplitFeature
-            image="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&h=760&fit=crop"
+            image="https://images.unsplash.com/photo-1739298061740-5ed03045b280?w=900&h=760&fit=crop"
             eyebrow="Flagship event"
             title="AIPEA Annual Conference 2026."
             body="Three days of keynotes, workshops and networking in Accra, Ghana. The largest gathering of executive assistants on the continent — and the best place to grow your standing and your network."

@@ -828,7 +828,7 @@ function Courses() {
             <div style={{ minHeight: 520, borderRadius: 24, padding: 38, background: `linear-gradient(145deg, ${C.navyDark} 0%, ${C.navy} 100%)`, color: C.white, position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
               <div style={{ position: 'absolute', inset: 0, opacity: 0.12 }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=520&fit=crop"
+                  src="https://images.unsplash.com/photo-1739298061707-cefee19941b7?w=600&h=520&fit=crop"
                   alt="Professional training environment"
                   fill
                   sizes="600px"

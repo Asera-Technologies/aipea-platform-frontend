@@ -44,7 +44,7 @@ const NAV: NavItem[] = [
       { label: 'CPD framework',        desc: 'Track and grow your practice hours.', href: '/certification#cpd',        icon: GraduationCap },
       { label: 'Verify a credential',  desc: 'Confirm any member’s standing.',      href: '/certification#verify',     icon: ClipboardCheck },
     ],
-    featured: { eyebrow: 'Get certified', title: 'Keep your career on standard', desc: 'Earn a credential employers and executives recognise.', href: '/certification', cta: 'Explore certification', image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=760&fit=crop' },
+    featured: { eyebrow: 'Get certified', title: 'Keep your career on standard', desc: 'Earn a credential employers and executives recognise.', href: '/certification', cta: 'Explore certification', image: 'https://images.unsplash.com/photo-1653566031535-bcf33e1c2893?w=600&h=760&fit=crop' },
   },
   {
     label: 'Events', href: '/events',
@@ -64,7 +64,7 @@ const NAV: NavItem[] = [
       { label: 'Career guides',    desc: 'Move from support to strategy.',   href: '/resources#guides',    icon: Lightbulb },
       { label: 'News & insights',  desc: 'Stories from the profession.',     href: '/resources#insights',  icon: Newspaper },
     ],
-    featured: { eyebrow: 'Members only', title: 'A library built for the role you want', desc: 'Courses, templates and CPD tracking in one place.', href: '/resources', cta: 'Browse resources', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=760&fit=crop' },
+    featured: { eyebrow: 'Members only', title: 'A library built for the role you want', desc: 'Courses, templates and CPD tracking in one place.', href: '/resources', cta: 'Browse resources', image: 'https://images.unsplash.com/photo-1573165706511-3ffde6ef1fe3?w=600&h=760&fit=crop' },
   },
   {
     label: 'About', href: '/about',
@@ -74,7 +74,7 @@ const NAV: NavItem[] = [
       { label: 'Governance',  desc: 'How AIPEA is run and held to account.', href: '/about#governance', icon: Scale },
       { label: 'Contact us',  desc: 'Talk to the AIPEA team.',          href: '/about#contact',    icon: Mail },
     ],
-    featured: { eyebrow: 'Our purpose', title: 'Championing Africa’s executive assistants', desc: 'A professional home for the people behind executive performance.', href: '/about', cta: 'About AIPEA', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=760&fit=crop' },
+    featured: { eyebrow: 'Our purpose', title: 'Championing Africa’s executive assistants', desc: 'A professional home for the people behind executive performance.', href: '/about', cta: 'About AIPEA', image: 'https://images.unsplash.com/photo-1573497701240-345a300b8d36?w=600&h=760&fit=crop' },
   },
 ]
 

@@ -21,7 +21,7 @@ export default function CertificationPage() {
         title="Keep your career on"
         highlight="standard."
         subtitle="The AIPEA credential is a recognised professional standard for executive and personal assistants — proof of competence that employers and executives understand."
-        image="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&h=1100&fit=crop"
+        image="https://images.unsplash.com/photo-1653566031587-74f7d86a2e71?w=900&h=1100&fit=crop"
         primary={{ label: 'Explore pathways', href: '#pathways' }}
         secondary={{ label: 'Verify a credential', href: '#verify' }}
       />
@@ -55,7 +55,7 @@ export default function CertificationPage() {
         <div style={INNER}>
           <SplitFeature
             reverse
-            image="https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&h=760&fit=crop"
+            image="https://images.unsplash.com/photo-1573164574511-73c773193279?w=900&h=760&fit=crop"
             eyebrow="CPD framework"
             title="Turn everyday practice into evidence."
             body="Continuing Professional Development keeps your credential current. Log hours, categorise your learning, and evidence your growth for renewals, reviews and promotions."

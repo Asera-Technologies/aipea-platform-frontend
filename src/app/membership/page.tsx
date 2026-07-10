@@ -71,7 +71,7 @@ export default function MembershipPage() {
       <section id="benefits" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
           <SplitFeature
-            image="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&h=760&fit=crop"
+            image="https://images.unsplash.com/photo-1573497701240-345a300b8d36?w=900&h=760&fit=crop"
             eyebrow="Member benefits"
             title="Everything you need, in one seat."
             body="Your membership is more than a certificate. It's a working toolkit for the role — and a professional standing you can point to."
