@@ -125,7 +125,9 @@ export default function SignUp() {
                           background: tier === t.id ? 'rgba(232,80,26,0.06)' : '#f7f8fc',
                         }}>
                         <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 13, color: tier === t.id ? ORANGE : 'rgba(17,28,66,0.55)' }}>{t.id}</p>
-                        <p style={{ fontFamily: bod, fontSize: 11, color: 'rgba(17,28,66,0.38)', marginTop: 3 }}>{formatCedis(TIER_PRICING[t.id])}/yr</p>
+                        <p style={{ fontFamily: bod, fontSize: 11, color: 'rgba(17,28,66,0.38)', marginTop: 3 }}>
+                          {formatCedis(TIER_PRICING[t.id])}{TIER_PRICING[t.id] === 0 ? '' : '/yr'}
+                        </p>
                         <p style={{ fontFamily: bod, fontSize: 10, color: 'rgba(17,28,66,0.28)', marginTop: 1 }}>{t.desc}</p>
                       </button>
                     ))}
@@ -156,11 +158,13 @@ export default function SignUp() {
                   style={{ width: '100%', background: ORANGE, color: '#fff', fontFamily: dis, fontWeight: 700, fontSize: 14, padding: '14px', borderRadius: 8, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'background 0.2s', marginTop: 4 }}
                   onMouseEnter={e => (e.currentTarget.style.background = ORANGE_DIM)}
                   onMouseLeave={e => (e.currentTarget.style.background = ORANGE)}>
-                  Continue to payment <ArrowRight size={15} />
+                  {TIER_PRICING[tier] === 0 ? 'Continue to activation' : 'Continue to payment'} <ArrowRight size={15} />
                 </button>
 
                 <p style={{ fontFamily: bod, fontSize: 11, color: 'rgba(17,28,66,0.25)', textAlign: 'center' }}>
-                  Secure payment via Paystack. Membership activates within 24 hours.
+                  {TIER_PRICING[tier] === 0
+                    ? 'Associate membership is free — no payment required.'
+                    : 'Secure payment via Paystack. Membership activates within 24 hours.'}
                 </p>
               </form>
 

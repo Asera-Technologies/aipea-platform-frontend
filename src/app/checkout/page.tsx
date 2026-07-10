@@ -148,12 +148,16 @@ export default function Checkout() {
   const perks  = TIER_PERKS[pending.tier]
   const isFree = amount === 0
 
+  const payDisabled = (!isFree && !scriptReady) || status === 'processing'
+
   return (
     <>
-      <Script
-        src="https://js.paystack.co/v1/inline.js"
-        onReady={() => setScriptReady(true)}
-      />
+      {!isFree && (
+        <Script
+          src="https://js.paystack.co/v1/inline.js"
+          onReady={() => setScriptReady(true)}
+        />
+      )}
 
       <div style={{ minHeight: '100vh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
         <motion.div
@@ -183,7 +187,7 @@ export default function Checkout() {
                   AIPEA {pending.tier}
                 </h2>
                 <p style={{ fontFamily: bod, fontSize: 13, color: MUTED, marginTop: 5 }}>
-                  Annual membership · billed yearly
+                  {isFree ? 'Free membership · no payment required' : 'Annual membership · billed yearly'}
                 </p>
 
                 <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -228,36 +232,44 @@ export default function Checkout() {
                     style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(232,80,26,0.09)', border: '1px solid rgba(232,80,26,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Check size={28} color={ORANGE} strokeWidth={2.5} />
                   </motion.div>
-                  <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 24, color: NAVY_DARK, letterSpacing: '-0.02em' }}>Payment confirmed</h2>
-                  <p style={{ fontFamily: bod, fontSize: 14, color: MUTED }}>Activating your membership…</p>
+                  <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 24, color: NAVY_DARK, letterSpacing: '-0.02em' }}>
+                    {isFree ? 'Membership activated' : 'Payment confirmed'}
+                  </h2>
+                  <p style={{ fontFamily: bod, fontSize: 14, color: MUTED }}>
+                    {isFree ? 'Redirecting to your dashboard…' : 'Activating your membership…'}
+                  </p>
                 </div>
               ) : (
                 <div style={{ flex: 1, padding: '40px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
                     <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, color: NAVY_DARK, letterSpacing: '-0.02em' }}>
-                      Complete your membership
+                      {isFree ? 'Activate your membership' : 'Complete your membership'}
                     </h2>
                     <p style={{ fontFamily: bod, fontSize: 13, color: MUTED, marginTop: 8, lineHeight: 1.65 }}>
-                      Click below to pay securely. Paystack&apos;s checkout handles your card details — we never see them.
+                      {isFree
+                        ? 'Your Associate membership is free. Click below to activate your account and access the member dashboard.'
+                        : 'Click below to pay securely. Paystack\'s checkout handles your card details — we never see them.'}
                     </p>
 
-                    {/* Paystack trust badge */}
-                    <div style={{ marginTop: 28, padding: '18px 20px', background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                      <ShieldCheck size={20} color={ORANGE} strokeWidth={1.8} style={{ flexShrink: 0, marginTop: 1 }} />
-                      <div>
-                        <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 13, color: NAVY_DARK }}>Secured by Paystack</p>
-                        <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, marginTop: 3, lineHeight: 1.55 }}>
-                          Your card details are entered directly in Paystack&apos;s encrypted iframe. PCI-DSS compliant.
-                        </p>
-                      </div>
-                    </div>
+                    {!isFree && (
+                      <>
+                        <div style={{ marginTop: 28, padding: '18px 20px', background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                          <ShieldCheck size={20} color={ORANGE} strokeWidth={1.8} style={{ flexShrink: 0, marginTop: 1 }} />
+                          <div>
+                            <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 13, color: NAVY_DARK }}>Secured by Paystack</p>
+                            <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, marginTop: 3, lineHeight: 1.55 }}>
+                              Your card details are entered directly in Paystack&apos;s encrypted iframe. PCI-DSS compliant.
+                            </p>
+                          </div>
+                        </div>
 
-                    {/* Test mode hint */}
-                    <div style={{ marginTop: 14, padding: '12px 16px', background: 'rgba(232,80,26,0.05)', border: '1px solid rgba(232,80,26,0.15)', borderRadius: 10 }}>
-                      <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, lineHeight: 1.55 }}>
-                        <strong style={{ color: ORANGE }}>Test mode.</strong> Use card <strong>4084 0840 8408 4081</strong>, CVV <strong>408</strong>, PIN <strong>0000</strong>, any future expiry.
-                      </p>
-                    </div>
+                        <div style={{ marginTop: 14, padding: '12px 16px', background: 'rgba(232,80,26,0.05)', border: '1px solid rgba(232,80,26,0.15)', borderRadius: 10 }}>
+                          <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, lineHeight: 1.55 }}>
+                            <strong style={{ color: ORANGE }}>Test mode.</strong> Use card <strong>4084 0840 8408 4081</strong>, CVV <strong>408</strong>, PIN <strong>0000</strong>, any future expiry.
+                          </p>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   <div style={{ marginTop: 36 }}>
@@ -270,20 +282,24 @@ export default function Checkout() {
 
                     <button
                       onClick={handlePay}
-                      disabled={!scriptReady || status === 'processing'}
+                      disabled={payDisabled}
                       style={{
-                        width: '100%', background: (!scriptReady || status === 'processing') ? ORANGE_DIM : ORANGE,
+                        width: '100%', background: payDisabled ? ORANGE_DIM : ORANGE,
                         color: '#fff', fontFamily: dis, fontWeight: 700, fontSize: 15, padding: '16px',
-                        borderRadius: 8, border: 'none', cursor: (!scriptReady || status === 'processing') ? 'default' : 'pointer',
+                        borderRadius: 8, border: 'none', cursor: payDisabled ? 'default' : 'pointer',
                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                         transition: 'background 0.2s',
                       }}
-                      onMouseEnter={e => { if (scriptReady && status === 'idle') e.currentTarget.style.background = ORANGE_DIM }}
-                      onMouseLeave={e => { if (scriptReady && status === 'idle') e.currentTarget.style.background = ORANGE }}>
+                      onMouseEnter={e => { if (!payDisabled) e.currentTarget.style.background = ORANGE_DIM }}
+                      onMouseLeave={e => { if (!payDisabled) e.currentTarget.style.background = ORANGE }}>
                       {status === 'processing'
-                        ? <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1, repeat: Infinity }}>Opening Paystack…</motion.span>
-                        : !scriptReady
+                        ? <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1, repeat: Infinity }}>
+                            {isFree ? 'Activating membership…' : 'Opening Paystack…'}
+                          </motion.span>
+                        : !isFree && !scriptReady
                         ? 'Loading…'
+                        : isFree
+                        ? <><Check size={14} /> Activate free membership</>
                         : <><Lock size={14} /> Pay {formatCedis(amount)} with Paystack</>
                       }
                     </button>
