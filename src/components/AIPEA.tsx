@@ -777,97 +777,6 @@ function CoreValues() {
   )
 }
 
-// ─── Membership ───────────────────────────────────────────────────────────────
-
-const tiers = [
-  { name: 'Associate',    type: 'For emerging EAs',     price: '₵500',   perks: ['Member directory', 'CPD tracker', 'Digital certificate'],                         featured: false },
-  { name: 'Professional', type: 'For established EAs',  price: '₵1,200', perks: ['All Associate benefits', 'Course access (coming soon)', 'Conference discount'],    featured: true  },
-  { name: 'Fellow',       type: 'For senior leaders',   price: '₵2,500', perks: ['All Professional benefits', 'Fellowship credential', 'Mentorship access'],         featured: false },
-]
-
-function Membership() {
-  return (
-    <section id="membership" style={{ ...SECTION, background: C.surface }}>
-      <div style={INNER}>
-        <SectionHeader number="003" statement="Choose the membership that fits your stage." aside="Every tier includes the essentials." />
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.15fr', gap: 22, alignItems: 'stretch' }} className="aipea-membership-showcase">
-          <Reveal from="left">
-            <div style={{ height: '100%', minHeight: 580, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 36, borderRadius: 24, background: C.bg, border: `1px solid ${C.border}`, position: 'relative', overflow: 'hidden' }}>
-              {/* Subtle credential background */}
-              <div style={{ position: 'absolute', inset: 0, opacity: 0.02, zIndex: 0 }}>
-                <Image
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=580&fit=crop"
-                  alt=""
-                  fill
-                  sizes="500px"
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-              <div style={{ position: 'absolute', top: 0, right: 0, width: 260, height: 260, background: 'radial-gradient(circle at 100% 0%, rgba(232,80,26,0.06), transparent 60%)', pointerEvents: 'none', zIndex: 0 }} />
-              <div style={{ position: 'relative', zIndex: 2 }}>
-                <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, color: C.orange, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 20 }}>Credential preview</p>
-                <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(30px,3.5vw,52px)', lineHeight: 0.96, letterSpacing: '-0.04em', color: C.text }}>
-                  Membership should feel earned, not purchased.
-                </h3>
-              </div>
-              <div style={{ position: 'relative', zIndex: 2, marginTop: 40 }}>
-                <CredentialCard title="Adwoa Mensah, AIPEA Professional" tier="Professional member" number="AIPEA-2025-04821" compact />
-              </div>
-            </div>
-          </Reveal>
-
-          <div style={{ display: 'grid', gap: 14 }}>
-            {tiers.map((t, i) => (
-              <Reveal key={t.name} from="right" delay={0.08 * i}>
-                <div style={{
-                  position: 'relative', display: 'grid', gridTemplateColumns: '1fr auto', gap: 24, alignItems: 'center',
-                  padding: '32px 34px', borderRadius: 22, cursor: 'default',
-                  border: `1px solid ${t.featured ? 'rgba(232,80,26,0.35)' : C.border}`,
-                  background: t.featured ? `linear-gradient(135deg, ${C.orange} 0%, #b83a12 100%)` : C.bg,
-                  boxShadow: t.featured ? '0 20px 60px rgba(232,80,26,0.18)' : 'none',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-                }} className="aipea-tier-row"
-                  onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.018)'; e.currentTarget.style.boxShadow = t.featured ? '0 28px 70px rgba(232,80,26,0.28)' : '0 16px 44px rgba(27,42,94,0.1)' }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = t.featured ? '0 20px 60px rgba(232,80,26,0.18)' : 'none' }}>
-                  {t.featured && (
-                    <span style={{ position: 'absolute', top: -11, right: 28, display: 'inline-flex', alignItems: 'center', gap: 7, background: C.navyDark, color: C.white, fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', padding: '6px 13px', borderRadius: 999 }}>
-                      <span className="aipea-pulse" style={{ width: 6, height: 6, borderRadius: '50%', background: C.orange, display: 'block' }} />Most popular
-                    </span>
-                  )}
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, flexWrap: 'wrap' }}>
-                      <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 24, color: t.featured ? C.white : C.text }}>{t.name}</span>
-                      <span style={{ fontFamily: bod, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: t.featured ? 'rgba(255,255,255,0.65)' : C.muted }}>{t.type}</span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginTop: 14 }}>
-                      <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 38, lineHeight: 1, color: t.featured ? C.white : C.orange }}>{t.price}</span>
-                      <span style={{ fontFamily: bod, fontSize: 13, color: t.featured ? 'rgba(255,255,255,0.65)' : C.muted }}>/year</span>
-                    </div>
-                  </div>
-                  <div className="aipea-tier-perks" style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 240 }}>
-                    {t.perks.map(p => (
-                      <div key={p} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <span style={{ width: 5, height: 5, borderRadius: '50%', background: t.featured ? C.white : C.orange, flexShrink: 0 }} />
-                        <span style={{ fontFamily: bod, fontSize: 13, color: t.featured ? 'rgba(255,255,255,0.85)' : C.muted }}>{p}</span>
-                      </div>
-                    ))}
-                    <Link href={`/sign-up?tier=${t.name}`} style={{ marginTop: 10, alignSelf: 'flex-start', fontFamily: dis, fontWeight: 700, fontSize: 12, padding: '10px 18px', borderRadius: 999, textDecoration: 'none', transition: 'transform 0.2s', background: t.featured ? C.white : C.orange, color: t.featured ? C.orange : C.white }}
-                      onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-1px)')}
-                      onMouseLeave={e => (e.currentTarget.style.transform = 'none')}>
-                      Join {t.name} →
-                    </Link>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-        <p style={{ fontFamily: bod, fontSize: 12, color: C.faint, textAlign: 'center', marginTop: 24 }}>All payments processed securely via Paystack. Annual renewal. Cancel any time.</p>
-      </div>
-    </section>
-  )
-}
-
 // ─── Pricing breakdown (detailed tier comparison) ─────────────────────────────
 
 const priceTiers: PriceTier[] = [
@@ -892,9 +801,9 @@ const priceRows: PriceRow[] = [
 
 function PricingSection() {
   return (
-    <section id="pricing" style={{ ...SECTION, background: C.bg }}>
+    <section id="membership" style={{ ...SECTION, background: C.surface }}>
       <div style={INNER}>
-        <SectionHeader number="Plans" align="center" statement="Compare every tier, line by line." aside="Exactly what's included at each level of membership — no surprises." />
+        <SectionHeader number="003" align="center" statement="Choose the membership that fits your stage." aside="Every tier includes the essentials — compared line by line." />
         <PricingBreakdown tiers={priceTiers} rows={priceRows} note="All payments processed securely via Paystack. Annual renewal. Cancel anytime." />
       </div>
     </section>
@@ -1493,7 +1402,6 @@ export function AIPEA() {
       <PillarStrip />
       <About />
       <CoreValues />
-      <Membership />
       <PricingSection />
       <EventHighlight />
       <Courses />
