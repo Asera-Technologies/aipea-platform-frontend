@@ -314,8 +314,8 @@ function Hero() {
         {/* Aspirational hero background image */}
         <div style={{ position: 'absolute', inset: 0, opacity: 0.06 }}>
           <Image
-            src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1400&h=800&fit=crop"
-            alt="Aspirational professional women"
+            src="https://images.unsplash.com/photo-1739298061740-5ed03045b280?w=1400&h=800&fit=crop"
+            alt="AIPEA members in a boardroom meeting"
             fill
             sizes="100vw"
             style={{ objectFit: 'cover' }}
@@ -438,7 +438,7 @@ function EditorialMoment() {
           style={{ position: 'relative', height: 480, borderRadius: 20, overflow: 'hidden', marginBottom: 48 }}
         >
           <Image
-            src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&h=480&fit=crop"
+            src="https://images.unsplash.com/photo-1653566031587-74f7d86a2e71?w=1200&h=480&fit=crop"
             alt="Professionals in a strategic boardroom meeting"
             fill
             sizes="(max-width: 768px) 100vw, 1200px"
@@ -506,10 +506,10 @@ function PillarStrip() {
           {pillars.map((p, i) => {
             const Icon = p.icon
             const pillarImages = [
-              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop',
-              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop',
-              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop',
-              'https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=200&fit=crop',
+              'https://images.unsplash.com/photo-1573164574511-73c773193279?w=300&h=200&fit=crop',
+              'https://images.unsplash.com/photo-1653566031535-bcf33e1c2893?w=300&h=200&fit=crop',
+              'https://images.unsplash.com/photo-1573165706511-3ffde6ef1fe3?w=300&h=200&fit=crop',
+              'https://images.unsplash.com/photo-1655720357872-ce227e4164ba?w=300&h=200&fit=crop',
             ]
             return (
               <ScrollReveal key={p.label} delay={0.06 * i}>
@@ -576,7 +576,7 @@ function EventHighlight() {
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 78% 30%, rgba(232,80,26,0.2), transparent 40%)' }} />
       <div style={{ position: 'absolute', inset: 0, opacity: 0.08 }}>
         <Image
-          src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1400&h=600&fit=crop"
+          src="https://images.unsplash.com/photo-1759310610480-48649b55fbdf?w=1400&h=600&fit=crop"
           alt="Professional conference background"
           fill
           sizes="100vw"
@@ -673,8 +673,8 @@ function About() {
               {/* Community photo element */}
               <div style={{ position: 'relative', height: 200, background: 'linear-gradient(135deg, #0d1831 0%, #1B2A5E 55%, #24396e 100%)', flexShrink: 0, overflow: 'hidden' }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=200&fit=crop"
-                  alt="Professional women in office setting"
+                  src="https://images.unsplash.com/photo-1573497701240-345a300b8d36?w=800&h=200&fit=crop"
+                  alt="AIPEA members in a boardroom meeting"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   style={{ objectFit: 'cover', opacity: 0.7 }}
@@ -892,10 +892,10 @@ function Courses() {
 
 const countryFeatures = [
   { country: 'Ghana',        members: '890',   image: 'https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=200&h=200&fit=crop&crop=faces&auto=format' },
-  { country: 'South Africa', members: '1,200', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=faces&auto=format' },
-  { country: 'Nigeria',      members: '950',   image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=faces&auto=format' },
-  { country: 'Kenya',        members: '670',   image: 'https://images.unsplash.com/photo-1614644147798-f8c0fc9da7f6?w=200&h=200&fit=crop&crop=faces&auto=format' },
-  { country: 'Uganda',       members: '420',   image: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=200&h=200&fit=crop&crop=faces&auto=format' },
+  { country: 'South Africa', members: '1,200', image: 'https://images.unsplash.com/photo-1588178454780-441fa5b99fa5?w=200&h=200&fit=crop&crop=faces&auto=format' },
+  { country: 'Nigeria',      members: '950',   image: 'https://images.unsplash.com/photo-1563132337-f159f484226c?w=200&h=200&fit=crop&crop=faces&auto=format' },
+  { country: 'Kenya',        members: '670',   image: 'https://images.unsplash.com/photo-1618085222100-93f0eecad0aa?w=200&h=200&fit=crop&crop=faces&auto=format' },
+  { country: 'Uganda',       members: '420',   image: 'https://images.unsplash.com/photo-1595211877493-41a4e5f236b3?w=200&h=200&fit=crop&crop=faces&auto=format' },
   { country: 'Egypt',        members: '780',   image: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=200&h=200&fit=crop&crop=faces&auto=format' },
 ]
 
@@ -961,7 +961,7 @@ function Process() {
               {/* Subtle background image */}
               <div style={{ position: 'absolute', inset: 0, opacity: 0.03, zIndex: 0 }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=580&fit=crop"
+                  src="https://images.unsplash.com/photo-1573165662973-4ab3cf3d3508?w=500&h=580&fit=crop"
                   alt=""
                   fill
                   sizes="500px"
@@ -1032,7 +1032,7 @@ const memberSpotlights = [
     name: 'Amara Diallo',
     title: 'Executive Assistant to the MD',
     company: 'Ecobank Ghana',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&crop=faces&auto=format',
+    image: 'https://images.unsplash.com/photo-1573496358961-3c82861ab8f4?w=300&h=300&fit=crop&crop=faces&auto=format',
     highlight: 'Promoted within 6 months',
     story: 'The AIPEA credential transformed how my organisation values the EA role.',
   },
@@ -1040,7 +1040,7 @@ const memberSpotlights = [
     name: 'Thandiwe Mokoena',
     title: 'PA to CEO',
     company: 'Standard Bank South Africa',
-    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=300&fit=crop&crop=faces&auto=format',
+    image: 'https://images.unsplash.com/photo-1618085219724-c59ba48e08cd?w=300&h=300&fit=crop&crop=faces&auto=format',
     highlight: 'Board-level visibility',
     story: 'AIPEA gave me the framework to step into strategic leadership.',
   },
@@ -1048,7 +1048,7 @@ const memberSpotlights = [
     name: 'Fatima Al-Hassan',
     title: 'Executive PA',
     company: 'Dangote Group, Lagos',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop&crop=faces&auto=format',
+    image: 'https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?w=300&h=300&fit=crop&crop=faces&auto=format',
     highlight: '35% salary increase',
     story: 'My AIPEA credentials became the evidence I needed for career advancement.',
   },
@@ -1103,7 +1103,7 @@ const testimonialData = [
     title: 'Executive Assistant to the MD',
     company: 'Ecobank Ghana',
     initials: 'AD',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces&auto=format',
+    image: 'https://images.unsplash.com/photo-1573496358961-3c82861ab8f4?w=400&h=400&fit=crop&crop=faces&auto=format',
     quote: '"Within six months of earning my AIPEA Professional credential, I was approached for a senior EA role I would never have been considered for before. The certificate changed how my entire organisation sees the EA function."',
   },
   {
@@ -1112,7 +1112,7 @@ const testimonialData = [
     title: 'Personal Assistant to the CEO',
     company: 'Standard Bank South Africa',
     initials: 'TM',
-    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop&crop=faces&auto=format',
+    image: 'https://images.unsplash.com/photo-1618085219724-c59ba48e08cd?w=400&h=400&fit=crop&crop=faces&auto=format',
     quote: '"I used to struggle to get a seat at the table. Now I co-present at board meetings. AIPEA gave me the language, the framework, and the professional standing I couldn\'t claim on my own."',
   },
   {
@@ -1121,7 +1121,7 @@ const testimonialData = [
     title: 'Executive PA',
     company: 'Dangote Group, Lagos',
     initials: 'FA',
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=faces&auto=format',
+    image: 'https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?w=400&h=400&fit=crop&crop=faces&auto=format',
     quote: '"The CPD framework restructured how I approach my role entirely. I\'ve logged 80 hours in eight months — and just negotiated a 35% salary increase using my AIPEA credentials as evidence."',
   },
 ]
@@ -1265,7 +1265,7 @@ function Contact() {
               {/* Subtle benefits background */}
               <div style={{ position: 'absolute', inset: 0, opacity: 0.02, zIndex: 0 }}>
                 <Image
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=600&fit=crop"
+                  src="https://images.unsplash.com/photo-1653565685060-e15e492a7fda?w=500&h=600&fit=crop"
                   alt=""
                   fill
                   sizes="500px"
@@ -1350,8 +1350,8 @@ function CTABanner() {
 // ─── Leadership Section ───────────────────────────────────────────────────────
 
 const leaders = [
-  { name: 'Ama Mensah', title: 'Founder & Executive Director', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=800&fit=crop&crop=faces&auto=format' },
-  { name: 'Samuel Boateng', title: 'Director, Professional Standards', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop&crop=faces&auto=format' },
+  { name: 'Ama Mensah', title: 'Founder & Executive Director', image: 'https://images.unsplash.com/photo-1618085222100-93f0eecad0aa?w=600&h=800&fit=crop&crop=faces&auto=format' },
+  { name: 'Samuel Boateng', title: 'Director, Professional Standards', image: 'https://images.unsplash.com/photo-1582015752624-e8b1c75e3711?w=600&h=800&fit=crop&crop=faces&auto=format' },
 ]
 
 function LeadershipSection() {
