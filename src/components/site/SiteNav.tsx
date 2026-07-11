@@ -116,7 +116,7 @@ function MegaPanel({ item, onNavigate }: { item: NavItem; onNavigate: () => void
           <Link href={item.featured.href} onClick={onNavigate}
             className="aipea-megapanel-feature"
             style={{ position: 'relative', minHeight: 260, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 26, color: C.white, overflow: 'hidden' }}>
-            <Image src={item.featured.image} alt="" fill sizes="420px" style={{ objectFit: 'cover' }} />
+            <Image src={item.featured.image} alt="" fill sizes="420px" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,14,38,0.9) 0%, rgba(8,14,38,0.35) 55%, rgba(8,14,38,0.25) 100%)' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 85% 12%, rgba(232,80,26,0.4), transparent 45%)' }} />
             <div style={{ position: 'relative', zIndex: 1 }}>

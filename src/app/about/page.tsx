@@ -63,7 +63,7 @@ export default function AboutPage() {
             {leaders.map((leader, i) => (
               <Reveal key={leader.name} delay={0.1 * i}>
                 <div style={{ position: 'relative', height: 420, borderRadius: 20, overflow: 'hidden' }}>
-                  <Image src={leader.image} alt={leader.name} fill sizes="(max-width: 768px) 100vw, 33vw" style={{ objectFit: 'cover', objectPosition: 'center 30%' }} />
+                  <Image src={leader.image} alt={leader.name} fill sizes="(max-width: 768px) 100vw, 33vw" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,14,38,0.86) 0%, rgba(8,14,38,0.2) 40%, transparent 64%)' }} />
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 26px 30px' }}>
                     <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 21, color: C.white, lineHeight: 1.15 }}>{leader.name}</h3>
@@ -108,7 +108,7 @@ export default function AboutPage() {
                 </div>
               </div>
               <div style={{ position: 'relative', minHeight: 300 }}>
-                <Image src="/images/conference/optimized/about-team.webp" alt="AIPEA team" fill sizes="(max-width: 1024px) 100vw, 46vw" style={{ objectFit: 'cover' }} />
+                <Image src="/images/conference/optimized/about-team.webp" alt="AIPEA team" fill sizes="(max-width: 1024px) 100vw, 46vw" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(120deg, rgba(17,28,66,0.28), transparent 60%)' }} />
               </div>
             </div>

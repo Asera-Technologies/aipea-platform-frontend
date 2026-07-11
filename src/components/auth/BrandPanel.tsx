@@ -12,23 +12,23 @@ const bod = 'var(--font-inter), sans-serif'
 
 const SLIDES = [
   {
-    src: '/auth-side.jpg',
-    alt: 'An AIPEA executive assistant in a modern office',
-    local: true,
-  },
-  {
     src: '/images/conference/optimized/auth-conference.webp',
-    alt: 'Professional executive assistant at work',
+    alt: 'AIPEA conference attendees in session',
     local: true,
   },
   {
     src: '/images/conference/optimized/auth-workshop.webp',
-    alt: 'Business professionals in a modern workspace',
+    alt: 'AIPEA members taking part in a workshop',
     local: true,
   },
   {
     src: '/images/conference/optimized/auth-stage.webp',
-    alt: 'EA networking across Africa',
+    alt: 'AIPEA members on stage at the conference',
+    local: true,
+  },
+  {
+    src: '/images/conference/optimized/events-speaker.webp',
+    alt: 'AIPEA speaker addressing conference delegates',
     local: true,
   },
 ]
@@ -100,7 +100,7 @@ export function BrandPanel({ headline, sub, flex = '0 0 46%' }: {
               fill
               priority={current === 0}
               sizes="50vw"
-              style={{ objectFit: 'cover', objectPosition: '60% center' }}
+              style={{ objectFit: 'cover', objectPosition: 'center top' }}
             />
           </motion.div>
         </motion.div>

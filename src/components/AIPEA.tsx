@@ -318,7 +318,7 @@ function Hero() {
             alt="AIPEA members in a boardroom meeting"
             fill
             sizes="100vw"
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover', objectPosition: 'center top' }}
           />
         </div>
 
@@ -442,7 +442,7 @@ function EditorialMoment() {
             alt="Professionals in a strategic boardroom meeting"
             fill
             sizes="(max-width: 768px) 100vw, 1200px"
-            style={{ objectFit: 'cover', objectPosition: 'center 35%' }}
+            style={{ objectFit: 'cover', objectPosition: 'center top' }}
           />
           {/* Base dim */}
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(8,14,38,0.52)' }} />
@@ -523,7 +523,7 @@ function PillarStrip() {
                       alt=""
                       fill
                       sizes="300px"
-                      style={{ objectFit: 'cover' }}
+                      style={{ objectFit: 'cover', objectPosition: 'center top' }}
                     />
                   </div>
                   <div style={{ position: 'relative', zIndex: 1, width: 44, height: 44, borderRadius: 12, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', marginBottom: 20 }}>
@@ -580,7 +580,7 @@ function EventHighlight() {
           alt="Professional conference background"
           fill
           sizes="100vw"
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'cover', objectPosition: 'center top' }}
         />
       </div>
       <div style={{ ...INNER, position: 'relative', zIndex: 1 }}>
@@ -677,7 +677,7 @@ function About() {
                   alt="AIPEA members in a boardroom meeting"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  style={{ objectFit: 'cover', opacity: 0.7 }}
+                  style={{ objectFit: 'cover', objectPosition: 'center top', opacity: 0.7 }}
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(27,42,94,0.45) 0%, rgba(27,42,94,0.35) 55%, rgba(36,57,110,0.4) 100%)' }} />
                 <div style={{ position: 'absolute', inset: 0, opacity: 0.12, backgroundImage: 'repeating-linear-gradient(-45deg, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.12) 1px, transparent 1px, transparent 12px)' }} />
@@ -832,7 +832,7 @@ function Courses() {
                   alt="Professional training environment"
                   fill
                   sizes="600px"
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
                 />
               </div>
               <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 76% 20%, rgba(232,80,26,0.28), transparent 34%)' }} />
@@ -965,7 +965,7 @@ function Process() {
                   alt=""
                   fill
                   sizes="500px"
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
                 />
               </div>
               <div style={{ position: 'relative', zIndex: 1 }}>
@@ -1072,7 +1072,7 @@ function MemberSpotlight() {
                     alt={member.name}
                     fill
                     sizes="400px"
-                    style={{ objectFit: 'cover', objectPosition: 'center center' }}
+                    style={{ objectFit: 'cover', objectPosition: 'center top' }}
                   />
                 </div>
                 {/* Member info */}
@@ -1153,7 +1153,7 @@ function Testimonials() {
                       alt={t.name}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      style={{ objectFit: 'cover', objectPosition: 'center 15%' }}
+                      style={{ objectFit: 'cover', objectPosition: 'center top' }}
                       priority
                     />
                   </motion.div>
@@ -1269,7 +1269,7 @@ function Contact() {
                   alt=""
                   fill
                   sizes="500px"
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
                 />
               </div>
               <div style={{ position: 'relative', zIndex: 1 }}>
@@ -1374,7 +1374,7 @@ function LeadershipSection() {
                   alt={leader.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  style={{ objectFit: 'cover', objectPosition: 'center 35%' }}
+                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
                 />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,14,38,0.86) 0%, rgba(8,14,38,0.2) 38%, transparent 62%)' }} />
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 28px 32px' }}>

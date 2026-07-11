@@ -74,7 +74,7 @@ export function PageHero({ eyebrow, title, highlight, subtitle, image, primary, 
           </div>
           <Reveal from="right" delay={0.16} className="aipea-hero-visual">
             <div style={{ position: 'relative', height: 440, borderRadius: 26, overflow: 'hidden', border: `1px solid ${C.border}`, boxShadow: '0 30px 80px rgba(27,42,94,0.18)' }}>
-              <Image src={image} alt="" fill sizes="(max-width: 900px) 100vw, 46vw" style={{ objectFit: 'cover' }} priority />
+              <Image src={image} alt="" fill sizes="(max-width: 900px) 100vw, 46vw" style={{ objectFit: 'cover', objectPosition: 'center top' }} priority />
               <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 85% 12%, rgba(232,80,26,0.16), transparent 45%)' }} />
             </div>
           </Reveal>
@@ -143,7 +143,7 @@ export function SplitFeature({ image, eyebrow, title, body, points, reverse = fa
     <div className="aipea-split-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
       <Reveal from={reverse ? 'right' : 'left'} style={{ order: reverse ? 2 : 1 }}>
         <div style={{ position: 'relative', height: 420, borderRadius: 24, overflow: 'hidden', border: `1px solid ${C.border}`, boxShadow: '0 24px 70px rgba(27,42,94,0.14)' }}>
-          <Image src={image} alt="" fill sizes="(max-width: 1024px) 100vw, 46vw" style={{ objectFit: 'cover' }} />
+          <Image src={image} alt="" fill sizes="(max-width: 1024px) 100vw, 46vw" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 82% 14%, rgba(232,80,26,0.14), transparent 46%)' }} />
         </div>
       </Reveal>
