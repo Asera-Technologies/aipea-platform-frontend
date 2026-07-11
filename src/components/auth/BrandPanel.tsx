@@ -17,19 +17,19 @@ const SLIDES = [
     local: true,
   },
   {
-    src: 'https://images.unsplash.com/photo-1618085222100-93f0eecad0aa?auto=format&fit=crop&w=1200&q=80',
+    src: '/images/conference/optimized/auth-conference.webp',
     alt: 'Professional executive assistant at work',
-    local: false,
+    local: true,
   },
   {
-    src: 'https://images.unsplash.com/photo-1573497701240-345a300b8d36?auto=format&fit=crop&w=1200&q=80',
+    src: '/images/conference/optimized/auth-workshop.webp',
     alt: 'Business professionals in a modern workspace',
-    local: false,
+    local: true,
   },
   {
-    src: 'https://images.unsplash.com/photo-1611432579402-7037e3e2c1e4?auto=format&fit=crop&w=1200&q=80',
+    src: '/images/conference/optimized/auth-stage.webp',
     alt: 'EA networking across Africa',
-    local: false,
+    local: true,
   },
 ]
 

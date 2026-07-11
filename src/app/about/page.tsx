@@ -9,9 +9,9 @@ import {
 import { Reveal } from '@/components/site/Reveal'
 
 const leaders = [
-  { name: 'Ama Mensah',      title: 'Founder & Executive Director',     image: 'https://images.unsplash.com/photo-1618085222100-93f0eecad0aa?w=600&h=800&fit=crop&crop=faces&auto=format' },
-  { name: 'Samuel Boateng',  title: 'Director, Professional Standards',  image: 'https://images.unsplash.com/photo-1582015752624-e8b1c75e3711?w=600&h=800&fit=crop&crop=faces&auto=format' },
-  { name: 'Nana Adjei',      title: 'Director, Partnerships & Events',    image: 'https://images.unsplash.com/photo-1573164713712-03790a178651?w=600&h=800&fit=crop&crop=faces&auto=format' },
+  { name: 'Ama Mensah',      title: 'Founder & Executive Director',     image: '/images/conference/optimized/leader-ama.webp' },
+  { name: 'Samuel Boateng',  title: 'Director, Professional Standards',  image: '/images/conference/optimized/leader-samuel.webp' },
+  { name: 'Nana Adjei',      title: 'Director, Partnerships & Events',    image: '/images/conference/optimized/leader-nana.webp' },
 ]
 
 const governance = [
@@ -28,7 +28,7 @@ export default function AboutPage() {
         title="Championing Africa's"
         highlight="executive assistants."
         subtitle="AIPEA is the professional home for the people behind executive performance — rooted in Ghana, serving the whole continent."
-        image="https://images.unsplash.com/photo-1573497019418-b400bb3ab074?w=900&h=1100&fit=crop"
+        image="/images/conference/optimized/about-hero.webp"
         primary={{ label: 'Join AIPEA', href: '/sign-up' }}
         secondary={{ label: 'Contact us', href: '#contact' }}
       />
@@ -36,7 +36,7 @@ export default function AboutPage() {
       <section id="story" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
           <SplitFeature
-            image="https://images.unsplash.com/photo-1573165662973-4ab3cf3d3508?w=900&h=760&fit=crop"
+            image="/images/conference/optimized/about-story.webp"
             eyebrow="Our story"
             title="Rooted in Ghana. Serving Africa."
             body="AIPEA was founded to give executive and personal assistants what the profession had long lacked: a standard, a credential, and a community. Since 2013 we've grown into a pan-African body 5,000 members strong."
@@ -108,7 +108,7 @@ export default function AboutPage() {
                 </div>
               </div>
               <div style={{ position: 'relative', minHeight: 300 }}>
-                <Image src="https://images.unsplash.com/photo-1653566031587-74f7d86a2e71?w=800&h=600&fit=crop" alt="AIPEA team" fill sizes="(max-width: 1024px) 100vw, 46vw" style={{ objectFit: 'cover' }} />
+                <Image src="/images/conference/optimized/about-team.webp" alt="AIPEA team" fill sizes="(max-width: 1024px) 100vw, 46vw" style={{ objectFit: 'cover' }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(120deg, rgba(17,28,66,0.28), transparent 60%)' }} />
               </div>
             </div>

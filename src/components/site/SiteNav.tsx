@@ -34,7 +34,7 @@ const NAV: NavItem[] = [
       { label: 'Member benefits',  desc: 'Everything included with your seat.',    href: '/membership#benefits',  icon: BadgeCheck },
       { label: 'Member directory', desc: '5,000+ professionals across Africa.',    href: '/membership#directory', icon: Users },
     ],
-    featured: { eyebrow: 'Join today', title: 'Take your place in the profession', desc: 'Apply in under five minutes and be verified within 24 hours.', href: '/membership', cta: 'Apply for membership', image: 'https://images.unsplash.com/photo-1573497019418-b400bb3ab074?w=600&h=760&fit=crop' },
+    featured: { eyebrow: 'Join today', title: 'Take your place in the profession', desc: 'Apply in under five minutes and be verified within 24 hours.', href: '/membership', cta: 'Apply for membership', image: '/images/conference/optimized/nav-membership.webp' },
   },
   {
     label: 'Certification', href: '/certification',
@@ -44,7 +44,7 @@ const NAV: NavItem[] = [
       { label: 'CPD framework',        desc: 'Track and grow your practice hours.', href: '/certification#cpd',        icon: GraduationCap },
       { label: 'Verify a credential',  desc: 'Confirm any member’s standing.',      href: '/certification#verify',     icon: ClipboardCheck },
     ],
-    featured: { eyebrow: 'Get certified', title: 'Keep your career on standard', desc: 'Earn a credential employers and executives recognise.', href: '/certification', cta: 'Explore certification', image: 'https://images.unsplash.com/photo-1653566031535-bcf33e1c2893?w=600&h=760&fit=crop' },
+    featured: { eyebrow: 'Get certified', title: 'Keep your career on standard', desc: 'Earn a credential employers and executives recognise.', href: '/certification', cta: 'Explore certification', image: '/images/conference/optimized/nav-certification.webp' },
   },
   {
     label: 'Events', href: '/events',
@@ -54,7 +54,7 @@ const NAV: NavItem[] = [
       { label: 'Webinars & masterclasses', desc: 'Learn live, from anywhere.',    href: '/events#webinars',   icon: Video },
       { label: 'Events calendar',     desc: 'Everything on one timeline.',        href: '/events#calendar',   icon: CalendarClock },
     ],
-    featured: { eyebrow: 'Flagship event', title: 'AIPEA Annual Conference 2026', desc: 'Three days of executive excellence in Accra, Ghana.', href: '/events', cta: 'Register interest', image: 'https://images.unsplash.com/photo-1573164574397-dd250bc8a598?w=600&h=760&fit=crop' },
+    featured: { eyebrow: 'Flagship event', title: 'AIPEA Annual Conference 2026', desc: 'Three days of executive excellence in Accra, Ghana.', href: '/events', cta: 'Register interest', image: '/images/conference/optimized/nav-events.webp' },
   },
   {
     label: 'Resources', href: '/resources',
@@ -64,7 +64,7 @@ const NAV: NavItem[] = [
       { label: 'Career guides',    desc: 'Move from support to strategy.',   href: '/resources#guides',    icon: Lightbulb },
       { label: 'News & insights',  desc: 'Stories from the profession.',     href: '/resources#insights',  icon: Newspaper },
     ],
-    featured: { eyebrow: 'Members only', title: 'A library built for the role you want', desc: 'Courses, templates and CPD tracking in one place.', href: '/resources', cta: 'Browse resources', image: 'https://images.unsplash.com/photo-1573165706511-3ffde6ef1fe3?w=600&h=760&fit=crop' },
+    featured: { eyebrow: 'Members only', title: 'A library built for the role you want', desc: 'Courses, templates and CPD tracking in one place.', href: '/resources', cta: 'Browse resources', image: '/images/conference/optimized/nav-resources.webp' },
   },
   {
     label: 'About', href: '/about',
@@ -74,7 +74,7 @@ const NAV: NavItem[] = [
       { label: 'Governance',  desc: 'How AIPEA is run and held to account.', href: '/about#governance', icon: Scale },
       { label: 'Contact us',  desc: 'Talk to the AIPEA team.',          href: '/about#contact',    icon: Mail },
     ],
-    featured: { eyebrow: 'Our purpose', title: 'Championing Africa’s executive assistants', desc: 'A professional home for the people behind executive performance.', href: '/about', cta: 'About AIPEA', image: 'https://images.unsplash.com/photo-1573497701240-345a300b8d36?w=600&h=760&fit=crop' },
+    featured: { eyebrow: 'Our purpose', title: 'Championing Africa’s executive assistants', desc: 'A professional home for the people behind executive performance.', href: '/about', cta: 'About AIPEA', image: '/images/conference/optimized/nav-about.webp' },
   },
 ]
 

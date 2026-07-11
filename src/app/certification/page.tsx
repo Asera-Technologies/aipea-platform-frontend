@@ -21,7 +21,7 @@ export default function CertificationPage() {
         title="Keep your career on"
         highlight="standard."
         subtitle="The AIPEA credential is a recognised professional standard for executive and personal assistants — proof of competence that employers and executives understand."
-        image="https://images.unsplash.com/photo-1653566031587-74f7d86a2e71?w=900&h=1100&fit=crop"
+        image="/images/conference/optimized/certification-hero.webp"
         primary={{ label: 'Explore pathways', href: '#pathways' }}
         secondary={{ label: 'Verify a credential', href: '#verify' }}
       />
@@ -29,7 +29,7 @@ export default function CertificationPage() {
       <section id="credential" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
           <SplitFeature
-            image="https://images.unsplash.com/photo-1573497019418-b400bb3ab074?w=900&h=760&fit=crop"
+            image="/images/conference/optimized/certification-credential.webp"
             eyebrow="The AIPEA credential"
             title="A standard the profession can point to."
             body="Titles rarely capture the value an assistant brings. The AIPEA credential does — a verifiable mark of competence, ethics and continuing development, assessed against a clear framework."
@@ -55,7 +55,7 @@ export default function CertificationPage() {
         <div style={INNER}>
           <SplitFeature
             reverse
-            image="https://images.unsplash.com/photo-1573164574511-73c773193279?w=900&h=760&fit=crop"
+            image="/images/conference/optimized/certification-cpd.webp"
             eyebrow="CPD framework"
             title="Turn everyday practice into evidence."
             body="Continuing Professional Development keeps your credential current. Log hours, categorise your learning, and evidence your growth for renewals, reviews and promotions."
@@ -78,7 +78,7 @@ export default function CertificationPage() {
       <section id="verify" style={{ ...SECTION, background: C.surface }}>
         <div style={INNER}>
           <SplitFeature
-            image="https://images.unsplash.com/photo-1573164574397-dd250bc8a598?w=900&h=760&fit=crop"
+            image="/images/conference/optimized/certification-verify.webp"
             eyebrow="Verify a credential"
             title="Confirm any member's standing in seconds."
             body="Hiring an AIPEA member? Every credential carries a unique member ID. Employers and executives can confirm a member's tier and good standing directly with the institute."

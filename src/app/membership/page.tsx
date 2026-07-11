@@ -42,7 +42,7 @@ export default function MembershipPage() {
         title="Take your place in the"
         highlight="profession."
         subtitle="Join Africa's professional membership body for executive and personal assistants. Apply in under five minutes and be verified within 24 hours."
-        image="https://images.unsplash.com/photo-1573497019418-b400bb3ab074?w=900&h=1100&fit=crop"
+        image="/images/conference/optimized/membership-hero.webp"
         primary={{ label: 'Apply for membership', href: '/sign-up' }}
         secondary={{ label: 'Compare tiers', href: '#tiers' }}
       />
@@ -71,7 +71,7 @@ export default function MembershipPage() {
       <section id="benefits" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
           <SplitFeature
-            image="https://images.unsplash.com/photo-1573497701240-345a300b8d36?w=900&h=760&fit=crop"
+            image="/images/conference/optimized/membership-community.webp"
             eyebrow="Member benefits"
             title="Everything you need, in one seat."
             body="Your membership is more than a certificate. It's a working toolkit for the role — and a professional standing you can point to."
@@ -91,7 +91,7 @@ export default function MembershipPage() {
         <div style={INNER}>
           <SplitFeature
             reverse
-            image="https://images.unsplash.com/photo-1573164574397-dd250bc8a598?w=900&h=760&fit=crop"
+            image="/images/conference/optimized/membership-benefits.webp"
             eyebrow="Member directory"
             title="A pan-African network, one search away."
             body="Every AIPEA member joins a verified directory spanning 33 countries — a place to find peers, mentors and opportunities, and to be found by the organisations looking for you."

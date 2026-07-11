@@ -33,7 +33,7 @@ export default function ResourcesPage() {
         title="Tools for the role you"
         highlight="want."
         subtitle="Courses, templates, career guides and insights — a growing library built specifically for executive and personal assistants."
-        image="https://images.unsplash.com/photo-1739298061707-cefee19941b7?w=900&h=1100&fit=crop"
+        image="/images/conference/optimized/resources-hero.webp"
         primary={{ label: 'Browse the library', href: '#courses' }}
         secondary={{ label: 'Read insights', href: '#insights' }}
       />
@@ -55,7 +55,7 @@ export default function ResourcesPage() {
       <section id="guides" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
           <SplitFeature
-            image="https://images.unsplash.com/photo-1573497019418-b400bb3ab074?w=900&h=760&fit=crop"
+            image="/images/conference/optimized/resources-workshop.webp"
             eyebrow="Career guides"
             title="Move from support to strategy."
             body="Our guides help you reframe the role, evidence your value, and make the case for the recognition and progression you've earned."
