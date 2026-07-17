@@ -97,7 +97,7 @@ body {
   .aipea-course-grid { grid-template-columns: 1fr !important; }
   .aipea-tier-row { grid-template-columns: 1fr !important; margin: 0 !important; padding: 28px 20px !important; }
   .aipea-tier-perks { min-width: 0 !important; }
-  .aipea-contact-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .aipea-contact-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
   .aipea-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
   .aipea-footer-wrap { padding: 48px 20px 28px !important; }
   .aipea-testi-grid { gap: 24px !important; }

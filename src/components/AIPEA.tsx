@@ -1082,26 +1082,18 @@ function Contact() {
       <div style={INNER}>
         <ScrollReveal>
           <div style={{ maxWidth: 640, marginBottom: S.headerGap }}>
-            <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(48px,7vw,92px)', color: C.orange, lineHeight: 0.9, letterSpacing: '-0.05em' }}>Get in touch.</div>
+            <p style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 14 }}>Contact</p>
+            <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(32px,4vw,52px)', color: C.text, lineHeight: 1.05, letterSpacing: '-0.03em' }}>Get in touch.</div>
             <p style={{ fontFamily: bod, fontSize: 16, lineHeight: 1.7, color: C.muted, marginTop: S.sm }}>Questions about membership, certification, or partnering with AIPEA? Send us a note and the team will get back to you.</p>
           </div>
         </ScrollReveal>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', gap: S.md }} className="aipea-contact-grid">
-          <ScrollReveal delay={0.08}>
-            <div style={{ borderRadius: 24, background: C.bg, border: `1px solid ${C.border}`, padding: 34, height: '100%', position: 'relative', overflow: 'hidden' }}>
-              {/* Subtle background */}
-              <div style={{ position: 'absolute', inset: 0, opacity: 0.02, zIndex: 0 }}>
-                <Image
-                  src="/images/conference/optimized/about-story.webp"
-                  alt=""
-                  fill
-                  sizes="500px"
-                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                />
-              </div>
+        <ScrollReveal delay={0.08}>
+          <div style={{ display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', borderRadius: 24, overflow: 'hidden', border: `1px solid ${C.border}`, boxShadow: '0 24px 64px rgba(27,42,94,0.14)' }} className="aipea-contact-grid">
+            <div style={{ background: `linear-gradient(160deg, ${C.navy} 0%, ${C.navyDark} 100%)`, padding: 40, position: 'relative', overflow: 'hidden', color: C.white, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 82% 10%, rgba(232,80,26,0.28), transparent 38%)', pointerEvents: 'none' }} />
               <div style={{ position: 'relative', zIndex: 1 }}>
-                <div style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 24 }}>Reach us directly</div>
+                <div style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orangeOnDark, marginBottom: 24 }}>Reach us directly</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                   {[
                     { icon: Mail,   label: 'Email',       value: 'hello@aipea.africa' },
@@ -1110,22 +1102,20 @@ function Contact() {
                     const Ico = c.icon
                     return (
                       <div key={c.label} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                        <span style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', flexShrink: 0 }}><Ico size={18} color={C.orange} /></span>
+                        <span style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(255,255,255,0.1)', display: 'grid', placeItems: 'center', flexShrink: 0 }}><Ico size={18} color={C.orangeOnDark} /></span>
                         <span>
-                          <span style={{ display: 'block', fontFamily: bod, fontSize: 11, color: C.faint, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{c.label}</span>
-                          <span style={{ display: 'block', fontFamily: dis, fontWeight: 700, fontSize: 15, color: C.text, marginTop: 2 }}>{c.value}</span>
+                          <span style={{ display: 'block', fontFamily: bod, fontSize: 11, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{c.label}</span>
+                          <span style={{ display: 'block', fontFamily: dis, fontWeight: 700, fontSize: 15, color: C.white, marginTop: 2 }}>{c.value}</span>
                         </span>
                       </div>
                     )
                   })}
                 </div>
-                <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, lineHeight: 1.7, marginTop: 28 }}>Prefer to join straight away? You can <Link href="/sign-up" style={{ color: C.orange, fontWeight: 600 }}>sign up here</Link> and get your credential on the spot.</p>
               </div>
+              <p style={{ position: 'relative', zIndex: 1, fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.62)', lineHeight: 1.7, marginTop: 28 }}>Prefer to join straight away? You can <Link href="/sign-up" style={{ color: C.orangeOnDark, fontWeight: 600 }}>sign up here</Link> and get your credential on the spot.</p>
             </div>
-          </ScrollReveal>
 
-          <ScrollReveal delay={0.16}>
-            <div style={{ background: C.bg, border: `1px solid ${C.borderHover}`, borderRadius: 24, padding: 42, boxShadow: '0 24px 64px rgba(27,42,94,0.12)' }}>
+            <div style={{ background: C.bg, padding: 42 }}>
               {submitted ? (
                 <div style={{ textAlign: 'center', padding: '40px 0' }}>
                   <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(232,80,26,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
@@ -1159,8 +1149,8 @@ function Contact() {
                 </div>
               )}
             </div>
-          </ScrollReveal>
-        </div>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   )
