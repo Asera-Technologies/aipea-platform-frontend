@@ -15,7 +15,7 @@ import {
   type Transition,
 } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Plus, Check, ChevronLeft, ChevronRight, Lock, Users, BookOpen, Calendar, GraduationCap } from 'lucide-react'
+import { ArrowRight, Plus, Check, ChevronLeft, ChevronRight, Lock, Users, BookOpen, Calendar, GraduationCap, Mail, MapPin } from 'lucide-react'
 import { SiteNav } from '@/components/site/SiteNav'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { PricingBreakdown, type PriceTier, type PriceRow } from '@/components/site/PageKit'
@@ -340,46 +340,76 @@ function Hero() {
               />
             </motion.div>
 
-            {/* Navy multiply grade pulls the photo into the site palette instead of
-                letting it read as a stock image dropped into the layout. */}
-            <div style={{ position: 'absolute', inset: 0, background: C.navy, mixBlendMode: 'multiply', opacity: 0.22 }} />
-            {/* Navy rising from the floor of the frame: this is what carries the text,
-                rather than a solid box behind it. */}
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(27,42,94,0.97) 0%, rgba(27,42,94,0.95) 28%, rgba(27,42,94,0.9) 42%, rgba(27,42,94,0.72) 52%, rgba(27,42,94,0.5) 62%, rgba(27,42,94,0.28) 74%, rgba(27,42,94,0.1) 87%, rgba(27,42,94,0) 100%)' }} />
+            {/* A light editorial grade keeps the conference photo visible while giving
+                the hero copy enough contrast. */}
+            <div style={{ position: 'absolute', inset: 0, background: C.navy, mixBlendMode: 'multiply', opacity: 0.12 }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, rgba(12,20,50,0.72) 0%, rgba(18,28,64,0.58) 34%, rgba(18,28,64,0.22) 64%, rgba(18,28,64,0.08) 100%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,16,40,0.42) 0%, rgba(10,16,40,0.16) 34%, transparent 68%)' }} />
             {/* Top scrim: the nav is transparent over this image for the first 12px of
                 scroll, and its light chrome needs something to sit against. */}
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(11,19,48,0.52) 0%, rgba(11,19,48,0.12) 12%, transparent 22%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(11,19,48,0.36) 0%, rgba(11,19,48,0.08) 14%, transparent 24%)' }} />
           </div>
 
-          {/* Content: bottom-left, inside the same 40px gutter as every other section. */}
-          <div className="aipea-hero-content" style={{ position: 'absolute', inset: 0, zIndex: 10, display: 'flex', alignItems: 'flex-end', padding: '0 40px 76px' }}>
+          {/* Content: center-left, balanced by a compact conference card on the right. */}
+          <div className="aipea-hero-content" style={{ position: 'absolute', inset: 0, zIndex: 10, display: 'flex', alignItems: 'center', padding: '96px 40px 112px' }}>
             <div style={{ ...INNER, width: '100%' }}>
-              <motion.p {...fade(0.1)} style={{ fontFamily: dis, fontSize: 12, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orangeOnDark, marginBottom: S.sm }}>
-                Founding membership now open
-              </motion.p>
+              <div className="aipea-hero-layout" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 0.95fr) minmax(260px, 0.45fr)', gap: 48, alignItems: 'center' }}>
+                <div>
+                  <motion.p {...fade(0.1)} style={{ fontFamily: dis, fontSize: 12, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orangeOnDark, marginBottom: S.sm }}>
+                    Founding membership now open
+                  </motion.p>
 
-              {/* The rotating word owns line 1, so its varying width only affects the
-                  natural ragged line end. "the" is pinned at the start of line 2 and
-                  can never move. Sized so "the executive assistant" fits on one line. */}
-              <motion.h1 {...fade(0.18)} className="aipea-hero-h1" style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(31px,4vw,60px)', lineHeight: 1.04, letterSpacing: '-0.025em', color: C.white, maxWidth: 900 }}>
-                <RotatingWord words={['Certifying', 'Elevating', 'Connecting', 'Championing']} style={{ color: C.orange }} /><br />the <span style={{ color: C.orange }}>executive assistant</span><br />profession.
-              </motion.h1>
+                  <motion.h1 {...fade(0.18)} className="aipea-hero-h1" style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(38px,5vw,76px)', lineHeight: 0.98, letterSpacing: '-0.04em', color: C.white, maxWidth: 860 }}>
+                    Africa&apos;s professional home for <span style={{ color: C.orangeOnDark }}>Personal &amp; Executive Assistants.</span>
+                  </motion.h1>
 
-              <motion.p {...fade(0.26)} className="aipea-hero-sub" style={{ fontFamily: bod, fontSize: 'clamp(15px,1.6vw,17px)', lineHeight: 1.65, color: 'rgba(255,255,255,0.74)', maxWidth: 460, marginTop: S.sm }}>
-                Take your place. Claim your credential. Own your path.
-              </motion.p>
+                  <motion.p {...fade(0.26)} className="aipea-hero-sub" style={{ fontFamily: bod, fontSize: 'clamp(15px,1.6vw,18px)', lineHeight: 1.65, color: 'rgba(255,255,255,0.78)', maxWidth: 560, marginTop: S.sm }}>
+                    A member-based institute for learning, certification, networking, and professional growth across Africa.
+                  </motion.p>
 
-              <motion.div {...fade(0.34)} style={{ marginTop: S.md }}>
-                <Link href="/sign-up"
-                  style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.white, background: C.orange, padding: '13px 28px', borderRadius: 100, display: 'inline-flex', alignItems: 'center', gap: 8, transition: 'background 0.2s' }}
-                  onMouseEnter={e => (e.currentTarget.style.background = C.orangeDim)}
-                  onMouseLeave={e => (e.currentTarget.style.background = C.orange)}>
-                  Join AIPEA <ArrowRight size={15} />
-                </Link>
-              </motion.div>
+                  <motion.div {...fade(0.34)} style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginTop: S.md }}>
+                    <Link href="/sign-up"
+                      style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.white, background: C.orange, padding: '13px 28px', borderRadius: 100, display: 'inline-flex', alignItems: 'center', gap: 8, transition: 'background 0.2s' }}
+                      onMouseEnter={e => (e.currentTarget.style.background = C.orangeDim)}
+                      onMouseLeave={e => (e.currentTarget.style.background = C.orange)}>
+                      Join AIPEA <ArrowRight size={15} />
+                    </Link>
+                    <Link href="#membership" style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.white, border: '1px solid rgba(255,255,255,0.34)', padding: '12px 24px', borderRadius: 100, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(10px)' }}>
+                      Explore membership
+                    </Link>
+                  </motion.div>
+                </div>
 
+                <motion.aside {...fade(0.42)} className="aipea-hero-card" style={{ justifySelf: 'end', width: 'min(100%, 340px)', borderRadius: 22, border: '1px solid rgba(255,255,255,0.22)', background: 'rgba(10,16,40,0.46)', backdropFilter: 'blur(16px)', padding: 24, color: C.white }}>
+                  <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orangeOnDark, marginBottom: 16 }}>
+                    Confirmed event
+                  </p>
+                  <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 26, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 10 }}>
+                    PA Conference 2026
+                  </h2>
+                  <p style={{ fontFamily: bod, fontSize: 14, color: 'rgba(255,255,255,0.72)', lineHeight: 1.6 }}>
+                    Accra, Ghana · July 2026
+                  </p>
+                  <div style={{ height: 1, background: 'rgba(255,255,255,0.16)', margin: '20px 0' }} />
+                  <p style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.62)', lineHeight: 1.6 }}>
+                    Professional growth · Community · Impact
+                  </p>
+                </motion.aside>
+              </div>
             </div>
           </div>
+
+          <motion.div {...fade(0.5)} className="aipea-hero-values" style={{ position: 'absolute', left: 40, right: 40, bottom: 28, zIndex: 11 }}>
+            <div style={{ ...INNER }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 18, border: '1px solid rgba(255,255,255,0.18)', background: 'rgba(10,16,40,0.26)', backdropFilter: 'blur(12px)', borderRadius: 999, padding: '10px 18px', fontFamily: dis, fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.76)' }}>
+                <span>Growth</span>
+                <span style={{ width: 4, height: 4, borderRadius: '50%', background: C.orangeOnDark }} />
+                <span>Value</span>
+                <span style={{ width: 4, height: 4, borderRadius: '50%', background: C.orangeOnDark }} />
+                <span>Impact</span>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Phase 2: scroll statement */}
@@ -1029,45 +1059,38 @@ function Process() {
 
 // --- Contact ------------------------------------------------------------------
 
-const benefits = [
-  'Official AIPEA membership certificate',
-  'Digital member directory listing',
-  'CPD hours tracker',
-  'Access to member events and conference',
-  'Course library, first access (Professional tier)',
-]
-
 function Contact() {
   const [submitted, setSubmitted] = useState(false)
   const inputStyle: React.CSSProperties = { width: '100%', background: C.surface, border: `1.5px solid ${C.border}`, borderRadius: 10, padding: '13px 16px', fontSize: 14, color: C.text, outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s', fontFamily: bod }
   const labelStyle: React.CSSProperties = { display: 'block', fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.faint, marginBottom: 7 }
-  const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+  type Field = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+  const onFocus = (e: React.FocusEvent<Field>) => {
     e.target.style.borderColor = C.orange
     e.target.style.boxShadow = '0 0 0 4px rgba(232,80,26,0.12)'
     e.target.style.background = C.bg
   }
-  const onBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const onBlur = (e: React.FocusEvent<Field>) => {
     e.target.style.borderColor = C.border
     e.target.style.boxShadow = 'none'
     e.target.style.background = C.surface
   }
-  const onHoverIn = (e: React.MouseEvent<HTMLInputElement | HTMLSelectElement>) => { if (document.activeElement !== e.currentTarget) e.currentTarget.style.borderColor = C.borderHover }
-  const onHoverOut = (e: React.MouseEvent<HTMLInputElement | HTMLSelectElement>) => { if (document.activeElement !== e.currentTarget) e.currentTarget.style.borderColor = C.border }
+  const onHoverIn = (e: React.MouseEvent<Field>) => { if (document.activeElement !== e.currentTarget) e.currentTarget.style.borderColor = C.borderHover }
+  const onHoverOut = (e: React.MouseEvent<Field>) => { if (document.activeElement !== e.currentTarget) e.currentTarget.style.borderColor = C.border }
 
   return (
     <section id="contact" style={{ ...SECTION, background: C.surface }}>
       <div style={INNER}>
         <ScrollReveal>
           <div style={{ maxWidth: 640, marginBottom: S.headerGap }}>
-            <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(48px,7vw,92px)', color: C.orange, lineHeight: 0.9, letterSpacing: '-0.05em' }}>Join AIPEA.</div>
-            <p style={{ fontFamily: bod, fontSize: 16, lineHeight: 1.7, color: C.muted, marginTop: S.sm }}>Pick your tier, pay securely, and your credential is issued on the spot.</p>
+            <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(48px,7vw,92px)', color: C.orange, lineHeight: 0.9, letterSpacing: '-0.05em' }}>Get in touch.</div>
+            <p style={{ fontFamily: bod, fontSize: 16, lineHeight: 1.7, color: C.muted, marginTop: S.sm }}>Questions about membership, certification, or partnering with AIPEA? Send us a note and the team will get back to you.</p>
           </div>
         </ScrollReveal>
 
         <div style={{ display: 'grid', gridTemplateColumns: '0.8fr 1.2fr', gap: S.md }} className="aipea-contact-grid">
           <ScrollReveal delay={0.08}>
             <div style={{ borderRadius: 24, background: C.bg, border: `1px solid ${C.border}`, padding: 34, height: '100%', position: 'relative', overflow: 'hidden' }}>
-              {/* Subtle benefits background */}
+              {/* Subtle background */}
               <div style={{ position: 'absolute', inset: 0, opacity: 0.02, zIndex: 0 }}>
                 <Image
                   src="/images/conference/optimized/about-story.webp"
@@ -1078,14 +1101,25 @@ function Contact() {
                 />
               </div>
               <div style={{ position: 'relative', zIndex: 1 }}>
-                <div style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 20 }}>What you get</div>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  {benefits.map(b => (
-                    <li key={b} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontFamily: bod, fontSize: 14, color: C.muted, lineHeight: 1.6 }}>
-                      <Check size={15} color={C.orange} style={{ flexShrink: 0, marginTop: 3 }} />{b}
-                    </li>
-                  ))}
-                </ul>
+                <div style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 24 }}>Reach us directly</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                  {[
+                    { icon: Mail,   label: 'Email',       value: 'hello@aipea.africa' },
+                    { icon: MapPin, label: 'Head office', value: 'Accra, Ghana' },
+                  ].map(c => {
+                    const Ico = c.icon
+                    return (
+                      <div key={c.label} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                        <span style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', flexShrink: 0 }}><Ico size={18} color={C.orange} /></span>
+                        <span>
+                          <span style={{ display: 'block', fontFamily: bod, fontSize: 11, color: C.faint, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{c.label}</span>
+                          <span style={{ display: 'block', fontFamily: dis, fontWeight: 700, fontSize: 15, color: C.text, marginTop: 2 }}>{c.value}</span>
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+                <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, lineHeight: 1.7, marginTop: 28 }}>Prefer to join straight away? You can <Link href="/sign-up" style={{ color: C.orange, fontWeight: 600 }}>sign up here</Link> and get your credential on the spot.</p>
               </div>
             </div>
           </ScrollReveal>
@@ -1097,33 +1131,31 @@ function Contact() {
                   <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(232,80,26,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
                     <Check size={26} color={C.orange} />
                   </div>
-                  <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 20, color: C.text }}>Details received</div>
-                  <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginTop: 10 }}>Complete payment and your membership activates immediately.</p>
+                  <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 20, color: C.text }}>Message sent</div>
+                  <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginTop: 10 }}>Thanks for reaching out. The AIPEA team will get back to you as soon as we can.</p>
                 </div>
               ) : (
                 <div>
-                  <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: '-0.01em' }}>Tell us about yourself</div>
-                  <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginBottom: 28, marginTop: 6 }}>Takes about two minutes.</p>
+                  <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: '-0.01em' }}>Send us a message</div>
+                  <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginBottom: 28, marginTop: 6 }}>We&apos;d love to hear from you.</p>
                   <div className="aipea-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                     <div><label style={labelStyle}>Full name</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="Adwoa Mensah" /></div>
                     <div><label style={labelStyle}>Email address</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="you@email.com" /></div>
                   </div>
-                  <div style={{ marginBottom: 16 }}><label style={labelStyle}>Country</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="Ghana" /></div>
-                  <div style={{ marginBottom: 16 }}><label style={labelStyle}>Membership tier</label>
-                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}><option>Associate</option><option>Professional</option><option>Fellow</option></select>
+                  <div style={{ marginBottom: 16 }}><label style={labelStyle}>Subject</label>
+                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}><option>General enquiry</option><option>Membership</option><option>Certification</option><option>Events</option><option>Partnership</option><option>Press or media</option><option>Other</option></select>
                   </div>
-                  <div style={{ marginBottom: 24 }}><label style={labelStyle}>How did you hear about AIPEA?</label>
-                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}><option>Social media</option><option>Colleague referral</option><option>Search engine</option><option>Event or conference</option><option>Other</option></select>
+                  <div style={{ marginBottom: 24 }}><label style={labelStyle}>Message</label>
+                    <textarea rows={5} style={{ ...inputStyle, resize: 'vertical', minHeight: 120, lineHeight: 1.6 }} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="How can we help?" />
                   </div>
                   <Magnetic strength={0.25} style={{ width: '100%' }}>
                     <button onClick={() => setSubmitted(true)}
                       style={{ width: '100%', background: C.orange, color: C.white, fontFamily: dis, fontWeight: 700, fontSize: 14, padding: 14, borderRadius: 8, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'background 0.2s' }}
                       onMouseEnter={e => (e.currentTarget.style.background = C.orangeDim)}
                       onMouseLeave={e => (e.currentTarget.style.background = C.orange)}>
-                      Apply for membership <ArrowRight size={15} />
+                      Send message <ArrowRight size={15} />
                     </button>
                   </Magnetic>
-                  <p style={{ fontFamily: bod, fontSize: 11, color: C.faint, textAlign: 'center', marginTop: 16 }}>Secure payment via Paystack. Membership activates immediately.</p>
                 </div>
               )}
             </div>

@@ -102,7 +102,10 @@ body {
   .aipea-footer-wrap { padding: 48px 20px 28px !important; }
   .aipea-testi-grid { gap: 24px !important; }
   .aipea-pillars-grid { grid-template-columns: 1fr !important; }
-  .aipea-hero-content { padding: 0 20px 40px !important; }
+  .aipea-hero-content { padding: 92px 20px 92px !important; align-items: center !important; }
+  .aipea-hero-layout { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .aipea-hero-card { justify-self: start !important; width: min(100%, 320px) !important; padding: 18px !important; }
+  .aipea-hero-values { left: 20px !important; right: 20px !important; bottom: 18px !important; }
   .aipea-hero-inner   { padding: 0 20px !important; }
   .aipea-hero-sub     { max-width: 90% !important; }
   /* Three labelled stats plus their descriptions overflow 100svh on a phone.
