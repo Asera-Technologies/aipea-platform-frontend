@@ -25,7 +25,7 @@ const labelBase: React.CSSProperties = {
   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(17,28,66,0.38)', marginBottom: 7,
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default function SignIn() {
   const router  = useRouter()

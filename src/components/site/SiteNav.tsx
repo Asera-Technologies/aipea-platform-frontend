@@ -32,9 +32,9 @@ const NAV: NavItem[] = [
       { label: 'Why join AIPEA',   desc: 'The case for professional membership.', href: '/membership#why',       icon: TrendingUp },
       { label: 'Membership tiers', desc: 'Associate, Professional & Fellow.',      href: '/membership#tiers',     icon: LayoutGrid },
       { label: 'Member benefits',  desc: 'Everything included with your seat.',    href: '/membership#benefits',  icon: BadgeCheck },
-      { label: 'Member directory', desc: '5,000+ professionals across Africa.',    href: '/membership#directory', icon: Users },
+      { label: 'Member directory', desc: 'Verified professionals across Africa.',    href: '/membership#directory', icon: Users },
     ],
-    featured: { eyebrow: 'Join today', title: 'Take your place in the profession', desc: 'Apply in under five minutes and be verified within 24 hours.', href: '/membership', cta: 'Apply for membership', image: '/images/conference/optimized/nav-membership.webp' },
+    featured: { eyebrow: 'Join today', title: 'Take your place in the profession', desc: 'Sign up in under five minutes and get your credential straight away.', href: '/membership', cta: 'Apply for membership', image: '/images/conference/optimized/nav-membership.webp' },
   },
   {
     label: 'Certification', href: '/certification',
@@ -78,7 +78,7 @@ const NAV: NavItem[] = [
   },
 ]
 
-// ─── Mega panel ────────────────────────────────────────────────────────────────
+// --- Mega panel ----------------------------------------------------------------
 
 function MegaPanel({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
   return (
@@ -86,7 +86,7 @@ function MegaPanel({ item, onNavigate }: { item: NavItem; onNavigate: () => void
       initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
       style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 60 }}>
-      <div style={{ ...INNER, padding: '0 40px' }}>
+      <div style={{ padding: '0 40px' }}><div style={{ ...INNER }}>
         <div className="aipea-megapanel" style={{
           marginTop: 8, background: C.white, border: `1px solid ${C.border}`, borderRadius: 20,
           boxShadow: '0 30px 80px rgba(17,28,66,0.16)', overflow: 'hidden',
@@ -129,12 +129,12 @@ function MegaPanel({ item, onNavigate }: { item: NavItem; onNavigate: () => void
             </div>
           </Link>
         </div>
-      </div>
+      </div></div>
     </motion.div>
   )
 }
 
-// ─── Mobile drawer ──────────────────────────────────────────────────────────────
+// --- Mobile drawer --------------------------------------------------------------
 
 function MobileDrawer({ onClose }: { onClose: () => void }) {
   const [openIdx, setOpenIdx] = useState<number | null>(0)
@@ -178,9 +178,13 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
   )
 }
 
-// ─── Nav ────────────────────────────────────────────────────────────────────────
+// --- Nav ------------------------------------------------------------------------
 
-export function SiteNav() {
+// `overDark`: the page opens with a dark full-bleed image behind the bar, so the
+// default navy-on-transparent chrome would be invisible against it. Only applies
+// while the bar itself is still transparent; once it goes solid white the normal
+// navy treatment takes over, which happens at 12px of scroll.
+export function SiteNav({ overDark = false }: { overDark?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState<number | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -200,6 +204,11 @@ export function SiteNav() {
   }, [mobileOpen])
 
   const solid = scrolled || open !== null
+  // Light chrome only while sitting on the image, never once the bar is solid.
+  const onDark = overDark && !solid
+  const inkStrong = onDark ? C.white : C.text
+  const inkSoft = onDark ? 'rgba(255,255,255,0.72)' : C.muted
+  const rule = onDark ? 'rgba(255,255,255,0.28)' : C.border
   function scheduleClose() {
     if (closeTimer.current) clearTimeout(closeTimer.current)
     closeTimer.current = setTimeout(() => setOpen(null), 90)
@@ -211,16 +220,19 @@ export function SiteNav() {
   return (
     <div onMouseLeave={scheduleClose} onMouseEnter={cancelClose} style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
       <nav className="aipea-nav" style={{
-        height: 60, padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        height: 60, padding: '0 40px',
         background: solid ? 'rgba(255,255,255,0.94)' : 'transparent',
         backdropFilter: solid ? 'blur(20px)' : 'none',
         borderBottom: `1px solid ${solid ? C.border : 'transparent'}`,
         transition: 'background 0.35s, border-color 0.35s',
       }}>
+      {/* INNER wrapper so the brand lands on the same gutter as page content. The
+          bar's background still spans the full viewport; only its contents are capped. */}
+      <div style={{ ...INNER, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Brand */}
         <Link href="/" onClick={() => setOpen(null)} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 16, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange }}>AIPEA</span>
-          <span className="aipea-nav-tag" style={{ fontFamily: bod, fontSize: 11, color: C.muted, lineHeight: 1.15, borderLeft: `1px solid ${C.border}`, paddingLeft: 12, maxWidth: 150 }}>
+          <span className="aipea-nav-tag" style={{ fontFamily: bod, fontSize: 11, color: inkSoft, lineHeight: 1.15, borderLeft: `1px solid ${rule}`, paddingLeft: 12, maxWidth: 150, transition: 'color 0.35s, border-color 0.35s' }}>
             Africa Institute of Executive Assistants
           </span>
         </Link>
@@ -230,7 +242,7 @@ export function SiteNav() {
           {NAV.map((item, i) => (
             <div key={item.label} onMouseEnter={() => { cancelClose(); setOpen(i) }}>
               <Link href={item.href} onClick={() => setOpen(null)}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '9px 14px', borderRadius: 999, fontFamily: dis, fontWeight: 700, fontSize: 13.5, color: open === i ? C.orange : C.text, transition: 'color 0.18s' }}>
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '9px 14px', borderRadius: 999, fontFamily: dis, fontWeight: 700, fontSize: 13.5, color: open === i ? C.orange : inkStrong, transition: 'color 0.35s' }}>
                 {item.label}
                 <ChevronDown size={13} style={{ transform: open === i ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s', opacity: 0.6 }} />
               </Link>
@@ -240,7 +252,7 @@ export function SiteNav() {
 
         {/* Desktop actions */}
         <div className="aipea-nav-actions" style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-          <Link href="/sign-in" style={{ fontFamily: bod, fontSize: 13, color: C.text, opacity: 0.72 }}>Sign in</Link>
+          <Link href="/sign-in" style={{ fontFamily: bod, fontSize: 13, color: inkStrong, opacity: onDark ? 0.9 : 0.72, transition: 'color 0.35s' }}>Sign in</Link>
           <Link href="/sign-up"
             style={{ fontFamily: dis, fontWeight: 700, fontSize: 13, color: C.white, background: C.orange, padding: '9px 20px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'background 0.2s' }}
             onMouseEnter={e => (e.currentTarget.style.background = C.orangeDim)}
@@ -251,9 +263,10 @@ export function SiteNav() {
 
         {/* Mobile burger */}
         <button className="aipea-nav-burger" aria-label="Menu" onClick={() => setMobileOpen(v => !v)}
-          style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', color: C.text, padding: 6 }}>
+          style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', color: inkStrong, padding: 6, transition: 'color 0.35s' }}>
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
+        </div>
       </nav>
 
       {/* Desktop mega panel */}

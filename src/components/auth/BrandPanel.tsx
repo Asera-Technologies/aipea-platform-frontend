@@ -78,7 +78,7 @@ export function BrandPanel({ headline, sub, flex = '0 0 46%' }: {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* ── Slideshow images ── */}
+      {/* -- Slideshow images -- */}
       <AnimatePresence initial={false}>
         <motion.div
           key={current}
@@ -106,11 +106,11 @@ export function BrandPanel({ headline, sub, flex = '0 0 46%' }: {
         </motion.div>
       </AnimatePresence>
 
-      {/* ── Overlays ── */}
+      {/* -- Overlays -- */}
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(17,28,66,0.62) 0%, rgba(17,28,66,0.12) 26%, rgba(17,28,66,0.28) 58%, rgba(8,14,38,0.94) 100%)' }} />
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 82% 88%, rgba(232,80,26,0.34), transparent 46%)' }} />
 
-      {/* ── Content ── */}
+      {/* -- Content -- */}
       <div style={{ position: 'relative', zIndex: 2, height: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '46px 50px' }}>
 
         {/* top row */}
@@ -119,7 +119,7 @@ export function BrandPanel({ headline, sub, flex = '0 0 46%' }: {
           <RotatingSeal />
         </div>
 
-        {/* bottom — headline + dots */}
+        {/* bottom: headline + dots */}
         <div>
           <motion.div
             initial={{ opacity: 0, y: 24 }}

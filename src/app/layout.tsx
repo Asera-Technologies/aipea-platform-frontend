@@ -19,11 +19,11 @@ const dmSansBody = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'AIPEA — Africa Institute of Personal and Executive Assistants',
+  title: 'AIPEA: Africa Institute of Personal and Executive Assistants',
   description:
-    "Africa's premier professional membership body for executive and personal assistants. Join 5,000+ members across 33 countries.",
+    "The professional membership body for executive and personal assistants across Africa. Membership, CPD certification and community.",
   openGraph: {
-    title: 'AIPEA — Elevating the Executive Assistant Profession',
+    title: 'AIPEA: Elevating the Executive Assistant Profession',
     description:
       'Professional membership, CPD certification, and community for EAs across Africa.',
     type: 'website',

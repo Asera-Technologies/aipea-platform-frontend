@@ -17,7 +17,7 @@ const regional = [
 ]
 
 const webinars = [
-  { icon: Video, label: 'Free · Live', title: 'Managing up with confidence', desc: 'Influence without authority — a practical masterclass for EAs.' },
+  { icon: Video, label: 'Free · Live', title: 'Managing up with confidence', desc: 'Influence without authority. A practical masterclass for EAs.' },
   { icon: Video, label: 'Members only', title: 'The strategic calendar', desc: 'Protect executive time and run a diary that scales.' },
   { icon: Video, label: 'Free · Live', title: 'Board & C-suite support', desc: 'What senior leadership really needs from their assistant.' },
 ]
@@ -37,7 +37,7 @@ export default function EventsPage() {
         eyebrow="Events"
         title="Where the profession"
         highlight="comes together."
-        subtitle="From the flagship Annual Conference in Accra to regional meetups and live masterclasses — AIPEA brings executive assistants across Africa face to face."
+        subtitle="From the flagship Annual Conference in Accra to regional meetups and live masterclasses, AIPEA brings executive assistants across Africa face to face."
         image="/images/conference/optimized/events-hero.webp"
         primary={{ label: 'Register interest', href: '#conference' }}
         secondary={{ label: 'See the calendar', href: '#calendar' }}
@@ -49,7 +49,7 @@ export default function EventsPage() {
             image="/images/conference/optimized/events-stage.webp"
             eyebrow="Flagship event"
             title="AIPEA Annual Conference 2026."
-            body="Three days of keynotes, workshops and networking in Accra, Ghana. The largest gathering of executive assistants on the continent — and the best place to grow your standing and your network."
+            body="Three days of keynotes, workshops and networking in Accra, Ghana. The gathering is built to be the best place on the continent to grow your standing and your network."
             points={[
               'Accra, Ghana · September 2026',
               'Keynotes from executives and industry leaders',
@@ -70,7 +70,7 @@ export default function EventsPage() {
 
       <section id="webinars" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
-          <SectionHeading eyebrow="Webinars & masterclasses" title="Learn live, from anywhere." aside="Short, practical sessions led by senior practitioners — many free to attend." />
+          <SectionHeading eyebrow="Webinars & masterclasses" title="Learn live, from anywhere." aside="Short, practical sessions led by senior practitioners. Many are free to attend." />
           <FeatureGrid items={webinars} columns={3} />
         </div>
       </section>

@@ -1,10 +1,13 @@
-// Shared AIPEA design tokens — single source of truth for the site chrome
+// Shared AIPEA design tokens: single source of truth for the site chrome
 // (nav, footer) and all standalone pages. Mirrors the palette used inside
 // AIPEA.tsx so the homepage and sub-pages read as one system.
 
 export const C = {
   orange:      '#E8501A',
   orangeDim:   '#c94314',
+  // Brand orange only reaches 3.6:1 on navy, which fails WCAG AA for text under
+  // ~19px. Use this tint for small orange text on a dark surface (5.9:1).
+  orangeOnDark:'#FF8A5B',
   navy:        '#1B2A5E',
   navyDark:    '#111c42',
   white:       '#ffffff',

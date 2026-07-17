@@ -20,7 +20,7 @@ export default function CertificationPage() {
         eyebrow="Certification"
         title="Keep your career on"
         highlight="standard."
-        subtitle="The AIPEA credential is a recognised professional standard for executive and personal assistants — proof of competence that employers and executives understand."
+        subtitle="The AIPEA credential is a professional standard for executive and personal assistants: proof of competence that employers and executives understand."
         image="/images/conference/optimized/certification-hero.webp"
         primary={{ label: 'Explore pathways', href: '#pathways' }}
         secondary={{ label: 'Verify a credential', href: '#verify' }}
@@ -32,12 +32,12 @@ export default function CertificationPage() {
             image="/images/conference/optimized/certification-credential.webp"
             eyebrow="The AIPEA credential"
             title="A standard the profession can point to."
-            body="Titles rarely capture the value an assistant brings. The AIPEA credential does — a verifiable mark of competence, ethics and continuing development, assessed against a clear framework."
+            body="Titles rarely capture the value an assistant brings. The AIPEA credential does. It is a verifiable mark of competence, ethics and continuing development, assessed against a clear framework."
             points={[
               'Assessed against the AIPEA professional standard',
               'Verifiable member ID and digital certificate',
               'Backed by a structured CPD framework',
-              'Recognised across 33 countries',
+              'Built to be recognised across the continent',
             ]}
             cta={{ label: 'Start your application', href: '/sign-up' }}
           />
@@ -46,7 +46,7 @@ export default function CertificationPage() {
 
       <section id="pathways" style={{ ...SECTION, background: C.surface }}>
         <div style={INNER}>
-          <SectionHeading eyebrow="Certification pathways" title="One standard. Three routes to it." aside="Choose the pathway that matches where you are — and grow into the next." />
+          <SectionHeading eyebrow="Certification pathways" title="One standard. Three routes to it." aside="Choose the pathway that matches where you are, then grow into the next." />
           <FeatureGrid items={pathways} columns={3} />
         </div>
       </section>
@@ -69,10 +69,10 @@ export default function CertificationPage() {
       </section>
 
       <StatBand stats={[
-        { value: '3,200+', label: 'Credentials issued' },
-        { value: '98%', label: 'Employer recognition' },
-        { value: '140k', label: 'CPD hours logged' },
-        { value: '33', label: 'Countries' },
+        { value: 'One standard', label: 'The same credential means the same thing in every market.' },
+        { value: 'Three routes', label: 'A pathway matched to the experience you already have.' },
+        { value: 'CPD-backed', label: 'Kept current through logged professional development.' },
+        { value: 'Verifiable', label: 'Employers can check any credential against the registry.' },
       ]} />
 
       <section id="verify" style={{ ...SECTION, background: C.surface }}>
@@ -94,7 +94,7 @@ export default function CertificationPage() {
 
       <CTASection
         title="Certify the value you already bring."
-        body="Apply for membership and begin your certification pathway today — reviewed within 24 hours."
+        body="Join AIPEA and begin your certification pathway today. Membership activates immediately."
         primary={{ label: 'Get certified', href: '/sign-up' }}
         secondary={{ label: 'Compare tiers', href: '/membership#tiers' }}
       />

@@ -88,12 +88,11 @@ body {
   .aipea-tier-row { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
   .aipea-spotlight-grid { grid-template-columns: repeat(2,1fr) !important; }
   .aipea-testi-left { min-height: 280px !important; }
-  .aipea section { padding: 96px 28px !important; }
+  .aipea section { padding: 72px 28px !important; }
 }
 @media (max-width: 768px) {
   .aipea-checkout-grid { grid-template-columns: 1fr !important; }
-  .aipea section { padding: 72px 20px !important; }
-  .aipea-hero-grid { grid-template-columns: 1fr !important; }
+  .aipea section { padding: 56px 20px !important; }
   .aipea-eyebrow { display: none !important; }
   .aipea-course-grid { grid-template-columns: 1fr !important; }
   .aipea-tier-row { grid-template-columns: 1fr !important; margin: 0 !important; padding: 28px 20px !important; }
@@ -103,8 +102,14 @@ body {
   .aipea-footer-wrap { padding: 48px 20px 28px !important; }
   .aipea-testi-grid { gap: 24px !important; }
   .aipea-pillars-grid { grid-template-columns: 1fr !important; }
-  .aipea-hero-visual { display: none !important; }
-  .aipea-hero-inner  { padding: 0 20px !important; }
+  .aipea-hero-content { padding: 0 20px 40px !important; }
+  .aipea-hero-inner   { padding: 0 20px !important; }
+  .aipea-hero-sub     { max-width: 90% !important; }
+  /* Three labelled stats plus their descriptions overflow 100svh on a phone.
+     Keep the labels as a single compact row, drop the supporting lines. */
+  .aipea-hero-vision       { gap: 14px !important; margin-top: 24px !important; }
+  .aipea-hero-vision > div { max-width: none !important; }
+  .aipea-hero-vision-sub   { display: none !important; }
   .aipea-nav         { padding: 0 20px !important; }
 }
 @media (max-width: 640px) {
@@ -137,6 +142,12 @@ body {
   .aipea-feature-grid { grid-template-columns: repeat(2,1fr) !important; }
   .aipea-leader-grid  { grid-template-columns: repeat(2,1fr) !important; }
 }
+@media (max-width: 900px) {
+  /* Leader portrait stacks above the bio; capped so it can't eat the fold. */
+  .aipea-leader-rotator { grid-template-columns: 1fr !important; }
+  .aipea-leader-rotator > div:first-child { min-height: 360px !important; }
+  .aipea-leader-rotator > div:last-child  { min-height: 0 !important; }
+}
 @media (max-width: 768px) {
   .aipea-statband     { grid-template-columns: repeat(2,1fr) !important; }
   .aipea-footer-grid  { grid-template-columns: 1fr 1fr !important; }
@@ -150,4 +161,28 @@ body {
 }
 @media (max-width: 560px) {
   .aipea-statband { grid-template-columns: 1fr !important; }
+}
+
+/* The blanket `.aipea section` padding in the media queries above also hits the
+   landing hero, insetting the full-bleed image and leaving a white band under the
+   nav. Higher specificity + !important to beat it at every breakpoint. This was
+   latent until the hero image became full-bleed (it was display:none on mobile). */
+.aipea section.aipea-hero-section { padding: 0 !important; }
+
+/* --- Landing hero sizing -------------------------------------------------
+   svh (not vh) so mobile browser chrome collapsing mid-scroll cannot resize
+   the sticky pin under the scroll maths. vh first as the fallback: browsers
+   without svh keep the old behaviour instead of dropping height entirely.
+   The section and its sticky child must use the same unit or the pin
+   release point drifts. */
+.aipea-hero-section { height: 170vh; height: 170svh; }
+.aipea-hero-sticky  { height: 100vh; height: 100svh; }
+
+@media (max-width: 768px) {
+  .aipea-vision-row { grid-template-columns: 1fr !important; gap: 20px !important; margin-top: 40px !important; }
+}
+
+@media (max-width: 768px) {
+  /* Match the hero content's mobile floor so both phases keep a shared baseline. */
+  .aipea-hero-inner { padding: 0 20px 40px !important; }
 }

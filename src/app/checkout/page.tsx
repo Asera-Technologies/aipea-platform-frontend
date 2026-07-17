@@ -16,7 +16,7 @@ import {
   type PendingSignup,
 } from '@/lib/auth'
 
-// ─── Paystack types ───────────────────────────────────────────────────────────
+// --- Paystack types -----------------------------------------------------------
 
 declare global {
   interface Window {
@@ -39,7 +39,7 @@ declare global {
 
 const PAYSTACK_PK = 'pk_test_ba70cf9c8c2fa86023db7c13dc59fde20e6fe119'
 
-// ─── Tokens ───────────────────────────────────────────────────────────────────
+// --- Tokens -------------------------------------------------------------------
 
 const ORANGE    = '#E8501A'
 const ORANGE_DIM = '#c94314'
@@ -56,11 +56,11 @@ type Status = 'idle' | 'processing' | 'success'
 
 const TIER_PERKS: Record<PendingSignup['tier'], string[]> = {
   Associate:    ['Member directory listing', 'CPD hours tracker', 'Digital membership certificate'],
-  Professional: ['All Associate benefits', 'Conference access & discount', 'Course library — first access'],
+  Professional: ['All Associate benefits', 'Conference access & discount', 'Course library, first access'],
   Fellow:       ['All Professional benefits', 'Fellowship credential', 'Mentorship programme access'],
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default function Checkout() {
   const router = useRouter()
@@ -94,7 +94,7 @@ export default function Checkout() {
     if (!pending || status !== 'idle') return
     setError('')
 
-    // Free tier — no payment required, activate immediately
+    // Free tier: no payment required, activate immediately
     if (TIER_PRICING[pending.tier] === 0) {
       setStatus('processing')
       setTimeout(activateMembership, 500)
@@ -120,7 +120,7 @@ export default function Checkout() {
         ],
       },
       callback(response) {
-        // Payment confirmed — activate membership
+        // Payment confirmed: activate membership
         activateMembership()
         void response.reference
       },
@@ -175,7 +175,7 @@ export default function Checkout() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.05fr', gap: 20, alignItems: 'stretch' }} className="aipea-checkout-grid">
 
-            {/* ── Order summary ─────────────────────────────────────── */}
+            {/* -- Order summary --------------------------------------- */}
             <div style={{ background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 18, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
               <div style={{ height: 3, background: `linear-gradient(90deg, ${ORANGE}, ${ORANGE_DIM})` }} />
               <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -222,7 +222,7 @@ export default function Checkout() {
               </div>
             </div>
 
-            {/* ── Payment panel ─────────────────────────────────────── */}
+            {/* -- Payment panel --------------------------------------- */}
             <div style={{ background: '#fff', border: `1px solid ${BORDER}`, borderRadius: 18, overflow: 'hidden', boxShadow: '0 20px 60px rgba(27,42,94,0.07)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ height: 3, background: `linear-gradient(90deg, ${ORANGE}, ${ORANGE_DIM})` }} />
 
@@ -248,7 +248,7 @@ export default function Checkout() {
                     <p style={{ fontFamily: bod, fontSize: 13, color: MUTED, marginTop: 8, lineHeight: 1.65 }}>
                       {isFree
                         ? 'Your Associate membership is free. Click below to activate your account and access the member dashboard.'
-                        : 'Click below to pay securely. Paystack\'s checkout handles your card details — we never see them.'}
+                        : 'Click below to pay securely. Paystack\'s checkout handles your card details, and we never see them.'}
                     </p>
 
                     {!isFree && (

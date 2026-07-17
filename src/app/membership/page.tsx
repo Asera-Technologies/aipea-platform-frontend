@@ -9,7 +9,7 @@ import {
 
 const why = [
   { icon: Award,       label: 'Recognition', title: 'A credential that speaks for you', desc: 'Professional standing that employers and executives recognise across the continent.' },
-  { icon: Users,       label: 'Community',   title: '5,000+ peers, one network',        desc: 'Connect with executive assistants in 33 countries who understand the role.' },
+  { icon: Users,       label: 'Community',   title: 'Peers who know the role',          desc: 'Connect with executive assistants across the continent who understand the work.' },
   { icon: TrendingUp,  label: 'Development',  title: 'Grow on a clear standard',         desc: 'CPD tracking, courses and pathways that turn experience into advancement.' },
   { icon: Megaphone,   label: 'Advocacy',    title: 'A voice for the profession',        desc: 'AIPEA champions the value of EAs to organisations and leaders across Africa.' },
 ]
@@ -27,7 +27,7 @@ const rows: PriceRow[] = [
   { feature: 'Member events & community',       values: [true, true, true] },
   { feature: 'Annual conference discount',      values: ['10%', '25%', '40%'] },
   { feature: 'Course library access',           values: [false, true, true] },
-  { feature: 'Priority application review',     values: [false, true, true] },
+  { feature: 'Priority conference booking',     values: [false, true, true] },
   { feature: 'Voting rights in AIPEA elections', values: [false, true, true] },
   { feature: 'Fellowship credential (post-nominals)', values: [false, false, true] },
   { feature: '1:1 mentorship matching',         values: [false, false, true] },
@@ -41,7 +41,7 @@ export default function MembershipPage() {
         eyebrow="Membership"
         title="Take your place in the"
         highlight="profession."
-        subtitle="Join Africa's professional membership body for executive and personal assistants. Apply in under five minutes and be verified within 24 hours."
+        subtitle="Join the professional membership body for executive and personal assistants across Africa. Sign up in under five minutes and your credential is issued straight away."
         image="/images/conference/optimized/membership-hero.webp"
         primary={{ label: 'Apply for membership', href: '/sign-up' }}
         secondary={{ label: 'Compare tiers', href: '#tiers' }}
@@ -55,15 +55,15 @@ export default function MembershipPage() {
       </section>
 
       <StatBand stats={[
-        { value: '5,000+', label: 'Members' },
-        { value: '33', label: 'Countries' },
-        { value: '12+', label: 'Years' },
-        { value: '4.9/5', label: 'Member satisfaction' },
+        { value: 'Three tiers', label: 'Associate, Professional and Fellow.' },
+        { value: 'Associate is free', label: 'Start at no cost and step up when you are ready.' },
+        { value: 'CPD-backed', label: 'A credential kept current, not awarded once.' },
+        { value: 'Pan-African directory', label: 'Built to connect members across the continent.' },
       ]} />
 
       <section id="tiers" style={{ ...SECTION, background: C.surface }}>
         <div style={INNER}>
-          <SectionHeading eyebrow="Membership tiers" title="Choose the membership that fits your stage." aside="Every tier includes the essentials — step up as your career grows." />
+          <SectionHeading eyebrow="Membership tiers" title="Choose the membership that fits your stage." aside="Every tier includes the essentials. Step up as your career grows." />
           <PricingBreakdown tiers={tiers} rows={rows} note="All payments processed securely via Paystack. Annual renewal. Cancel anytime." />
         </div>
       </section>
@@ -74,7 +74,7 @@ export default function MembershipPage() {
             image="/images/conference/optimized/membership-community.webp"
             eyebrow="Member benefits"
             title="Everything you need, in one seat."
-            body="Your membership is more than a certificate. It's a working toolkit for the role — and a professional standing you can point to."
+            body="Your membership is more than a certificate. It's a working toolkit for the role, and a professional standing you can point to."
             points={[
               'Official AIPEA membership certificate and member ID',
               'Searchable directory listing seen by employers',
@@ -94,7 +94,7 @@ export default function MembershipPage() {
             image="/images/conference/optimized/membership-benefits.webp"
             eyebrow="Member directory"
             title="A pan-African network, one search away."
-            body="Every AIPEA member joins a verified directory spanning 33 countries — a place to find peers, mentors and opportunities, and to be found by the organisations looking for you."
+            body="Every AIPEA member joins a verified directory built to span the continent: a place to find peers, mentors and opportunities, and to be found by the organisations looking for you."
             points={[
               'Verified professionals across the continent',
               'Filter by country, tier and specialism',
@@ -106,7 +106,7 @@ export default function MembershipPage() {
 
       <CTASection
         title="Own your path. Claim your credential."
-        body="Applications are reviewed within 24 hours. Your membership activates the moment you're approved."
+        body="No waiting list and no review queue. Your membership activates the moment your payment clears."
         primary={{ label: 'Apply for membership', href: '/sign-up' }}
         secondary={{ label: 'Talk to the team', href: '/about#contact' }}
       />

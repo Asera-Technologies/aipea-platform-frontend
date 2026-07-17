@@ -27,7 +27,7 @@ export default function AboutPage() {
         eyebrow="About"
         title="Championing Africa's"
         highlight="executive assistants."
-        subtitle="AIPEA is the professional home for the people behind executive performance — rooted in Ghana, serving the whole continent."
+        subtitle="AIPEA is the professional home for the people behind executive performance. Rooted in Ghana, serving the whole continent."
         image="/images/conference/optimized/about-hero.webp"
         primary={{ label: 'Join AIPEA', href: '/sign-up' }}
         secondary={{ label: 'Contact us', href: '#contact' }}
@@ -39,21 +39,21 @@ export default function AboutPage() {
             image="/images/conference/optimized/about-story.webp"
             eyebrow="Our story"
             title="Rooted in Ghana. Serving Africa."
-            body="AIPEA was founded to give executive and personal assistants what the profession had long lacked: a standard, a credential, and a community. Since 2013 we've grown into a pan-African body 5,000 members strong."
+            body="AIPEA exists to give executive and personal assistants what the profession has long lacked: a standard, a credential, and a community. We are building it from Ghana, for the whole continent, and the founding cohort is forming now."
             points={[
-              'Founded in Ghana in 2013',
-              'A recognised professional standard for EAs',
-              '5,000+ members across 33 countries',
+              'Founded in Ghana',
+              'A professional standard built for EAs',
+              'Pan-African in scope from the start',
             ]}
           />
         </div>
       </section>
 
       <StatBand stats={[
-        { value: '2013', label: 'Founded' },
-        { value: '5,000+', label: 'Members' },
-        { value: '33', label: 'Countries' },
-        { value: '3,200+', label: 'Credentials issued' },
+        { value: 'Rooted in Ghana', label: 'Where the institute was founded, and where the first chapter sits.' },
+        { value: 'Pan-African in scope', label: 'Built for the whole continent rather than one market.' },
+        { value: 'One credential', label: 'A single standard for the role, backed by CPD.' },
+        { value: 'Founding cohort open', label: 'Early members set the benchmark everyone else meets.' },
       ]} />
 
       <section id="leadership" style={{ ...SECTION, background: C.surface }}>
@@ -118,7 +118,7 @@ export default function AboutPage() {
 
       <CTASection
         title="Be part of what comes next."
-        body="Join 5,000+ members shaping the future of the executive assistant profession across Africa."
+        body="Join the members shaping the future of the executive assistant profession across Africa."
         primary={{ label: 'Join AIPEA', href: '/sign-up' }}
         secondary={{ label: 'Explore membership', href: '/membership' }}
       />

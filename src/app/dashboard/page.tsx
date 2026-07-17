@@ -28,7 +28,7 @@ function greeting() {
   return 'Good evening,'
 }
 
-// ─── Loading ──────────────────────────────────────────────────────────────────
+// --- Loading ------------------------------------------------------------------
 
 function LoadingScreen() {
   return (
@@ -44,7 +44,7 @@ function LoadingScreen() {
   )
 }
 
-// ─── Navbar ───────────────────────────────────────────────────────────────────
+// --- Navbar -------------------------------------------------------------------
 
 function DashNav({ user, onSignOut }: { user: AIPEAUser; onSignOut: () => void }) {
   const initials = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
@@ -76,7 +76,7 @@ function DashNav({ user, onSignOut }: { user: AIPEAUser; onSignOut: () => void }
   )
 }
 
-// ─── Credential card ──────────────────────────────────────────────────────────
+// --- Credential card ----------------------------------------------------------
 
 function CredentialCard({ user }: { user: AIPEAUser }) {
   const initials = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
@@ -141,7 +141,7 @@ function CredentialCard({ user }: { user: AIPEAUser }) {
   )
 }
 
-// ─── Stat tile ────────────────────────────────────────────────────────────────
+// --- Stat tile ----------------------------------------------------------------
 
 function StatTile({ label, value, sub, leftBorder }: { label: string; value: string; sub?: string; leftBorder?: string }) {
   return (
@@ -157,7 +157,7 @@ function StatTile({ label, value, sub, leftBorder }: { label: string; value: str
   )
 }
 
-// ─── CPD tile (has progress bar) ─────────────────────────────────────────────
+// --- CPD tile (has progress bar) ---------------------------------------------
 
 function CPDTile() {
   return (
@@ -171,12 +171,12 @@ function CPDTile() {
         <motion.div initial={{ width: 0 }} animate={{ width: '3%' }} transition={{ duration: 1.2, delay: 0.9, ease: EASE }}
           style={{ height: '100%', background: NAVY_DARK, borderRadius: 100 }} />
       </div>
-      <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, marginTop: 8 }}>Annual target — logs open soon</p>
+      <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, marginTop: 8 }}>Annual target. Logs open soon.</p>
     </div>
   )
 }
 
-// ─── Feature card ─────────────────────────────────────────────────────────────
+// --- Feature card -------------------------------------------------------------
 
 function FeatureCard({ iconColor, icon, title, desc }: { iconColor: string; icon: React.ReactNode; title: string; desc: string }) {
   return (
@@ -199,7 +199,7 @@ function FeatureCard({ iconColor, icon, title, desc }: { iconColor: string; icon
   )
 }
 
-// ─── Dashboard ────────────────────────────────────────────────────────────────
+// --- Dashboard ----------------------------------------------------------------
 
 export default function Dashboard() {
   const router = useRouter()
@@ -225,7 +225,7 @@ export default function Dashboard() {
     <div style={{ minHeight: '100vh', background: WHITE }}>
       <DashNav user={user} onSignOut={handleSignOut} />
 
-      {/* ── Hero: navy banner ──────────────────────────────────────── */}
+      {/* -- Hero: navy banner ---------------------------------------- */}
       <section style={{ background: `linear-gradient(140deg, #0d1831 0%, ${NAVY} 55%, #162552 100%)`, position: 'relative', overflow: 'hidden', paddingTop: 64 }}>
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 75% 55%, rgba(232,80,26,0.22) 0%, transparent 50%)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 12% 20%, rgba(255,255,255,0.04) 0%, transparent 45%)', pointerEvents: 'none' }} />
@@ -269,7 +269,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {/* ── Stats row ─────────────────────────────────────────────── */}
+      {/* -- Stats row ----------------------------------------------- */}
       <section style={{ background: SURFACE, borderBottom: `1px solid ${BORDER}`, padding: '28px 48px' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }} className="aipea-stats-row">
           <CPDTile />
@@ -279,7 +279,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {/* ── Platform features ─────────────────────────────────────── */}
+      {/* -- Platform features --------------------------------------- */}
       <section style={{ background: WHITE, padding: '80px 48px 100px' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
 
@@ -314,7 +314,7 @@ export default function Dashboard() {
           <div style={{ marginTop: 44, padding: '28px 36px', background: SURFACE, border: `1px solid ${BORDER}`, borderLeft: `3px solid ${ORANGE}`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
             <div>
               <h3 style={{ fontFamily: dis, fontWeight: 700, fontSize: 17, color: TEXT, letterSpacing: '-0.01em' }}>You joined early.</h3>
-              <p style={{ fontFamily: bod, fontSize: 14, color: MUTED, marginTop: 4 }}>Every feature comes to you first — at your current rate, permanently.</p>
+              <p style={{ fontFamily: bod, fontSize: 14, color: MUTED, marginTop: 4 }}>Every feature comes to you first, at your current rate, permanently.</p>
             </div>
             <Link href="/#membership"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: WHITE, fontFamily: dis, fontWeight: 700, fontSize: 13, padding: '11px 22px', borderRadius: 8, textDecoration: 'none', transition: 'background 0.2s', whiteSpace: 'nowrap' }}

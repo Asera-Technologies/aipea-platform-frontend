@@ -14,9 +14,9 @@ function fadeUp(delay: number) {
 }
 
 const stats = [
-  { value: '5,000+', label: 'Members',   sub: 'active professionals' },
-  { value: '33',     label: 'Countries', sub: 'Pan-African reach'    },
-  { value: '12+',    label: 'Years',     sub: 'of excellence'         },
+  { value: 'Pan-African',     label: 'By design',       sub: 'the whole continent' },
+  { value: 'One standard',    label: 'For the role',    sub: 'CPD-backed'          },
+  { value: 'Founding cohort', label: 'Now forming',     sub: 'set the benchmark'   },
 ]
 
 const corners = ['top-7 left-8', 'top-7 right-8', 'bottom-7 left-8', 'bottom-7 right-8']
@@ -27,7 +27,7 @@ export function Hero() {
     <section className="relative min-h-screen overflow-hidden flex flex-col" style={{ background: '#080808' }}>
       <Starfield />
 
-      {/* Orange glow — bottom right ambient */}
+      {/* Orange glow: bottom right ambient */}
       <div
         className="absolute bottom-0 right-0 pointer-events-none"
         style={{
@@ -48,7 +48,7 @@ export function Hero() {
         </div>
       ))}
 
-      {/* Floating membership card — top right */}
+      {/* Floating membership card: top right */}
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -66,7 +66,7 @@ export function Hero() {
             background: '#171717',
           }}
         >
-          {/* Visual side — orange gradient with circle rings */}
+          {/* Visual side: orange gradient with circle rings */}
           <div
             className="w-[112px] shrink-0 relative overflow-hidden flex items-center justify-center"
             style={{ background: 'linear-gradient(150deg, #E8501A 0%, #5c1505 100%)' }}
@@ -100,12 +100,12 @@ export function Hero() {
         </a>
       </motion.div>
 
-      {/* Main content — bottom-anchored */}
+      {/* Main content: bottom-anchored */}
       <div className="relative z-10 flex-1 flex flex-col justify-end pb-16 pt-28 px-8 lg:px-16">
         <div className="max-w-[1400px] mx-auto w-full">
           <div className="grid lg:grid-cols-[220px_1fr] gap-0 lg:gap-16 items-start">
 
-            {/* Eyebrow — desktop */}
+            {/* Eyebrow: desktop */}
             <motion.div
               {...fadeUp(0.12)}
               className="hidden lg:flex flex-col gap-1.5 pt-4"
@@ -128,7 +128,7 @@ export function Hero() {
                 className="font-display font-bold text-white"
                 style={{ fontSize: 'clamp(48px, 6.5vw, 90px)', lineHeight: 0.9, letterSpacing: '-0.02em' }}
               >
-                <span className="block">— Elevating the</span>
+                <span className="block">Elevating the</span>
                 <span className="block text-orange">executive assistant</span>
                 <span className="block">profession.</span>
               </motion.h1>

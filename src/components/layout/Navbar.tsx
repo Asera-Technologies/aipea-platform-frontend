@@ -26,7 +26,7 @@ export function Navbar() {
         AIPEA
       </a>
 
-      {/* Hamburger — 3 lines, middle shorter */}
+      {/* Hamburger: 3 lines, middle shorter */}
       <button
         onClick={() => setOpen(o => !o)}
         aria-label="Toggle menu"

@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, Check, type LucideProps } from 'lucide-react'
+import { ArrowRight, Check, Minus, type LucideProps } from 'lucide-react'
 import { C, dis, bod, INNER, SECTION } from './tokens'
 import { SiteNav } from './SiteNav'
 import { SiteFooter } from './SiteFooter'
@@ -11,7 +11,7 @@ import { Reveal } from './Reveal'
 
 type Icon = React.ComponentType<LucideProps>
 
-// ─── Page shell ─────────────────────────────────────────────────────────────────
+// --- Page shell -----------------------------------------------------------------
 
 export function PageShell({ children }: { children: React.ReactNode }) {
   return (
@@ -23,7 +23,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
   )
 }
 
-// ─── Page hero ──────────────────────────────────────────────────────────────────
+// --- Page hero ------------------------------------------------------------------
 
 export function PageHero({ eyebrow, title, highlight, subtitle, image, primary, secondary }: {
   eyebrow: string
@@ -84,7 +84,7 @@ export function PageHero({ eyebrow, title, highlight, subtitle, image, primary, 
   )
 }
 
-// ─── Section heading ────────────────────────────────────────────────────────────
+// --- Section heading ------------------------------------------------------------
 
 export function SectionHeading({ eyebrow, title, aside, center = true }: {
   eyebrow: string; title: string; aside?: string; center?: boolean
@@ -106,7 +106,7 @@ export function SectionHeading({ eyebrow, title, aside, center = true }: {
   )
 }
 
-// ─── Feature grid ───────────────────────────────────────────────────────────────
+// --- Feature grid ---------------------------------------------------------------
 
 export type Feature = { icon: Icon; label: string; title: string; desc: string }
 
@@ -134,7 +134,7 @@ export function FeatureGrid({ items, columns = 3 }: { items: Feature[]; columns?
   )
 }
 
-// ─── Split feature (image + text) ───────────────────────────────────────────────
+// --- Split feature (image + text) -----------------------------------------------
 
 export function SplitFeature({ image, eyebrow, title, body, points, reverse = false, cta }: {
   image: string; eyebrow: string; title: string; body: string; points?: string[]; reverse?: boolean; cta?: { label: string; href: string }
@@ -175,18 +175,21 @@ export function SplitFeature({ image, eyebrow, title, body, points, reverse = fa
   )
 }
 
-// ─── Stat band ──────────────────────────────────────────────────────────────────
+// --- Stat band ------------------------------------------------------------------
 
+// Carries short statements of intent rather than metrics. AIPEA has no membership
+// figures, satisfaction scores or issuance counts to report yet, so `value` is a
+// phrase and the type sizing is set for words instead of digits.
 export function StatBand({ stats }: { stats: { value: string; label: string }[] }) {
   return (
     <section style={{ padding: '0 40px' }}>
       <div style={INNER}>
-        <div className="aipea-statband" style={{ display: 'grid', gridTemplateColumns: `repeat(${stats.length},1fr)`, gap: 24, padding: '44px 40px', borderRadius: 24, background: C.navyDark, position: 'relative', overflow: 'hidden' }}>
+        <div className="aipea-statband" style={{ display: 'grid', gridTemplateColumns: `repeat(${stats.length},1fr)`, gap: 24, padding: '40px', borderRadius: 24, background: C.navyDark, position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 85% 20%, rgba(232,80,26,0.22), transparent 42%)' }} />
           {stats.map((s, i) => (
-            <Reveal key={s.label} delay={0.06 * i} style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-              <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(30px,4vw,46px)', color: C.orange, letterSpacing: '-0.03em' }}>{s.value}</div>
-              <div style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 8 }}>{s.label}</div>
+            <Reveal key={s.label} delay={0.06 * i} style={{ position: 'relative', zIndex: 1 }}>
+              <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(17px,1.7vw,21px)', color: C.orange, letterSpacing: '-0.01em', lineHeight: 1.25 }}>{s.value}</div>
+              <div style={{ fontFamily: bod, fontSize: 13, lineHeight: 1.55, color: 'rgba(255,255,255,0.55)', marginTop: 8 }}>{s.label}</div>
             </Reveal>
           ))}
         </div>
@@ -195,7 +198,7 @@ export function StatBand({ stats }: { stats: { value: string; label: string }[] 
   )
 }
 
-// ─── CTA section ────────────────────────────────────────────────────────────────
+// --- CTA section ----------------------------------------------------------------
 
 export function CTASection({ title, body, primary, secondary }: {
   title: string; body: string; primary: { label: string; href: string }; secondary?: { label: string; href: string }
@@ -229,7 +232,7 @@ export function CTASection({ title, body, primary, secondary }: {
   )
 }
 
-// ─── Pricing breakdown (comparison table) ───────────────────────────────────────
+// --- Pricing breakdown (comparison table) ---------------------------------------
 
 export type PriceTier = { name: string; blurb: string; price: string; cadence: string; featured?: boolean; href: string }
 export type PriceRow = { feature: string; values: (boolean | string)[] }
@@ -240,7 +243,11 @@ function Cell({ v, featured }: { v: boolean | string; featured?: boolean }) {
       <Check size={14} color={featured ? C.white : C.orange} />
     </span>
   )
-  if (v === false) return <span style={{ color: C.faint, fontSize: 18, lineHeight: 1 }}>—</span>
+  if (v === false) return (
+    <span style={{ display: 'inline-grid', placeItems: 'center', width: 24, height: 24 }}>
+      <Minus size={13} color={C.faint} />
+    </span>
+  )
   return <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 13, color: featured ? C.orange : C.text }}>{v}</span>
 }
 

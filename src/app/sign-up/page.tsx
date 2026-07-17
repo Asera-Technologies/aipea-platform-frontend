@@ -32,7 +32,7 @@ const TIERS: { id: Tier; desc: string }[] = [
   { id: 'Fellow',       desc: 'Senior Leaders'  },
 ]
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default function SignUp() {
   const router = useRouter()
@@ -163,8 +163,8 @@ export default function SignUp() {
 
                 <p style={{ fontFamily: bod, fontSize: 11, color: 'rgba(17,28,66,0.25)', textAlign: 'center' }}>
                   {TIER_PRICING[tier] === 0
-                    ? 'Associate membership is free — no payment required.'
-                    : 'Secure payment via Paystack. Membership activates within 24 hours.'}
+                    ? 'Associate membership is free. No payment required.'
+                    : 'Secure payment via Paystack. Membership activates immediately.'}
                 </p>
               </form>
 

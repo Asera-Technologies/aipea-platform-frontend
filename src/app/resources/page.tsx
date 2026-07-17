@@ -20,7 +20,7 @@ const tools = [
 ]
 
 const insights = [
-  { icon: Newspaper, label: 'Career', title: 'From support staff to strategic partner', desc: 'How the best assistants reframe the role — and get recognised for it.' },
+  { icon: Newspaper, label: 'Career', title: 'From support staff to strategic partner', desc: 'How the best assistants reframe the role, and get recognised for it.' },
   { icon: Newspaper, label: 'Standards', title: 'What certification really signals', desc: 'Why a credential changes the conversation with employers.' },
   { icon: Newspaper, label: 'Community', title: 'Voices from the network', desc: 'Members across Africa on growth, recognition and belonging.' },
 ]
@@ -32,7 +32,7 @@ export default function ResourcesPage() {
         eyebrow="Resources"
         title="Tools for the role you"
         highlight="want."
-        subtitle="Courses, templates, career guides and insights — a growing library built specifically for executive and personal assistants."
+        subtitle="Courses, templates, career guides and insights. A growing library built specifically for executive and personal assistants."
         image="/images/conference/optimized/resources-hero.webp"
         primary={{ label: 'Browse the library', href: '#courses' }}
         secondary={{ label: 'Read insights', href: '#insights' }}

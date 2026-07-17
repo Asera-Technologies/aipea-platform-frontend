@@ -11,7 +11,7 @@ export function Starfield() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Seeded LCG — same star positions every render
+    // Seeded LCG: same star positions every render
     let s = 42
     const rand = () => { s = (s * 9301 + 49297) % 233280; return s / 233280 }
 
@@ -30,7 +30,7 @@ export function Starfield() {
       ctx.fillStyle = bg
       ctx.fillRect(0, 0, W, H)
 
-      // Nebula glow — soft bright centre
+      // Nebula glow: soft bright centre
       const ng = ctx.createRadialGradient(W * 0.5, H * 0.44, 0, W * 0.5, H * 0.44, W * 0.46)
       ng.addColorStop(0,    'rgba(255,255,255,0.052)')
       ng.addColorStop(0.42, 'rgba(255,255,255,0.016)')
