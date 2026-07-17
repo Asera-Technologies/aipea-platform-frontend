@@ -15,7 +15,7 @@ import {
   type Transition,
 } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Plus, Check, ChevronLeft, ChevronRight, Lock, TrendingUp, Award, Users, BookOpen, Calendar, GraduationCap } from 'lucide-react'
+import { ArrowRight, Plus, Check, Lock, Users, BookOpen, Calendar, GraduationCap } from 'lucide-react'
 import { SiteNav } from '@/components/site/SiteNav'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { PricingBreakdown, type PriceTier, type PriceRow } from '@/components/site/PageKit'
@@ -189,8 +189,8 @@ function HeaderEyebrow({ number }: { number: string }) {
   )
 }
 
-function SectionHeader({ number, statement, aside, align = 'split' }: {
-  number: string; statement: string; aside: string; align?: 'split' | 'center' | 'stacked'
+function SectionHeader({ number, statement, aside, align = 'split', nowrap = false }: {
+  number: string; statement: string; aside: string; align?: 'split' | 'center' | 'stacked'; nowrap?: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' as `${number}px` })
@@ -203,9 +203,9 @@ function SectionHeader({ number, statement, aside, align = 'split' }: {
 
   if (align === 'center') {
     return (
-      <div ref={ref} style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 72px' }}>
+      <div ref={ref} style={{ textAlign: 'center', maxWidth: nowrap ? 'none' : 720, margin: '0 auto 72px' }}>
         <motion.div {...rise(0)}><HeaderEyebrow number={number} /></motion.div>
-        <motion.h2 {...rise(0.08)} style={{ fontFamily: dis, fontWeight: 800, color: C.text, fontSize: 'clamp(30px,4vw,56px)', lineHeight: 1.05, letterSpacing: '-0.03em', marginTop: 22 }}>{statement}</motion.h2>
+        <motion.h2 {...rise(0.08)} style={{ fontFamily: dis, fontWeight: 800, color: C.text, fontSize: nowrap ? 'clamp(22px,3.4vw,56px)' : 'clamp(30px,4vw,56px)', lineHeight: 1.05, letterSpacing: '-0.03em', marginTop: 22, whiteSpace: nowrap ? 'nowrap' : 'normal' }}>{statement}</motion.h2>
         <motion.p {...rise(0.16)} style={{ fontFamily: bod, fontSize: 15, lineHeight: 1.7, color: C.muted, marginTop: 18 }}>{aside}</motion.p>
       </div>
     )
@@ -666,7 +666,7 @@ function About() {
   return (
     <section id="about" style={{ ...SECTION, background: C.bg }}>
       <div style={INNER}>
-        <SectionHeader number="001" align="stacked" statement="Africa's home for executive professionals." aside="One membership. Everything you need." />
+        <SectionHeader number="001" align="center" statement="Africa's home for executive professionals." aside="One membership. Everything you need." />
           <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 18, alignItems: 'stretch' }} className="aipea-about-visual-grid">
             <Reveal from="left"><TiltCard><CredentialCard title="Professional recognition for the people behind executive performance." tier="Institutional standard" number="AIPEA-STD-001" /></TiltCard></Reveal>
             <Reveal from="right" delay={0.12} style={{ display: 'flex', flexDirection: 'column', border: `1px solid ${C.border}`, borderRadius: 22, background: C.surface, padding: 0, position: 'relative', overflow: 'hidden' }}>
@@ -719,10 +719,61 @@ function About() {
 // ─── Core values (from the AIPEA brochure) ─────────────────────────────────────
 
 const coreValues = [
-  { n: '01', icon: TrendingUp, title: 'Growth', words: ['Learn', 'Advance', 'Lead'] },
-  { n: '02', icon: Award,      title: 'Value',  words: ['Excellence', 'Integrity', 'You first'] },
-  { n: '03', icon: Users,      title: 'Impact', words: ['Empower', 'Connect', 'Champion'] },
+  { n: '01', title: 'Growth', words: ['Learn', 'Advance', 'Lead'] },
+  { n: '02', title: 'Value',  words: ['Excellence', 'Integrity', 'You first'] },
+  { n: '03', title: 'Impact', words: ['Empower', 'Connect', 'Champion'] },
 ]
+
+function ValueCard({ value }: { value: (typeof coreValues)[number] }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <TiltCard>
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          position: 'relative', overflow: 'hidden', height: '100%', minHeight: 320, borderRadius: 22,
+          border: `1px solid ${hovered ? 'rgba(255,255,255,0.14)' : C.border}`,
+          background: hovered ? `linear-gradient(160deg, ${C.navy} 0%, ${C.navyDark} 100%)` : C.surface,
+          color: hovered ? C.white : C.text, padding: 34,
+          display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+          boxShadow: hovered ? '0 32px 80px rgba(27,42,94,0.32)' : '0 1px 0 rgba(17,28,66,0.03)',
+          transform: hovered ? 'translateY(-10px) scale(1.035)' : 'translateY(0) scale(1)',
+          transition: 'background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1), color 0.5s ease',
+        }}>
+        <div className="aipea-spin" style={{
+          position: 'absolute', top: -54, right: -54, width: 180, height: 180, borderRadius: '50%',
+          border: `1px dashed ${hovered ? 'rgba(255,255,255,0.2)' : 'rgba(232,80,26,0.28)'}`,
+          transition: 'border-color 0.5s ease',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <span style={{
+            width: 8, height: 8, borderRadius: '50%', marginTop: 6,
+            background: C.orange,
+            boxShadow: hovered ? '0 0 0 6px rgba(232,80,26,0.18)' : '0 0 0 0 rgba(232,80,26,0)',
+            transition: 'box-shadow 0.5s ease',
+          }} />
+          <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 44, letterSpacing: '-0.05em', color: hovered ? 'rgba(255,255,255,0.18)' : C.elevated, transition: 'color 0.5s ease' }}>{value.n}</span>
+        </div>
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 28, letterSpacing: '-0.02em', marginBottom: 14 }}>{value.title}</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {value.words.map((w, wi) => (
+              <motion.span key={w}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: wi * 0.12, ease: EASE }}
+                style={{ fontFamily: dis, fontWeight: 700, fontSize: 19, letterSpacing: '-0.01em', color: hovered ? 'rgba(255,255,255,0.92)' : C.text, transition: 'color 0.5s ease' }}>
+                <span style={{ color: C.orange, marginRight: 9 }}>·</span>{w}
+              </motion.span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </TiltCard>
+  )
+}
 
 function CoreValues() {
   return (
@@ -730,47 +781,11 @@ function CoreValues() {
       <div style={INNER}>
         <SectionHeader number="002" align="center" statement="The values behind the standard." aside="Three principles. Everything we build." />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }} className="aipea-values-grid">
-          {coreValues.map((v, i) => {
-            const dark = i === 1
-            const Icon = v.icon
-            return (
-              <ScrollReveal key={v.title} delay={0.1 * i}>
-                <TiltCard>
-                  <div style={{
-                    position: 'relative', overflow: 'hidden', height: '100%', minHeight: 320, borderRadius: 22,
-                    border: `1px solid ${dark ? 'rgba(255,255,255,0.12)' : C.border}`,
-                    background: dark ? `linear-gradient(160deg, ${C.navy} 0%, ${C.navyDark} 100%)` : C.surface,
-                    color: dark ? C.white : C.text, padding: 34,
-                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                    boxShadow: dark ? '0 28px 70px rgba(27,42,94,0.22)' : 'none',
-                  }}>
-                    <div className="aipea-spin" style={{ position: 'absolute', top: -54, right: -54, width: 180, height: 180, borderRadius: '50%', border: `1px dashed ${dark ? 'rgba(255,255,255,0.18)' : 'rgba(232,80,26,0.28)'}` }} />
-                    <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div style={{ width: 52, height: 52, borderRadius: 14, background: dark ? 'rgba(255,255,255,0.1)' : 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center' }}>
-                        <Icon size={22} color={C.orange} />
-                      </div>
-                      <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 44, letterSpacing: '-0.05em', color: dark ? 'rgba(255,255,255,0.18)' : C.elevated }}>{v.n}</span>
-                    </div>
-                    <div style={{ position: 'relative', zIndex: 1 }}>
-                      <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 28, letterSpacing: '-0.02em', marginBottom: 14 }}>{v.title}</h3>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                        {v.words.map((w, wi) => (
-                          <motion.span key={w}
-                            initial={{ opacity: 0, x: -12 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: '-40px' }}
-                            transition={{ duration: 0.5, delay: wi * 0.12, ease: EASE }}
-                            style={{ fontFamily: dis, fontWeight: 700, fontSize: 19, letterSpacing: '-0.01em', color: dark ? 'rgba(255,255,255,0.92)' : C.text }}>
-                            <span style={{ color: C.orange, marginRight: 9 }}>·</span>{w}
-                          </motion.span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </TiltCard>
-              </ScrollReveal>
-            )
-          })}
+          {coreValues.map((v, i) => (
+            <ScrollReveal key={v.title} delay={0.1 * i}>
+              <ValueCard value={v} />
+            </ScrollReveal>
+          ))}
         </div>
       </div>
     </section>
@@ -822,7 +837,7 @@ function Courses() {
   return (
     <section id="courses" style={{ ...SECTION, background: C.bg }}>
       <div style={INNER}>
-        <SectionHeader number="004" align="stacked" statement="A full course library. Coming soon." aside="Members get first access." />
+        <SectionHeader number="004" align="center" nowrap statement="A full course library. Coming soon." aside="Members get first access." />
         <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.2fr', gap: 22, alignItems: 'stretch' }} className="aipea-course-showcase">
           <Reveal from="left">
             <div style={{ minHeight: 520, borderRadius: 24, padding: 38, background: `linear-gradient(145deg, ${C.navyDark} 0%, ${C.navy} 100%)`, color: C.white, position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -882,51 +897,6 @@ function Courses() {
               </Reveal>
             ))}
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── Member Directory Preview ─────────────────────────────────────────────────
-
-const countryFeatures = [
-  { country: 'Ghana',        members: '890',   image: '/images/conference/optimized/member-ghana.webp' },
-  { country: 'South Africa', members: '1,200', image: '/images/conference/optimized/member-south-africa.webp' },
-  { country: 'Nigeria',      members: '950',   image: '/images/conference/optimized/member-nigeria.webp' },
-  { country: 'Kenya',        members: '670',   image: '/images/conference/optimized/member-kenya.webp' },
-  { country: 'Uganda',       members: '420',   image: '/images/conference/optimized/member-uganda.webp' },
-  { country: 'Egypt',        members: '780',   image: '/images/conference/optimized/member-egypt.webp' },
-]
-
-function MemberDirectory() {
-  return (
-    <section style={{ ...SECTION, background: C.surface }}>
-      <div style={INNER}>
-        <SectionHeader number="008" align="center" statement="A pan-African network." aside="Connected across 33 countries." />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }} className="aipea-directory-grid">
-          {countryFeatures.map((country, i) => (
-            <ScrollReveal key={country.country} delay={0.05 * i}>
-              <div style={{ borderRadius: 16, overflow: 'hidden', background: C.bg, border: `1px solid ${C.border}`, transition: 'transform 0.2s, box-shadow 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(27,42,94,0.1)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}>
-                <div style={{ position: 'relative', height: 120 }}>
-                  <Image
-                    src={country.image}
-                    alt={country.country}
-                    fill
-                    sizes="160px"
-                    style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                  />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(27,42,94,0.6) 100%)' }} />
-                </div>
-                <div style={{ padding: 16 }}>
-                  <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 16, color: C.text, marginBottom: 4 }}>{country.country}</div>
-                  <div style={{ fontFamily: bod, fontSize: 12, color: C.orange, fontWeight: 600 }}>{country.members} members</div>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
         </div>
       </div>
     </section>
@@ -1025,197 +995,6 @@ function Process() {
   )
 }
 
-// ─── Member Spotlight ─────────────────────────────────────────────────────────
-
-const memberSpotlights = [
-  {
-    name: 'Amara Diallo',
-    title: 'Executive Assistant to the MD',
-    company: 'Ecobank Ghana',
-    image: '/images/conference/optimized/testimonial-amara.webp',
-    highlight: 'Promoted within 6 months',
-    story: 'The AIPEA credential transformed how my organisation values the EA role.',
-  },
-  {
-    name: 'Thandiwe Mokoena',
-    title: 'PA to CEO',
-    company: 'Standard Bank South Africa',
-    image: '/images/conference/optimized/testimonial-thandiwe.webp',
-    highlight: 'Board-level visibility',
-    story: 'AIPEA gave me the framework to step into strategic leadership.',
-  },
-  {
-    name: 'Fatima Al-Hassan',
-    title: 'Executive PA',
-    company: 'Dangote Group, Lagos',
-    image: '/images/conference/optimized/testimonial-fatima.webp',
-    highlight: '35% salary increase',
-    story: 'My AIPEA credentials became the evidence I needed for career advancement.',
-  },
-]
-
-function MemberSpotlight() {
-  return (
-    <section style={{ ...SECTION, background: C.surface, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-      <div style={INNER}>
-        <SectionHeader number="007" align="center" statement="Member success stories." aside="Real professionals, real impact." />
-        <div className="aipea-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
-          {memberSpotlights.map((member, i) => (
-            <ScrollReveal key={member.name} delay={0.08 * i}>
-              <div style={{ borderRadius: 20, overflow: 'hidden', background: C.bg, border: `1px solid ${C.border}`, transition: 'transform 0.22s, box-shadow 0.22s', cursor: 'default' }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 16px 48px rgba(27,42,94,0.12)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}>
-                {/* Member image */}
-                <div style={{ position: 'relative', height: 240, overflow: 'hidden', background: 'linear-gradient(135deg, #f7f8fc 0%, #eef1f8 100%)' }}>
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    sizes="400px"
-                    style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                  />
-                </div>
-                {/* Member info */}
-                <div style={{ padding: 28 }}>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(232,80,26,0.08)', color: C.orange, fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 12px', borderRadius: 100, marginBottom: 16 }}>
-                    ✓ {member.highlight}
-                  </div>
-                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, color: C.text, lineHeight: 1.1, marginBottom: 6 }}>{member.name}</h3>
-                  <p style={{ fontFamily: bod, fontSize: 12, color: C.orange, fontWeight: 600, marginBottom: 4 }}>{member.title}</p>
-                  <p style={{ fontFamily: bod, fontSize: 12, color: C.muted, marginBottom: 16 }}>{member.company}</p>
-                  <p style={{ fontFamily: bod, fontSize: 14, lineHeight: 1.6, color: C.muted, fontStyle: 'italic' }}>&quot;{member.story}&quot;</p>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── Testimonials ─────────────────────────────────────────────────────────────
-
-const testimonialData = [
-  {
-    theme: 'Confidence',
-    name: 'Amara Diallo',
-    title: 'Executive Assistant to the MD',
-    company: 'Ecobank Ghana',
-    initials: 'AD',
-    image: '/images/conference/optimized/testimonial-amara.webp',
-    quote: '"Within six months of earning my AIPEA Professional credential, I was approached for a senior EA role I would never have been considered for before. The certificate changed how my entire organisation sees the EA function."',
-  },
-  {
-    theme: 'Validation',
-    name: 'Thandiwe Mokoena',
-    title: 'Personal Assistant to the CEO',
-    company: 'Standard Bank South Africa',
-    initials: 'TM',
-    image: '/images/conference/optimized/testimonial-thandiwe.webp',
-    quote: '"I used to struggle to get a seat at the table. Now I co-present at board meetings. AIPEA gave me the language, the framework, and the professional standing I couldn\'t claim on my own."',
-  },
-  {
-    theme: 'Community',
-    name: 'Fatima Al-Hassan',
-    title: 'Executive PA',
-    company: 'Dangote Group, Lagos',
-    initials: 'FA',
-    image: '/images/conference/optimized/testimonial-fatima.webp',
-    quote: '"The CPD framework restructured how I approach my role entirely. I\'ve logged 80 hours in eight months — and just negotiated a 35% salary increase using my AIPEA credentials as evidence."',
-  },
-]
-
-function Testimonials() {
-  const [cur, setCur] = useState(0)
-  const [paused, setPaused] = useState(false)
-  const reduced = useReducedMotion()
-  useEffect(() => {
-    if (paused || reduced) return
-    const id = setInterval(() => setCur(c => (c + 1) % testimonialData.length), 5000)
-    return () => clearInterval(id)
-  }, [paused, reduced])
-  const t = testimonialData[cur]
-  return (
-    <section id="testimonials" style={{ ...SECTION, background: C.bg }}>
-      <div style={INNER}>
-        <SectionHeader number="006" statement="What our members say." aside="Voices from across Africa." />
-        <ScrollReveal delay={0.08}>
-          <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: 24, alignItems: 'stretch' }} className="aipea-testi-grid">
-            <div>
-              <div className="aipea-testi-left" style={{ minHeight: '56vh', borderRadius: 24, overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 32, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
-                {/* Full-bleed background photo */}
-                <AnimatePresence initial={false}>
-                  <motion.div key={t.image} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.55 }}
-                    style={{ position: 'absolute', inset: 0 }}>
-                    <Image
-                      src={t.image}
-                      alt={t.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                      priority
-                    />
-                  </motion.div>
-                </AnimatePresence>
-                {/* Gradient overlay */}
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(17,28,66,0.45) 0%, transparent 45%, rgba(8,14,38,0.82) 100%)', zIndex: 1 }} />
-                {/* Theme label — top */}
-                <AnimatePresence initial={false} mode="wait">
-                  <motion.span key={t.theme} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35, ease: EASE }}
-                    style={{ position: 'relative', zIndex: 2, fontFamily: dis, fontWeight: 800, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.orange }}>
-                    {t.theme}
-                  </motion.span>
-                </AnimatePresence>
-                {/* Member info — bottom */}
-                <AnimatePresence initial={false} mode="wait">
-                  <motion.div key={t.initials} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}
-                    style={{ position: 'relative', zIndex: 2 }}>
-                    <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 17, color: C.white }}>{t.name}</div>
-                    <div style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.75)', marginTop: 4 }}>{t.title}</div>
-                    <div style={{ fontFamily: bod, fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 2 }}>{t.company}</div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 32, borderRadius: 24, background: C.surface, border: `1px solid ${C.border}`, padding: 40 }}
-              onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-              <AnimatePresence initial={false} mode="wait">
-                <motion.div key={t.theme} initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -14 }} transition={{ duration: 0.42, ease: EASE }}>
-                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(28px,3.5vw,44px)', color: C.text, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 24 }}>{t.theme}</h3>
-                  <p style={{ fontFamily: bod, fontSize: 'clamp(16px,1.8vw,19px)', color: C.muted, lineHeight: 1.75, fontStyle: 'italic' }}>{t.quote}</p>
-                </motion.div>
-              </AnimatePresence>
-              <div>
-              <div style={{ height: 2, background: C.border, borderRadius: 2, marginBottom: 20, overflow: 'hidden' }}>
-                <motion.div key={`${cur}-${paused}`} initial={{ width: '0%' }} animate={{ width: paused || reduced ? '100%' : ['0%', '100%'] }} transition={{ duration: paused || reduced ? 0 : 5, ease: 'linear' }} style={{ height: '100%', background: C.orange }} />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                {([{ fn: () => setCur(c => (c - 1 + testimonialData.length) % testimonialData.length), label: 'Previous', icon: <ChevronLeft size={16} /> }, { fn: () => setCur(c => (c + 1) % testimonialData.length), label: 'Next', icon: <ChevronRight size={16} /> }]).map(({ fn, label, icon }) => (
-                  <button key={label} aria-label={label} onClick={fn}
-                    style={{ width: 40, height: 40, borderRadius: '50%', border: `1px solid ${C.border}`, background: C.bg, color: C.text, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: '0.2s' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = C.orange; e.currentTarget.style.color = C.orange }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.text }}>
-                    {icon}
-                  </button>
-                ))}
-                <div style={{ display: 'flex', gap: 6, marginLeft: 6 }}>
-                  {testimonialData.map((_, i) => (
-                    <button key={i} aria-label={`Testimonial ${i + 1}`} onClick={() => setCur(i)}
-                      style={{ height: 6, width: i === cur ? 20 : 6, borderRadius: i === cur ? 3 : '50%', background: i === cur ? C.orange : C.border, border: 'none', cursor: 'pointer', transition: '0.2s', padding: 0 }} />
-                  ))}
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-      </div>
-    </section>
-  )
-}
-
 // ─── Contact ──────────────────────────────────────────────────────────────────
 
 const benefits = [
@@ -1228,10 +1007,20 @@ const benefits = [
 
 function Contact() {
   const [submitted, setSubmitted] = useState(false)
-  const inputStyle: React.CSSProperties = { width: '100%', background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: '13px 16px', fontSize: 14, color: C.text, outline: 'none', transition: 'border-color 0.2s', fontFamily: bod }
+  const inputStyle: React.CSSProperties = { width: '100%', background: C.surface, border: `1.5px solid ${C.border}`, borderRadius: 10, padding: '13px 16px', fontSize: 14, color: C.text, outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s', fontFamily: bod }
   const labelStyle: React.CSSProperties = { display: 'block', fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.faint, marginBottom: 7 }
-  const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => { e.target.style.borderColor = C.orange }
-  const onBlur  = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => { e.target.style.borderColor = C.border }
+  const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+    e.target.style.borderColor = C.orange
+    e.target.style.boxShadow = '0 0 0 4px rgba(232,80,26,0.12)'
+    e.target.style.background = C.bg
+  }
+  const onBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+    e.target.style.borderColor = C.border
+    e.target.style.boxShadow = 'none'
+    e.target.style.background = C.surface
+  }
+  const onHoverIn = (e: React.MouseEvent<HTMLInputElement | HTMLSelectElement>) => { if (document.activeElement !== e.currentTarget) e.currentTarget.style.borderColor = C.borderHover }
+  const onHoverOut = (e: React.MouseEvent<HTMLInputElement | HTMLSelectElement>) => { if (document.activeElement !== e.currentTarget) e.currentTarget.style.borderColor = C.border }
 
   return (
     <section id="contact" style={{ ...SECTION, background: C.surface }}>
@@ -1286,7 +1075,7 @@ function Contact() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.16}>
-            <div style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 24, padding: 42 }}>
+            <div style={{ background: C.bg, border: `1px solid ${C.borderHover}`, borderRadius: 24, padding: 42, boxShadow: '0 24px 64px rgba(27,42,94,0.12)' }}>
               {submitted ? (
                 <div style={{ textAlign: 'center', padding: '40px 0' }}>
                   <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(232,80,26,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
@@ -1297,18 +1086,19 @@ function Contact() {
                 </div>
               ) : (
                 <div>
-                  <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: '-0.01em' }}>Tell us about yourself</div>
-                  <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginBottom: 28, marginTop: 6 }}>We&apos;ll get back to you within 24 hours.</p>
+                  <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 10 }}>Get in touch</p>
+                  <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(28px,3vw,36px)', color: C.text, letterSpacing: '-0.02em', lineHeight: 1.05 }}>Contact us</div>
+                  <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginBottom: 28, marginTop: 10 }}>We&apos;ll get back to you within 24 hours.</p>
                   <div className="aipea-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
-                    <div><label style={labelStyle}>Full name</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} placeholder="Adwoa Mensah" /></div>
-                    <div><label style={labelStyle}>Email address</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} placeholder="you@email.com" /></div>
+                    <div><label style={labelStyle}>Full name</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="Adwoa Mensah" /></div>
+                    <div><label style={labelStyle}>Email address</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="you@email.com" /></div>
                   </div>
-                  <div style={{ marginBottom: 16 }}><label style={labelStyle}>Country</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} placeholder="Ghana" /></div>
+                  <div style={{ marginBottom: 16 }}><label style={labelStyle}>Country</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="Ghana" /></div>
                   <div style={{ marginBottom: 16 }}><label style={labelStyle}>Membership tier</label>
-                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur}><option>Associate</option><option>Professional</option><option>Fellow</option></select>
+                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}><option>Associate</option><option>Professional</option><option>Fellow</option></select>
                   </div>
                   <div style={{ marginBottom: 24 }}><label style={labelStyle}>How did you hear about AIPEA?</label>
-                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur}><option>Social media</option><option>Colleague referral</option><option>Search engine</option><option>Event or conference</option><option>Other</option></select>
+                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}><option>Social media</option><option>Colleague referral</option><option>Search engine</option><option>Event or conference</option><option>Other</option></select>
                   </div>
                   <Magnetic strength={0.25} style={{ width: '100%' }}>
                     <button onClick={() => setSubmitted(true)}
@@ -1405,10 +1195,7 @@ export function AIPEA() {
       <PricingSection />
       <EventHighlight />
       <Courses />
-      <MemberDirectory />
       <Process />
-      <MemberSpotlight />
-      <Testimonials />
       <LeadershipSection />
       <PathwayStrip />
       <Contact />
