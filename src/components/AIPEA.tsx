@@ -342,9 +342,9 @@ function Hero() {
 
             {/* A light editorial grade keeps the conference photo visible while giving
                 the hero copy enough contrast. */}
-            <div style={{ position: 'absolute', inset: 0, background: C.navy, mixBlendMode: 'multiply', opacity: 0.12 }} />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, rgba(12,20,50,0.72) 0%, rgba(18,28,64,0.58) 34%, rgba(18,28,64,0.22) 64%, rgba(18,28,64,0.08) 100%)' }} />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,16,40,0.42) 0%, rgba(10,16,40,0.16) 34%, transparent 68%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: C.navy, mixBlendMode: 'multiply', opacity: 0.2 }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(105deg, rgba(12,20,50,0.8) 0%, rgba(18,28,64,0.66) 34%, rgba(18,28,64,0.3) 64%, rgba(18,28,64,0.12) 100%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,16,40,0.48) 0%, rgba(10,16,40,0.22) 34%, transparent 68%)' }} />
             {/* Top scrim: the nav is transparent over this image for the first 12px of
                 scroll, and its light chrome needs something to sit against. */}
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(11,19,48,0.36) 0%, rgba(11,19,48,0.08) 14%, transparent 24%)' }} />
@@ -355,15 +355,15 @@ function Hero() {
             <div style={{ ...INNER, width: '100%' }}>
               <div className="aipea-hero-layout" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 0.95fr) minmax(260px, 0.45fr)', gap: 48, alignItems: 'center' }}>
                 <div>
-                  <motion.p {...fade(0.1)} style={{ fontFamily: dis, fontSize: 12, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orangeOnDark, marginBottom: S.sm }}>
+                  <motion.p {...fade(0.1)} style={{ fontFamily: dis, fontSize: 12, fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#FFB08F', marginBottom: S.sm, textShadow: '0 2px 16px rgba(0,0,0,0.42)' }}>
                     Founding membership now open
                   </motion.p>
 
-                  <motion.h1 {...fade(0.18)} className="aipea-hero-h1" style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(38px,5vw,76px)', lineHeight: 0.98, letterSpacing: '-0.04em', color: C.white, maxWidth: 860 }}>
-                    Africa&apos;s professional home for <span style={{ color: C.orangeOnDark }}>Personal &amp; Executive Assistants.</span>
+                  <motion.h1 {...fade(0.18)} className="aipea-hero-h1" style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(38px,5vw,76px)', lineHeight: 0.98, letterSpacing: '-0.04em', color: C.white, maxWidth: 860, textShadow: '0 4px 28px rgba(0,0,0,0.42)' }}>
+                    Africa&apos;s professional home for <span style={{ color: '#FF9A70' }}>Personal &amp; Executive Assistants.</span>
                   </motion.h1>
 
-                  <motion.p {...fade(0.26)} className="aipea-hero-sub" style={{ fontFamily: bod, fontSize: 'clamp(15px,1.6vw,18px)', lineHeight: 1.65, color: 'rgba(255,255,255,0.78)', maxWidth: 560, marginTop: S.sm }}>
+                  <motion.p {...fade(0.26)} className="aipea-hero-sub" style={{ fontFamily: bod, fontSize: 'clamp(15px,1.6vw,18px)', lineHeight: 1.65, color: 'rgba(255,255,255,0.9)', maxWidth: 560, marginTop: S.sm, textShadow: '0 2px 18px rgba(0,0,0,0.42)' }}>
                     A member-based institute for learning, certification, networking, and professional growth across Africa.
                   </motion.p>
 
