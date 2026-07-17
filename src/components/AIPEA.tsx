@@ -15,7 +15,7 @@ import {
   type Transition,
 } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Plus, Check, ChevronLeft, ChevronRight, Lock, TrendingUp, Award, Users, BookOpen, Calendar, GraduationCap } from 'lucide-react'
+import { ArrowRight, Plus, Check, ChevronLeft, ChevronRight, Lock, Users, BookOpen, Calendar, GraduationCap } from 'lucide-react'
 import { SiteNav } from '@/components/site/SiteNav'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { PricingBreakdown, type PriceTier, type PriceRow } from '@/components/site/PageKit'
@@ -181,8 +181,8 @@ function Magnetic({ children, strength = 0.35, style }: { children: React.ReactN
   )
 }
 
-function SectionHeader({ statement, aside, align = 'split' }: {
-  statement: string; aside: string; align?: 'split' | 'center' | 'stacked'
+function SectionHeader({ statement, aside, align = 'split', nowrap = false }: {
+  statement: string; aside: string; align?: 'split' | 'center' | 'stacked'; nowrap?: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' as `${number}px` })
@@ -195,8 +195,8 @@ function SectionHeader({ statement, aside, align = 'split' }: {
 
   if (align === 'center') {
     return (
-      <div ref={ref} style={{ textAlign: 'center', maxWidth: 720, margin: `0 auto ${S.headerGap}px` }}>
-        <motion.h2 {...rise(0)} style={{ fontFamily: dis, fontWeight: 800, color: C.text, fontSize: 'clamp(30px,4vw,56px)', lineHeight: 1.05, letterSpacing: '-0.03em' }}>{statement}</motion.h2>
+      <div ref={ref} style={{ textAlign: 'center', maxWidth: nowrap ? 'none' : 720, margin: `0 auto ${S.headerGap}px` }}>
+        <motion.h2 {...rise(0)} style={{ fontFamily: dis, fontWeight: 800, color: C.text, fontSize: nowrap ? 'clamp(22px,3.4vw,56px)' : 'clamp(30px,4vw,56px)', lineHeight: 1.05, letterSpacing: '-0.03em', whiteSpace: nowrap ? 'nowrap' : 'normal' }}>{statement}</motion.h2>
         <motion.p {...rise(0.08)} style={{ fontFamily: bod, fontSize: 15, lineHeight: 1.7, color: C.muted, marginTop: S.xs }}>{aside}</motion.p>
       </div>
     )
@@ -698,7 +698,7 @@ function About() {
   return (
     <section id="about" style={{ ...SECTION, background: C.bg }}>
       <div style={INNER}>
-        <SectionHeader align="stacked" statement="Africa's home for executive professionals." aside="One membership. Everything you need." />
+        <SectionHeader align="center" statement="Africa's home for executive professionals." aside="One membership. Everything you need." />
           <div style={{ display: 'grid', gridTemplateColumns: '0.9fr 1.1fr', gap: 18, alignItems: 'stretch' }} className="aipea-about-visual-grid">
             <Reveal from="left"><TiltCard><CredentialCard title="Professional recognition for the people behind executive performance." tier="Institutional standard" number="AIPEA-STD-001" /></TiltCard></Reveal>
             <Reveal from="right" delay={0.12} style={{ display: 'flex', flexDirection: 'column', border: `1px solid ${C.border}`, borderRadius: 22, background: C.surface, padding: 0, position: 'relative', overflow: 'hidden' }}>
@@ -751,10 +751,61 @@ function About() {
 // --- Core values (from the AIPEA brochure) -------------------------------------
 
 const coreValues = [
-  { n: '01', icon: TrendingUp, title: 'Growth', words: ['Learn', 'Advance', 'Lead'] },
-  { n: '02', icon: Award,      title: 'Value',  words: ['Excellence', 'Integrity', 'You first'] },
-  { n: '03', icon: Users,      title: 'Impact', words: ['Empower', 'Connect', 'Champion'] },
+  { n: '01', title: 'Growth', words: ['Learn', 'Advance', 'Lead'] },
+  { n: '02', title: 'Value',  words: ['Excellence', 'Integrity', 'You first'] },
+  { n: '03', title: 'Impact', words: ['Empower', 'Connect', 'Champion'] },
 ]
+
+function ValueCard({ value }: { value: (typeof coreValues)[number] }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <TiltCard>
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          position: 'relative', overflow: 'hidden', height: '100%', minHeight: 320, borderRadius: 22,
+          border: `1px solid ${hovered ? 'rgba(255,255,255,0.14)' : C.border}`,
+          background: hovered ? `linear-gradient(160deg, ${C.navy} 0%, ${C.navyDark} 100%)` : C.surface,
+          color: hovered ? C.white : C.text, padding: 34,
+          display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+          boxShadow: hovered ? '0 32px 80px rgba(27,42,94,0.32)' : '0 1px 0 rgba(17,28,66,0.03)',
+          transform: hovered ? 'translateY(-10px) scale(1.035)' : 'translateY(0) scale(1)',
+          transition: 'background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1), color 0.5s ease',
+        }}>
+        <div className="aipea-spin" style={{
+          position: 'absolute', top: -54, right: -54, width: 180, height: 180, borderRadius: '50%',
+          border: `1px dashed ${hovered ? 'rgba(255,255,255,0.2)' : 'rgba(232,80,26,0.28)'}`,
+          transition: 'border-color 0.5s ease',
+        }} />
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <span style={{
+            width: 8, height: 8, borderRadius: '50%', marginTop: 6,
+            background: C.orange,
+            boxShadow: hovered ? '0 0 0 6px rgba(232,80,26,0.18)' : '0 0 0 0 rgba(232,80,26,0)',
+            transition: 'box-shadow 0.5s ease',
+          }} />
+          <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 44, letterSpacing: '-0.05em', color: hovered ? 'rgba(255,255,255,0.18)' : C.elevated, transition: 'color 0.5s ease' }}>{value.n}</span>
+        </div>
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 28, letterSpacing: '-0.02em', marginBottom: 14 }}>{value.title}</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {value.words.map((w, wi) => (
+              <motion.span key={w}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: wi * 0.12, ease: EASE }}
+                style={{ fontFamily: dis, fontWeight: 700, fontSize: 19, letterSpacing: '-0.01em', color: hovered ? 'rgba(255,255,255,0.92)' : C.text, transition: 'color 0.5s ease' }}>
+                <span style={{ color: C.orange, marginRight: 9 }}>·</span>{w}
+              </motion.span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </TiltCard>
+  )
+}
 
 function CoreValues() {
   return (
@@ -762,47 +813,11 @@ function CoreValues() {
       <div style={INNER}>
         <SectionHeader align="center" statement="The values behind the standard." aside="Three principles. Everything we build." />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }} className="aipea-values-grid">
-          {coreValues.map((v, i) => {
-            const dark = i === 1
-            const Icon = v.icon
-            return (
-              <ScrollReveal key={v.title} delay={0.1 * i}>
-                <TiltCard>
-                  <div style={{
-                    position: 'relative', overflow: 'hidden', height: '100%', minHeight: 320, borderRadius: 22,
-                    border: `1px solid ${dark ? 'rgba(255,255,255,0.12)' : C.border}`,
-                    background: dark ? `linear-gradient(160deg, ${C.navy} 0%, ${C.navyDark} 100%)` : C.surface,
-                    color: dark ? C.white : C.text, padding: 34,
-                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                    boxShadow: dark ? '0 28px 70px rgba(27,42,94,0.22)' : 'none',
-                  }}>
-                    <div className="aipea-spin" style={{ position: 'absolute', top: -54, right: -54, width: 180, height: 180, borderRadius: '50%', border: `1px dashed ${dark ? 'rgba(255,255,255,0.18)' : 'rgba(232,80,26,0.28)'}` }} />
-                    <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div style={{ width: 52, height: 52, borderRadius: 14, background: dark ? 'rgba(255,255,255,0.1)' : 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center' }}>
-                        <Icon size={22} color={C.orange} />
-                      </div>
-                      <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 44, letterSpacing: '-0.05em', color: dark ? 'rgba(255,255,255,0.18)' : C.elevated }}>{v.n}</span>
-                    </div>
-                    <div style={{ position: 'relative', zIndex: 1 }}>
-                      <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 28, letterSpacing: '-0.02em', marginBottom: 14 }}>{v.title}</h3>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                        {v.words.map((w, wi) => (
-                          <motion.span key={w}
-                            initial={{ opacity: 0, x: -12 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: '-40px' }}
-                            transition={{ duration: 0.5, delay: wi * 0.12, ease: EASE }}
-                            style={{ fontFamily: dis, fontWeight: 700, fontSize: 19, letterSpacing: '-0.01em', color: dark ? 'rgba(255,255,255,0.92)' : C.text }}>
-                            <span style={{ color: C.orange, marginRight: 9 }}>·</span>{w}
-                          </motion.span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </TiltCard>
-              </ScrollReveal>
-            )
-          })}
+          {coreValues.map((v, i) => (
+            <ScrollReveal key={v.title} delay={0.1 * i}>
+              <ValueCard value={v} />
+            </ScrollReveal>
+          ))}
         </div>
       </div>
     </section>
@@ -854,7 +869,7 @@ function Courses() {
   return (
     <section id="courses" style={{ ...SECTION, background: C.bg }}>
       <div style={INNER}>
-        <SectionHeader align="stacked" statement="A full course library. Coming soon." aside="Members get first access." />
+        <SectionHeader align="center" nowrap statement="A full course library. Coming soon." aside="Members get first access." />
         <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.2fr', gap: 22, alignItems: 'stretch' }} className="aipea-course-showcase">
           <Reveal from="left">
             <div style={{ minHeight: 520, borderRadius: 24, padding: 38, background: `linear-gradient(145deg, ${C.navyDark} 0%, ${C.navy} 100%)`, color: C.white, position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -914,53 +929,6 @@ function Courses() {
               </Reveal>
             ))}
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// --- Member Directory Preview -------------------------------------------------
-
-// Status, not headcount. These are the markets AIPEA is opening, so the cards say
-// where a chapter stands rather than inventing a member number for it.
-const countryFeatures = [
-  { country: 'Ghana',        status: 'Founding chapter',  image: '/images/conference/optimized/member-ghana.webp' },
-  { country: 'South Africa', status: 'Chapter forming',   image: '/images/conference/optimized/member-south-africa.webp' },
-  { country: 'Nigeria',      status: 'Chapter forming',   image: '/images/conference/optimized/member-nigeria.webp' },
-  { country: 'Kenya',        status: 'Chapter forming',   image: '/images/conference/optimized/member-kenya.webp' },
-  { country: 'Uganda',       status: 'Members welcome',   image: '/images/conference/optimized/member-uganda.webp' },
-  { country: 'Egypt',        status: 'Members welcome',   image: '/images/conference/optimized/member-egypt.webp' },
-]
-
-function MemberDirectory() {
-  return (
-    <section style={{ ...SECTION, background: C.surface }}>
-      <div style={INNER}>
-        <SectionHeader align="center" statement="A pan-African network." aside="Built to connect members across the continent." />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }} className="aipea-directory-grid">
-          {countryFeatures.map((country, i) => (
-            <ScrollReveal key={country.country} delay={0.05 * i}>
-              <div style={{ borderRadius: 16, overflow: 'hidden', background: C.bg, border: `1px solid ${C.border}`, transition: 'transform 0.2s, box-shadow 0.2s' }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(27,42,94,0.1)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}>
-                <div style={{ position: 'relative', height: 120 }}>
-                  <Image
-                    src={country.image}
-                    alt={country.country}
-                    fill
-                    sizes="160px"
-                    style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                  />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 0%, rgba(27,42,94,0.6) 100%)' }} />
-                </div>
-                <div style={{ padding: 16 }}>
-                  <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 16, color: C.text, marginBottom: 4 }}>{country.country}</div>
-                  <div style={{ fontFamily: bod, fontSize: 12, color: C.orange, fontWeight: 600 }}>{country.status}</div>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
         </div>
       </div>
     </section>
@@ -1059,182 +1027,6 @@ function Process() {
   )
 }
 
-// --- Member Spotlight ---------------------------------------------------------
-
-// Written as what the credential is designed to change, not as claimed outcomes.
-// No named members, employers or figures until AIPEA has real ones to cite.
-const memberSpotlights = [
-  {
-    label: 'Recognition',
-    image: '/images/conference/optimized/testimonial-amara.webp',
-    title: 'The role, named properly.',
-    story: 'A credential your organisation can read at a glance, so the work you already do stops being invisible on paper.',
-  },
-  {
-    label: 'A seat at the table',
-    image: '/images/conference/optimized/testimonial-thandiwe.webp',
-    title: 'Language for the value you add.',
-    story: 'A shared professional vocabulary and framework, so you can make the case for your contribution in terms the board already uses.',
-  },
-  {
-    label: 'Evidence',
-    image: '/images/conference/optimized/testimonial-fatima.webp',
-    title: 'Something to point to.',
-    story: 'Logged CPD hours and a verifiable standard, so your next conversation about progression rests on a record rather than goodwill.',
-  },
-]
-
-function MemberSpotlight() {
-  return (
-    <section style={{ ...SECTION, background: C.surface, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-      <div style={INNER}>
-        <SectionHeader align="center" statement="What the credential is built to change." aside="The three things membership is designed to give you." />
-        <div className="aipea-spotlight-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: S.md }}>
-          {memberSpotlights.map((member, i) => (
-            <ScrollReveal key={member.label} delay={0.08 * i}>
-              <div style={{ borderRadius: 20, overflow: 'hidden', background: C.bg, border: `1px solid ${C.border}`, transition: 'transform 0.22s, box-shadow 0.22s', cursor: 'default', height: '100%' }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 16px 48px rgba(27,42,94,0.12)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}>
-                <div style={{ position: 'relative', height: 240, overflow: 'hidden', background: 'linear-gradient(135deg, #f7f8fc 0%, #eef1f8 100%)' }}>
-                  <Image
-                    src={member.image}
-                    alt="AIPEA member at the annual conference"
-                    fill
-                    sizes="400px"
-                    style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                  />
-                </div>
-                <div style={{ padding: 28 }}>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(232,80,26,0.08)', color: C.orange, fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 12px', borderRadius: 100, marginBottom: S.sm }}>
-                    {member.label}
-                  </div>
-                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, color: C.text, lineHeight: 1.15, marginBottom: 10 }}>{member.title}</h3>
-                  <p style={{ fontFamily: bod, fontSize: 14, lineHeight: 1.65, color: C.muted }}>{member.story}</p>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// --- Testimonials -------------------------------------------------------------
-
-// The case for membership in AIPEA's own voice. Previously three invented members
-// quoted by name at real employers, claiming promotions and a 35% raise. Nothing
-// here is attributed to anyone until real members say it themselves.
-const testimonialData = [
-  {
-    theme: 'Confidence',
-    caption: 'The profession, gathered.',
-    image: '/images/conference/optimized/testimonial-amara.webp',
-    quote: 'You already run the executive office. The credential is there so you can say that out loud, in a form your organisation recognises, without needing anyone\'s permission to claim it.',
-  },
-  {
-    theme: 'Validation',
-    caption: 'A standard held in common.',
-    image: '/images/conference/optimized/testimonial-thandiwe.webp',
-    quote: 'A profession is only as portable as its standard. AIPEA exists so that what you can do means the same thing in Accra, Lagos and Johannesburg, and so that employers have something to read it against.',
-  },
-  {
-    theme: 'Community',
-    caption: 'Peers who know the work.',
-    image: '/images/conference/optimized/testimonial-fatima.webp',
-    quote: 'The role can be a lonely one, and the people who understand it best are the ones doing it elsewhere. Membership is how you find them: the directory, the meetups, the conference, the mentorship.',
-  },
-]
-
-function Testimonials() {
-  const [cur, setCur] = useState(0)
-  const [paused, setPaused] = useState(false)
-  const reduced = useReducedMotion()
-  useEffect(() => {
-    if (paused || reduced) return
-    const id = setInterval(() => setCur(c => (c + 1) % testimonialData.length), 5000)
-    return () => clearInterval(id)
-  }, [paused, reduced])
-  const t = testimonialData[cur]
-  return (
-    <section id="testimonials" style={{ ...SECTION, background: C.bg }}>
-      <div style={INNER}>
-        <SectionHeader statement="Why the profession needs a body of its own." aside="The case for membership, in three parts." />
-        <ScrollReveal delay={0.08}>
-          <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.05fr', gap: 24, alignItems: 'stretch' }} className="aipea-testi-grid">
-            <div>
-              <div className="aipea-testi-left" style={{ minHeight: '56vh', borderRadius: 24, overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 32, position: 'relative', border: '1px solid rgba(255,255,255,0.1)' }}>
-                {/* Full-bleed background photo */}
-                <AnimatePresence initial={false}>
-                  <motion.div key={t.image} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.55 }}
-                    style={{ position: 'absolute', inset: 0 }}>
-                    <Image
-                      src={t.image}
-                      alt="AIPEA members at the annual conference"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                      priority
-                    />
-                  </motion.div>
-                </AnimatePresence>
-                {/* Gradient overlay */}
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(17,28,66,0.45) 0%, transparent 45%, rgba(8,14,38,0.82) 100%)', zIndex: 1 }} />
-                {/* Theme label, top */}
-                <AnimatePresence initial={false} mode="wait">
-                  <motion.span key={t.theme} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.35, ease: EASE }}
-                    style={{ position: 'relative', zIndex: 2, fontFamily: dis, fontWeight: 800, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.orange }}>
-                    {t.theme}
-                  </motion.span>
-                </AnimatePresence>
-                {/* Caption, bottom. Describes the photo; makes no claim about the people in it. */}
-                <AnimatePresence initial={false} mode="wait">
-                  <motion.div key={t.caption} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}
-                    style={{ position: 'relative', zIndex: 2 }}>
-                    <div style={{ fontFamily: dis, fontWeight: 700, fontSize: 17, color: C.white }}>{t.caption}</div>
-                    <div style={{ fontFamily: bod, fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>The PA Conference, Accra</div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 32, borderRadius: 24, background: C.surface, border: `1px solid ${C.border}`, padding: 40 }}
-              onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-              <AnimatePresence initial={false} mode="wait">
-                <motion.div key={t.theme} initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -14 }} transition={{ duration: 0.42, ease: EASE }}>
-                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(28px,3.5vw,44px)', color: C.text, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 24 }}>{t.theme}</h3>
-                  <p style={{ fontFamily: bod, fontSize: 'clamp(16px,1.8vw,19px)', color: C.muted, lineHeight: 1.75 }}>{t.quote}</p>
-                </motion.div>
-              </AnimatePresence>
-              <div>
-              <div style={{ height: 2, background: C.border, borderRadius: 2, marginBottom: 20, overflow: 'hidden' }}>
-                <motion.div key={`${cur}-${paused}`} initial={{ width: '0%' }} animate={{ width: paused || reduced ? '100%' : ['0%', '100%'] }} transition={{ duration: paused || reduced ? 0 : 5, ease: 'linear' }} style={{ height: '100%', background: C.orange }} />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                {([{ fn: () => setCur(c => (c - 1 + testimonialData.length) % testimonialData.length), label: 'Previous', icon: <ChevronLeft size={16} /> }, { fn: () => setCur(c => (c + 1) % testimonialData.length), label: 'Next', icon: <ChevronRight size={16} /> }]).map(({ fn, label, icon }) => (
-                  <button key={label} aria-label={label} onClick={fn}
-                    style={{ width: 40, height: 40, borderRadius: '50%', border: `1px solid ${C.border}`, background: C.bg, color: C.text, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: '0.2s' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = C.orange; e.currentTarget.style.color = C.orange }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.text }}>
-                    {icon}
-                  </button>
-                ))}
-                <div style={{ display: 'flex', gap: 6, marginLeft: 6 }}>
-                  {testimonialData.map((_, i) => (
-                    <button key={i} aria-label={`Testimonial ${i + 1}`} onClick={() => setCur(i)}
-                      style={{ height: 6, width: i === cur ? 20 : 6, borderRadius: i === cur ? 3 : '50%', background: i === cur ? C.orange : C.border, border: 'none', cursor: 'pointer', transition: '0.2s', padding: 0 }} />
-                  ))}
-                </div>
-              </div>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-      </div>
-    </section>
-  )
-}
-
 // --- Contact ------------------------------------------------------------------
 
 const benefits = [
@@ -1247,10 +1039,20 @@ const benefits = [
 
 function Contact() {
   const [submitted, setSubmitted] = useState(false)
-  const inputStyle: React.CSSProperties = { width: '100%', background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: '13px 16px', fontSize: 14, color: C.text, outline: 'none', transition: 'border-color 0.2s', fontFamily: bod }
+  const inputStyle: React.CSSProperties = { width: '100%', background: C.surface, border: `1.5px solid ${C.border}`, borderRadius: 10, padding: '13px 16px', fontSize: 14, color: C.text, outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s', fontFamily: bod }
   const labelStyle: React.CSSProperties = { display: 'block', fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.faint, marginBottom: 7 }
-  const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => { e.target.style.borderColor = C.orange }
-  const onBlur  = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => { e.target.style.borderColor = C.border }
+  const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+    e.target.style.borderColor = C.orange
+    e.target.style.boxShadow = '0 0 0 4px rgba(232,80,26,0.12)'
+    e.target.style.background = C.bg
+  }
+  const onBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+    e.target.style.borderColor = C.border
+    e.target.style.boxShadow = 'none'
+    e.target.style.background = C.surface
+  }
+  const onHoverIn = (e: React.MouseEvent<HTMLInputElement | HTMLSelectElement>) => { if (document.activeElement !== e.currentTarget) e.currentTarget.style.borderColor = C.borderHover }
+  const onHoverOut = (e: React.MouseEvent<HTMLInputElement | HTMLSelectElement>) => { if (document.activeElement !== e.currentTarget) e.currentTarget.style.borderColor = C.border }
 
   return (
     <section id="contact" style={{ ...SECTION, background: C.surface }}>
@@ -1289,7 +1091,7 @@ function Contact() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.16}>
-            <div style={{ background: C.bg, border: `1px solid ${C.border}`, borderRadius: 24, padding: 42 }}>
+            <div style={{ background: C.bg, border: `1px solid ${C.borderHover}`, borderRadius: 24, padding: 42, boxShadow: '0 24px 64px rgba(27,42,94,0.12)' }}>
               {submitted ? (
                 <div style={{ textAlign: 'center', padding: '40px 0' }}>
                   <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(232,80,26,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
@@ -1303,15 +1105,15 @@ function Contact() {
                   <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: '-0.01em' }}>Tell us about yourself</div>
                   <p style={{ fontFamily: bod, fontSize: 13, color: C.muted, marginBottom: 28, marginTop: 6 }}>Takes about two minutes.</p>
                   <div className="aipea-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
-                    <div><label style={labelStyle}>Full name</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} placeholder="Adwoa Mensah" /></div>
-                    <div><label style={labelStyle}>Email address</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} placeholder="you@email.com" /></div>
+                    <div><label style={labelStyle}>Full name</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="Adwoa Mensah" /></div>
+                    <div><label style={labelStyle}>Email address</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="you@email.com" /></div>
                   </div>
-                  <div style={{ marginBottom: 16 }}><label style={labelStyle}>Country</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} placeholder="Ghana" /></div>
+                  <div style={{ marginBottom: 16 }}><label style={labelStyle}>Country</label><input style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut} placeholder="Ghana" /></div>
                   <div style={{ marginBottom: 16 }}><label style={labelStyle}>Membership tier</label>
-                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur}><option>Associate</option><option>Professional</option><option>Fellow</option></select>
+                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}><option>Associate</option><option>Professional</option><option>Fellow</option></select>
                   </div>
                   <div style={{ marginBottom: 24 }}><label style={labelStyle}>How did you hear about AIPEA?</label>
-                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur}><option>Social media</option><option>Colleague referral</option><option>Search engine</option><option>Event or conference</option><option>Other</option></select>
+                    <select style={inputStyle} onFocus={onFocus} onBlur={onBlur} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}><option>Social media</option><option>Colleague referral</option><option>Search engine</option><option>Event or conference</option><option>Other</option></select>
                   </div>
                   <Magnetic strength={0.25} style={{ width: '100%' }}>
                     <button onClick={() => setSubmitted(true)}
@@ -1509,10 +1311,7 @@ export function AIPEA() {
       <PricingSection />
       <EventHighlight />
       <Courses />
-      <MemberDirectory />
       <Process />
-      <MemberSpotlight />
-      <Testimonials />
       <LeadershipSection />
       <PathwayStrip />
       <Contact />
