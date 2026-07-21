@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, Eye, EyeOff } from 'lucide-react'
-import { savePendingSignup, TIER_PRICING, formatCedis } from '@/lib/auth'
+import { savePendingSignup, continueWithGoogle, getAuthErrorMessage, TIER_PRICING, formatCedis } from '@/lib/auth'
 import { BrandPanel } from '@/components/auth/BrandPanel'
+import { GoogleGlyph } from '@/components/auth/GoogleGlyph'
 
 const ORANGE     = '#E8501A'
 const ORANGE_DIM = '#c94314'
@@ -42,7 +43,9 @@ export default function SignUp() {
   const [tier,     setTier]     = useState<Tier>('Professional')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
+  const [newsletterConsent, setNewsletterConsent] = useState(false)
   const [error,    setError]    = useState('')
+  const [googleLoading, setGoogleLoading] = useState(false)
 
   // Preselect the membership tier from ?tier= (e.g. from the pricing table CTAs)
   useEffect(() => {
@@ -57,8 +60,28 @@ export default function SignUp() {
     if (!email.trim())   { setError('Please enter your email.'); return }
     if (!country.trim()) { setError('Please enter your country.'); return }
     if (!password)       { setError('Please choose a password.'); return }
-    savePendingSignup({ name: name.trim(), email: email.trim(), country: country.trim(), tier })
+    if (password.length < 6) { setError('Password must be at least 6 characters.'); return }
+    savePendingSignup({
+      name: name.trim(),
+      email: email.trim(),
+      country: country.trim(),
+      tier,
+      password,
+      newsletterConsent,
+    })
     router.push('/checkout')
+  }
+
+  async function handleGoogleSignUp() {
+    setError('')
+    setGoogleLoading(true)
+    try {
+      await continueWithGoogle()
+      router.push('/dashboard')
+    } catch (err) {
+      setError(getAuthErrorMessage(err))
+      setGoogleLoading(false)
+    }
   }
 
   const onFocus = (e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = ORANGE)
@@ -89,9 +112,26 @@ export default function SignUp() {
               <h1 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(26px,3.2vw,38px)', color: NAVY_DARK, letterSpacing: '-0.025em', lineHeight: 1, marginBottom: 8 }}>
                 Join AIPEA.
               </h1>
-              <p style={{ fontFamily: bod, fontSize: 14, color: 'rgba(17,28,66,0.48)', marginBottom: 36 }}>
+              <p style={{ fontFamily: bod, fontSize: 14, color: 'rgba(17,28,66,0.48)', marginBottom: 28 }}>
                 Create your professional membership account.
               </p>
+
+              <button type="button" onClick={handleGoogleSignUp} disabled={googleLoading}
+                style={{ width: '100%', background: '#fff', color: NAVY_DARK, fontFamily: dis, fontWeight: 700, fontSize: 14, padding: '13px', borderRadius: 8, border: '1px solid rgba(27,42,94,0.15)', cursor: googleLoading ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, transition: 'background 0.2s' }}
+                onMouseEnter={e => { if (!googleLoading) e.currentTarget.style.background = '#f7f8fc' }}
+                onMouseLeave={e => (e.currentTarget.style.background = '#fff')}>
+                <GoogleGlyph />
+                {googleLoading ? 'Opening Google…' : 'Continue with Google'}
+              </button>
+              <p style={{ fontFamily: bod, fontSize: 11.5, color: 'rgba(17,28,66,0.32)', textAlign: 'center', marginTop: 8 }}>
+                Instantly creates a free Associate membership.
+              </p>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '24px 0' }}>
+                <div style={{ flex: 1, height: 1, background: 'rgba(27,42,94,0.09)' }} />
+                <span style={{ fontFamily: bod, fontSize: 11.5, color: 'rgba(17,28,66,0.3)' }}>or sign up with email</span>
+                <div style={{ flex: 1, height: 1, background: 'rgba(27,42,94,0.09)' }} />
+              </div>
 
               <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
@@ -146,6 +186,18 @@ export default function SignUp() {
                     </button>
                   </div>
                 </div>
+
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={newsletterConsent}
+                    onChange={e => setNewsletterConsent(e.target.checked)}
+                    style={{ marginTop: 2, width: 15, height: 15, accentColor: ORANGE, cursor: 'pointer', flexShrink: 0 }}
+                  />
+                  <span style={{ fontFamily: bod, fontSize: 12.5, color: 'rgba(17,28,66,0.5)', lineHeight: 1.55 }}>
+                    Send me AIPEA news, event invites, and the occasional newsletter. You can unsubscribe anytime.
+                  </span>
+                </label>
 
                 {error && (
                   <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}

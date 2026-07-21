@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, Eye, EyeOff } from 'lucide-react'
-import { getUser, saveUser, generateMemberId } from '@/lib/auth'
+import { signInMember, continueWithGoogle, getAuthErrorMessage } from '@/lib/auth'
 import { BrandPanel } from '@/components/auth/BrandPanel'
+import { GoogleGlyph } from '@/components/auth/GoogleGlyph'
 
 const ORANGE     = '#E8501A'
 const ORANGE_DIM = '#c94314'
@@ -34,21 +35,32 @@ export default function SignIn() {
   const [showPass, setShowPass] = useState(false)
   const [error,    setError]    = useState('')
   const [loading,  setLoading]  = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
     if (!email.trim() || !password) { setError('Please fill in all fields.'); return }
     setLoading(true)
-    await new Promise(r => setTimeout(r, 900))
-    const stored = getUser()
-    if (stored && stored.email.toLowerCase() === email.toLowerCase()) {
+    try {
+      await signInMember(email.trim(), password)
       router.push('/dashboard')
-      return
+    } catch (err) {
+      setError(getAuthErrorMessage(err))
+      setLoading(false)
     }
-    const name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-    saveUser({ name, email, tier: 'Associate', memberId: generateMemberId(), joinedAt: new Date().toISOString() })
-    router.push('/dashboard')
+  }
+
+  async function handleGoogleSignIn() {
+    setError('')
+    setGoogleLoading(true)
+    try {
+      await continueWithGoogle()
+      router.push('/dashboard')
+    } catch (err) {
+      setError(getAuthErrorMessage(err))
+      setGoogleLoading(false)
+    }
   }
 
   const onFocus = (e: React.FocusEvent<HTMLInputElement>) => (e.target.style.borderColor = ORANGE)
@@ -79,9 +91,23 @@ export default function SignIn() {
           <h1 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(28px,3.5vw,40px)', color: NAVY_DARK, letterSpacing: '-0.025em', lineHeight: 1, marginBottom: 10 }}>
             Welcome back.
           </h1>
-          <p style={{ fontFamily: bod, fontSize: 14, color: 'rgba(17,28,66,0.48)', marginBottom: 40 }}>
+          <p style={{ fontFamily: bod, fontSize: 14, color: 'rgba(17,28,66,0.48)', marginBottom: 28 }}>
             Sign in to your AIPEA account.
           </p>
+
+          <button type="button" onClick={handleGoogleSignIn} disabled={googleLoading}
+            style={{ width: '100%', background: '#fff', color: NAVY_DARK, fontFamily: dis, fontWeight: 700, fontSize: 14, padding: '13px', borderRadius: 8, border: '1px solid rgba(27,42,94,0.15)', cursor: googleLoading ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, transition: 'background 0.2s' }}
+            onMouseEnter={e => { if (!googleLoading) e.currentTarget.style.background = '#f7f8fc' }}
+            onMouseLeave={e => (e.currentTarget.style.background = '#fff')}>
+            <GoogleGlyph />
+            {googleLoading ? 'Opening Google…' : 'Continue with Google'}
+          </button>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '24px 0' }}>
+            <div style={{ flex: 1, height: 1, background: 'rgba(27,42,94,0.09)' }} />
+            <span style={{ fontFamily: bod, fontSize: 11.5, color: 'rgba(17,28,66,0.3)' }}>or sign in with email</span>
+            <div style={{ flex: 1, height: 1, background: 'rgba(27,42,94,0.09)' }} />
+          </div>
 
           <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div>
@@ -130,9 +156,6 @@ export default function SignIn() {
               <Link href="/sign-up" style={{ color: ORANGE, fontWeight: 600, textDecoration: 'none' }}>Join AIPEA →</Link>
             </p>
           </div>
-          <p style={{ fontFamily: bod, textAlign: 'center', marginTop: 18, fontSize: 12, color: 'rgba(17,28,66,0.22)' }}>
-            Demo: any email + any password
-          </p>
         </motion.div>
       </div>
     </div>

@@ -9,8 +9,10 @@ import { ArrowLeft, Check, Lock, ShieldCheck } from 'lucide-react'
 import {
   getPendingSignup,
   clearPendingSignup,
-  saveUser,
+  signUpAssociate,
+  saveFakePaidUser,
   generateMemberId,
+  getAuthErrorMessage,
   TIER_PRICING,
   formatCedis,
   type PendingSignup,
@@ -75,9 +77,28 @@ export default function Checkout() {
     setPending(p)
   }, [router])
 
-  function activateMembership() {
+  async function activateAssociateMembership() {
     if (!pending) return
-    saveUser({
+    try {
+      await signUpAssociate(pending)
+      clearPendingSignup()
+      setStatus('success')
+      setTimeout(() => router.push('/dashboard'), 1200)
+    } catch (err) {
+      setStatus('idle')
+      setError(getAuthErrorMessage(err))
+    }
+  }
+
+  // Paid tiers (Professional/Fellow) aren't backed by real payment
+  // verification yet — nothing server-side confirms the Paystack
+  // transaction, so we can't grant a real persisted account the way the
+  // free tier does. This keeps today's demo behaviour (local-only fake
+  // activation) instead of pretending a paid membership was created;
+  // superseded once Paystack verification ships server-side.
+  function activatePaidMembershipFake() {
+    if (!pending) return
+    saveFakePaidUser({
       name:     pending.name,
       email:    pending.email,
       country:  pending.country,
@@ -94,10 +115,10 @@ export default function Checkout() {
     if (!pending || status !== 'idle') return
     setError('')
 
-    // Free tier: no payment required, activate immediately
+    // Free tier: no payment required, create the real account immediately
     if (TIER_PRICING[pending.tier] === 0) {
       setStatus('processing')
-      setTimeout(activateMembership, 500)
+      void activateAssociateMembership()
       return
     }
 
@@ -120,8 +141,8 @@ export default function Checkout() {
         ],
       },
       callback(response) {
-        // Payment confirmed: activate membership
-        activateMembership()
+        // Payment confirmed: activate membership (fake, see comment above)
+        activatePaidMembershipFake()
         void response.reference
       },
       onClose() {

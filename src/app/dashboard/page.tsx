@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Users, BookOpen, Calendar, BarChart3, LogOut, ArrowRight } from 'lucide-react'
-import { getUser, clearUser, formatJoinDate, firstName, type AIPEAUser } from '@/lib/auth'
+import { signOutMember, formatJoinDate, firstName } from '@/lib/auth'
+import { useAuth, type MemberProfile } from '@/hooks/useAuth'
 
 const ORANGE     = '#E8501A'
 const ORANGE_DIM = '#c94314'
@@ -46,7 +47,7 @@ function LoadingScreen() {
 
 // --- Navbar -------------------------------------------------------------------
 
-function DashNav({ user, onSignOut }: { user: AIPEAUser; onSignOut: () => void }) {
+function DashNav({ user, onSignOut }: { user: MemberProfile; onSignOut: () => void }) {
   const initials = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
   return (
     <nav style={{
@@ -78,7 +79,7 @@ function DashNav({ user, onSignOut }: { user: AIPEAUser; onSignOut: () => void }
 
 // --- Credential card ----------------------------------------------------------
 
-function CredentialCard({ user }: { user: AIPEAUser }) {
+function CredentialCard({ user }: { user: MemberProfile }) {
   const initials = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
   return (
     <div style={{
@@ -203,17 +204,18 @@ function FeatureCard({ iconColor, icon, title, desc }: { iconColor: string; icon
 
 export default function Dashboard() {
   const router = useRouter()
-  const [user, setUser] = useState<AIPEAUser | null>(null)
+  const { user: authUser, profile, loading } = useAuth()
 
   useEffect(() => {
-    const u = getUser()
-    if (!u) { router.push('/sign-in'); return }
-    setUser(u)
-  }, [router])
+    if (!loading && !authUser) router.push('/sign-in')
+  }, [loading, authUser, router])
 
-  function handleSignOut() { clearUser(); router.push('/') }
+  function handleSignOut() {
+    void signOutMember().then(() => router.push('/'))
+  }
 
-  if (!user) return <LoadingScreen />
+  if (loading || !profile) return <LoadingScreen />
+  const user = profile
 
   const f = (delay: number) => ({
     initial: { opacity: 0, y: 18 },
