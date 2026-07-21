@@ -84,6 +84,8 @@ export function getAuthErrorMessage(err: unknown): string {
       return 'Your browser blocked the sign-in popup. Please allow popups and try again.'
     case 'auth/account-exists-with-different-credential':
       return 'An account with this email already exists using a different sign-in method. Try signing in with your password instead.'
+    case 'auth/unauthorized-domain':
+      return 'This site isn’t authorized for Google sign-in yet. Add this domain in Firebase Console → Authentication → Settings → Authorized domains.'
     default:
       return 'Something went wrong. Please try again.'
   }
