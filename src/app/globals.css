@@ -63,6 +63,9 @@ body {
 @media (max-width: 860px) {
   .aipea-auth-panel { display: none !important; }
 }
+@media (max-width: 560px) {
+  .aipea-signup-row { grid-template-columns: 1fr !important; }
+}
 
 /* ── Dashboard ────────────────────────────────────────────────── */
 @media (max-width: 960px) {

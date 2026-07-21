@@ -11,13 +11,17 @@ import { getFirebaseAuth, getFirebaseDb } from './firebase'
 
 export type MembershipTier = 'Associate' | 'Professional' | 'Fellow'
 
-export interface PendingSignup {
+export interface AssociateSignupInput {
   name: string
   email: string
   country: string
-  tier: MembershipTier
   password: string
   newsletterConsent: boolean
+}
+
+/** Adds the tier choice, used only by the (currently dormant) paid checkout. */
+export interface PendingSignup extends AssociateSignupInput {
+  tier: MembershipTier
 }
 
 export const TIER_PRICING: Record<MembershipTier, number> = {
@@ -97,7 +101,7 @@ export function getAuthErrorMessage(err: unknown): string {
  * a client to self-create a doc with tier 'Associate'/status 'active', so
  * this is intentionally not parameterised by pending.tier.
  */
-export async function signUpAssociate(pending: PendingSignup): Promise<void> {
+export async function signUpAssociate(pending: AssociateSignupInput): Promise<void> {
   const credential = await createUserWithEmailAndPassword(getFirebaseAuth(), pending.email, pending.password)
   await updateProfile(credential.user, { displayName: pending.name })
   await setDoc(doc(getFirebaseDb(), 'users', credential.user.uid), {
@@ -121,7 +125,7 @@ export async function signUpAssociate(pending: PendingSignup): Promise<void> {
  * the welcome email exactly as it does for password signups — no backend
  * changes needed. Returning Google users just get signed in.
  */
-export async function continueWithGoogle(): Promise<void> {
+export async function continueWithGoogle(newsletterConsent = false): Promise<void> {
   const credential = await signInWithPopup(getFirebaseAuth(), new GoogleAuthProvider())
   const userRef = doc(getFirebaseDb(), 'users', credential.user.uid)
   const existing = await getDoc(userRef)
@@ -133,7 +137,7 @@ export async function continueWithGoogle(): Promise<void> {
       country: '',
       tier: 'Associate',
       status: 'active',
-      newsletterConsent: false,
+      newsletterConsent,
       memberId: generateMemberId(),
       createdAt: serverTimestamp(),
     })
