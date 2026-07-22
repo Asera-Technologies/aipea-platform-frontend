@@ -38,6 +38,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      // globals.css sets `scroll-behavior: smooth` for in-page anchor jumps.
+      // Next 16 no longer auto-suppresses that during route transitions, so
+      // without this attribute every subpage-to-subpage navigation animates the
+      // scroll-to-top instead of jumping. This opts back into the override:
+      // instant on navigation, smooth for on-page anchors.
+      data-scroll-behavior="smooth"
       className={`${dmSansDisplay.variable} ${dmSansBody.variable} antialiased`}
       suppressHydrationWarning
     >
