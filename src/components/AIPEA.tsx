@@ -253,7 +253,6 @@ function Hero() {
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.8, delay, ease: EASE } satisfies Transition,
   })
-  const heroSlide = HERO_SLIDES[heroIndex]
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -269,25 +268,29 @@ function Hero() {
       <div className="aipea-float" style={{ position: 'absolute', right: '8%', bottom: '10%', width: 480, height: 480, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,80,26,0.22), rgba(232,80,26,0.06) 42%, transparent 70%)', opacity: 0.14, filter: 'blur(2px)', pointerEvents: 'none', zIndex: 1 }} />
 
       <div className="aipea-hero-visual" style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-        <AnimatePresence initial={false}>
+        {/* Every slide stays mounted and crossfades on opacity. Swapping a single
+            <Image> via AnimatePresence meant each photo only began downloading at
+            the moment it became visible, so the transition showed a grey frame
+            while it fetched. Mounted-and-eager costs one upfront load instead. */}
+        {HERO_SLIDES.map((slide, i) => (
           <motion.div
-            key={heroSlide.src}
-            initial={{ opacity: 0, scale: 1.015 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
+            key={slide.src}
+            initial={false}
+            animate={{ opacity: i === heroIndex ? 1 : 0 }}
             transition={{ duration: 1.1, ease: EASE }}
             style={{ position: 'absolute', inset: 0 }}
+            aria-hidden={i !== heroIndex}
           >
             <Image
-              src={heroSlide.src}
-              alt={heroSlide.alt}
+              src={slide.src}
+              alt={slide.alt}
               fill
               sizes="100vw"
-              style={{ objectFit: 'cover', objectPosition: heroSlide.objectPosition }}
-              priority={heroIndex === 0}
+              style={{ objectFit: 'cover', objectPosition: slide.objectPosition }}
+              {...(i === 0 ? { priority: true } : { loading: 'eager' as const })}
             />
           </motion.div>
-        </AnimatePresence>
+        ))}
 
         {/* A light editorial grade keeps the conference photo visible while giving
             the hero copy enough contrast. */}
