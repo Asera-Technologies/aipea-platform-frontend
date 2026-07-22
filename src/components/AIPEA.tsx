@@ -249,12 +249,34 @@ function CredentialCard({ title, tier, number, compact = false }: {
 
 // --- Hero ---------------------------------------------------------------------
 
+const HERO_SLIDES = [
+  {
+    src: '/images/conference/optimized/hero-main-alt.webp',
+    alt: 'Attendees gathered in the PA Conference hall',
+    objectPosition: 'center center',
+  },
+  {
+    src: '/images/conference/optimized/hero-main.webp',
+    alt: 'The AIPEA annual conference in session in Accra',
+    objectPosition: '62% 26%',
+  },
+]
+
 function Hero() {
+  const [heroIndex, setHeroIndex] = useState(0)
   const fade = (delay: number) => ({
     initial: { opacity: 0, y: 24 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.8, delay, ease: EASE } satisfies Transition,
   })
+  const heroSlide = HERO_SLIDES[heroIndex]
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHeroIndex(i => (i + 1) % HERO_SLIDES.length)
+    }, 6500)
+    return () => clearInterval(id)
+  }, [])
 
   return (
     <section className="aipea-hero-section" style={{ position: 'relative', overflow: 'hidden', background: C.white }}>
@@ -263,14 +285,25 @@ function Hero() {
       <div className="aipea-float" style={{ position: 'absolute', right: '8%', bottom: '10%', width: 480, height: 480, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,80,26,0.22), rgba(232,80,26,0.06) 42%, transparent 70%)', opacity: 0.14, filter: 'blur(2px)', pointerEvents: 'none', zIndex: 1 }} />
 
       <div className="aipea-hero-visual" style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-        <Image
-          src="/images/conference/optimized/hero-main.webp"
-          alt="The AIPEA annual conference in session in Accra"
-          fill
-          sizes="100vw"
-          style={{ objectFit: 'cover', objectPosition: '62% 26%' }}
-          priority
-        />
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={heroSlide.src}
+            initial={{ opacity: 0, scale: 1.015 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.1, ease: EASE }}
+            style={{ position: 'absolute', inset: 0 }}
+          >
+            <Image
+              src={heroSlide.src}
+              alt={heroSlide.alt}
+              fill
+              sizes="100vw"
+              style={{ objectFit: 'cover', objectPosition: heroSlide.objectPosition }}
+              priority={heroIndex === 0}
+            />
+          </motion.div>
+        </AnimatePresence>
 
         {/* A light editorial grade keeps the conference photo visible while giving
             the hero copy enough contrast. */}
