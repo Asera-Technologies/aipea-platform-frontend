@@ -49,7 +49,7 @@ const NAV: NavItem[] = [
   {
     label: 'Events', href: '/events',
     links: [
-      { label: 'Annual Conference',   desc: 'Accra · September 2026.',            href: '/events#conference', icon: CalendarDays },
+      { label: 'Annual Conference',   desc: 'Accra · July 2026.',            href: '/events#conference', icon: CalendarDays },
       { label: 'Regional meetups',    desc: 'Face-to-face across the continent.', href: '/events#regional',   icon: MapPin },
       { label: 'Webinars & masterclasses', desc: 'Learn live, from anywhere.',    href: '/events#webinars',   icon: Video },
       { label: 'Events calendar',     desc: 'Everything on one timeline.',        href: '/events#calendar',   icon: CalendarClock },

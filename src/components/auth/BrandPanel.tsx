@@ -12,23 +12,18 @@ const bod = 'var(--font-inter), sans-serif'
 
 const SLIDES = [
   {
-    src: '/images/conference/optimized/auth-conference.webp',
-    alt: 'AIPEA conference attendees in session',
+    src: '/images/conference/optimized/auth-workshop.webp',
+    alt: 'The PA Conference stage in Accra',
     local: true,
   },
   {
-    src: '/images/conference/optimized/auth-workshop.webp',
-    alt: 'AIPEA members taking part in a workshop',
+    src: '/images/conference/optimized/gallery-04.webp',
+    alt: 'An AIPEA member at the annual conference',
     local: true,
   },
   {
     src: '/images/conference/optimized/auth-stage.webp',
-    alt: 'AIPEA members on stage at the conference',
-    local: true,
-  },
-  {
-    src: '/images/conference/optimized/events-speaker.webp',
-    alt: 'AIPEA speaker addressing conference delegates',
+    alt: 'AIPEA members in conversation at the conference',
     local: true,
   },
 ]

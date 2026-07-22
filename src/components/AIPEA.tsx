@@ -216,37 +216,6 @@ function SectionHeader({ statement, aside, align = 'split', nowrap = false }: {
   )
 }
 
-function CredentialCard({ title, tier, number, compact = false }: {
-  title: string; tier: string; number: string; compact?: boolean
-}) {
-  return (
-    <div style={{
-      position: 'relative', height: '100%', minHeight: compact ? 260 : 320, borderRadius: 22,
-      overflow: 'hidden',
-      background: `linear-gradient(145deg, ${C.navy} 0%, ${C.navyDark} 58%, #071024 100%)`,
-      border: '1px solid rgba(255,255,255,0.14)',
-      boxShadow: '0 28px 80px rgba(27,42,94,0.2)',
-      color: C.white, padding: compact ? 28 : 36,
-    }}>
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 80% 20%, rgba(232,80,26,0.28), transparent 40%)' }} />
-      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: dis, fontWeight: 800, letterSpacing: '0.18em', color: C.orange }}>AIPEA</span>
-          <div style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.22)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11 }}>EA</div>
-        </div>
-        <div>
-          <p style={{ fontFamily: bod, fontSize: 11, color: 'rgba(255,255,255,0.45)', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 8 }}>{tier}</p>
-          <h3 style={{ fontFamily: dis, fontSize: compact ? 22 : 32, lineHeight: 1.05, letterSpacing: '-0.03em', maxWidth: 400 }}>{title}</h3>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 16 }}>
-          <span style={{ fontFamily: bod, fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>{number}</span>
-          <span style={{ fontFamily: bod, fontSize: 11, color: C.orange, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Verified credential</span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 // --- Hero ---------------------------------------------------------------------
 
 const HERO_SLIDES = [
@@ -512,27 +481,14 @@ function PillarStrip() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }} className="aipea-pillars-grid">
           {pillars.map((p, i) => {
             const Icon = p.icon
-            const pillarImages = [
-              '/images/conference/optimized/gallery-01.webp',
-              '/images/conference/optimized/gallery-02.webp',
-              '/images/conference/optimized/gallery-03.webp',
-              '/images/conference/optimized/gallery-04.webp',
-            ]
             return (
               <ScrollReveal key={p.label} delay={0.06 * i}>
+                {/* These cards used to carry a photo at 4% opacity — invisible in
+                    practice, and it tied up four usable photographs. Icon and type
+                    carry the card on their own. */}
                 <a href={p.href} style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '28px 26px', borderRadius: 18, border: `1px solid ${C.border}`, background: C.surface, textDecoration: 'none', transition: 'border-color 0.22s, box-shadow 0.22s, transform 0.22s', position: 'relative', overflow: 'hidden' }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = C.borderHover; e.currentTarget.style.boxShadow = '0 12px 40px rgba(27,42,94,0.07)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}>
-                  {/* Subtle background image */}
-                  <div style={{ position: 'absolute', inset: 0, opacity: 0.04, zIndex: 0 }}>
-                    <Image
-                      src={pillarImages[i]}
-                      alt=""
-                      fill
-                      sizes="300px"
-                      style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                    />
-                  </div>
                   <div style={{ position: 'relative', zIndex: 1, width: 44, height: 44, borderRadius: 12, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', marginBottom: 20 }}>
                     <Icon size={20} color={C.orange} />
                   </div>
@@ -674,48 +630,50 @@ function About() {
     <section id="about" style={{ ...SECTION, background: C.bg }}>
       <div style={INNER}>
         <SectionHeader align="center" statement="Africa's home for executive professionals." aside="One membership. Everything you need." />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, alignItems: 'stretch' }} className="aipea-about-visual-grid">
-            <Reveal from="left"><CredentialCard title="Professional recognition for the people behind executive performance." tier="Institutional standard" number="AIPEA-STD-001" /></Reveal>
-            <Reveal from="right" delay={0.12} style={{ height: '100%', display: 'flex', flexDirection: 'column', border: `1px solid ${C.border}`, borderRadius: 22, background: C.surface, padding: 0, overflow: 'hidden' }}>
-              {/* Community photo element */}
-              <div style={{ position: 'relative', height: 200, background: 'linear-gradient(135deg, #0d1831 0%, #1B2A5E 55%, #24396e 100%)', flexShrink: 0, overflow: 'hidden' }}>
-                <Image
-                  src="/images/conference/optimized/events-stage.webp"
-                  alt="AIPEA members in a boardroom meeting"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  style={{ objectFit: 'cover', objectPosition: 'center top', opacity: 0.7 }}
-                />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(27,42,94,0.45) 0%, rgba(27,42,94,0.35) 55%, rgba(36,57,110,0.4) 100%)' }} />
-                <div style={{ position: 'absolute', top: 20, left: 24, fontFamily: dis, fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)', zIndex: 2 }}>
-                  AIPEA Community · 2025
-                </div>
-                <div style={{ position: 'absolute', bottom: 24, left: 24, display: 'flex', alignItems: 'center', zIndex: 2 }}>
-                  {([['AA', C.orange], ['JO', '#1B2A5E'], ['NK', '#059669'], ['FM', '#7c3aed'], ['TM', '#0891b2']] as [string, string][]).map(([ini, color], i) => (
-                    <div key={ini} style={{ width: 40, height: 40, borderRadius: '50%', background: color, border: '2.5px solid rgba(255,255,255,0.22)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: C.white, marginLeft: i > 0 ? -14 : 0, zIndex: 10 - i, position: 'relative' }}>{ini}</div>
-                  ))}
-                  <div style={{ marginLeft: 16 }}>
-                    <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 15, color: C.white, lineHeight: 1 }}>Founding cohort</div>
-                    <div style={{ fontFamily: bod, fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 3 }}>now forming across Africa</div>
-                  </div>
+          {/* One card, not two. The split layout put a credential panel beside a
+              purpose panel at mismatched heights; this says the same thing in a
+              single block that reads top to bottom. */}
+          <Reveal style={{ border: `1px solid ${C.border}`, borderRadius: 22, background: C.surface, overflow: 'hidden' }}>
+            <div className="aipea-about-photo" style={{ position: 'relative', height: 280, background: 'linear-gradient(135deg, #0d1831 0%, #1B2A5E 55%, #24396e 100%)', overflow: 'hidden' }}>
+              <Image
+                src="/images/conference/optimized/about-story.webp"
+                alt="AIPEA members gathered at the annual conference in Accra"
+                fill
+                sizes="(max-width: 768px) 100vw, 1400px"
+                style={{ objectFit: 'cover', objectPosition: 'center 72%' }}
+              />
+              {/* Scrim only where the overlaid labels sit, so the photograph itself
+                  stays legible instead of sitting under a flat navy wash. */}
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,16,40,0.72) 0%, rgba(10,16,40,0.25) 34%, rgba(10,16,40,0.05) 60%)' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(10,16,40,0.68) 0%, rgba(10,16,40,0.3) 16%, transparent 32%)' }} />
+              <div style={{ position: 'absolute', top: 22, left: 26, fontFamily: dis, fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', zIndex: 2 }}>
+                AIPEA Community · 2025
+              </div>
+              <div style={{ position: 'absolute', bottom: 24, left: 26, display: 'flex', alignItems: 'center', zIndex: 2 }}>
+                {([['AA', C.orange], ['JO', '#1B2A5E'], ['NK', '#059669'], ['FM', '#7c3aed'], ['TM', '#0891b2']] as [string, string][]).map(([ini, color], i) => (
+                  <div key={ini} style={{ width: 40, height: 40, borderRadius: '50%', background: color, border: '2.5px solid rgba(255,255,255,0.22)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: C.white, marginLeft: i > 0 ? -14 : 0, zIndex: 10 - i, position: 'relative' }}>{ini}</div>
+                ))}
+                <div style={{ marginLeft: 16 }}>
+                  <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 15, color: C.white, lineHeight: 1 }}>Founding cohort</div>
+                  <div style={{ fontFamily: bod, fontSize: 11, color: 'rgba(255,255,255,0.6)', marginTop: 3 }}>now forming across Africa</div>
                 </div>
               </div>
+            </div>
 
-              {/* Text section */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24, padding: 'clamp(28px,3.5vw,44px)' }}>
-                <div>
-                  <p style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, color: C.orange, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 18 }}>Our purpose</p>
-                  <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(24px,2.8vw,40px)', lineHeight: 1.12, letterSpacing: '-0.02em', color: C.text }}>
-                    Where assistants and the leaders they support succeed together.
-                  </p>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.text, border: `1px solid ${C.border}`, borderRadius: 999, padding: '8px 16px' }}>Rooted in Ghana</span>
-                  <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.text, border: `1px solid ${C.border}`, borderRadius: 999, padding: '8px 16px' }}>Serving Africa</span>
-                </div>
+            <div style={{ textAlign: 'center', padding: 'clamp(32px,4vw,56px) clamp(24px,4vw,56px)' }}>
+              <p style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, color: C.orange, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 18 }}>Our purpose</p>
+              <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(24px,2.8vw,40px)', lineHeight: 1.12, letterSpacing: '-0.02em', color: C.text, maxWidth: 760, margin: '0 auto' }}>
+                Where assistants and the leaders they support succeed together.
+              </p>
+              <p style={{ fontFamily: bod, fontSize: 15, lineHeight: 1.75, color: C.muted, maxWidth: 560, margin: '18px auto 0' }}>
+                Professional recognition for the people behind executive performance.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap', marginTop: 28 }}>
+                <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.text, border: `1px solid ${C.border}`, borderRadius: 999, padding: '8px 16px' }}>Rooted in Ghana</span>
+                <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.text, border: `1px solid ${C.border}`, borderRadius: 999, padding: '8px 16px' }}>Serving Africa</span>
               </div>
-            </Reveal>
-          </div>
+            </div>
+          </Reveal>
       </div>
     </section>
   )
@@ -849,8 +807,8 @@ function Courses() {
             <div className="aipea-course-hero" style={{ minHeight: 520, borderRadius: 24, padding: 38, background: `linear-gradient(145deg, ${C.navyDark} 0%, ${C.navy} 100%)`, color: C.white, position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
               <div style={{ position: 'absolute', inset: 0, opacity: 0.12 }}>
                 <Image
-                  src="/images/conference/optimized/resources-hero.webp"
-                  alt="Professional training environment"
+                  src="/images/conference/optimized/resources-workshop.webp"
+                  alt="A skills session in progress at an AIPEA workshop"
                   fill
                   sizes="600px"
                   style={{ objectFit: 'cover', objectPosition: 'center top' }}
@@ -937,7 +895,7 @@ function Process() {
               {/* Subtle background image */}
               <div style={{ position: 'absolute', inset: 0, opacity: 0.03, zIndex: 0 }}>
                 <Image
-                  src="/images/conference/optimized/membership-community.webp"
+                  src="/images/conference/optimized/gallery-03.webp"
                   alt=""
                   fill
                   sizes="500px"
@@ -1122,7 +1080,7 @@ function CTABanner() {
 
 const leaders = [
   {
-    name: 'AIPEA Leadership',
+    name: 'Madina Kadiatou',
     title: 'Executive leadership',
     image: '/images/conference/optimized/leader-ama.webp',
     bio: 'AIPEA is led by professionals committed to giving executive and personal assistants a clear standard, a credible credential, and a community that reflects the value they bring to leadership teams across Africa.',

@@ -55,7 +55,7 @@ export default function ResourcesPage() {
       <section id="guides" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
           <SplitFeature
-            image="/images/conference/optimized/resources-workshop.webp"
+            image="/images/conference/optimized/gallery-01.webp"
             eyebrow="Career guides"
             title="Move from support to strategy."
             body="Our guides help you reframe the role, evidence your value, and make the case for the recognition and progression you've earned."

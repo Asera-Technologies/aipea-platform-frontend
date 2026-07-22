@@ -9,7 +9,7 @@ import {
 import { Reveal } from '@/components/site/Reveal'
 
 const leaders = [
-  { name: 'AIPEA Leadership', title: 'Executive leadership', image: '/images/conference/optimized/leader-ama.webp' },
+  { name: 'Madina Kadiatou', title: 'Executive leadership', image: '/images/conference/optimized/leader-ama.webp' },
 ]
 
 const governance = [
@@ -34,7 +34,8 @@ export default function AboutPage() {
       <section id="story" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
           <SplitFeature
-            image="/images/conference/optimized/about-story.webp"
+            image="/images/conference/optimized/auth-conference.webp"
+            imagePosition="center 78%"
             eyebrow="Our story"
             title="Rooted in Ghana. Serving Africa."
             body="AIPEA exists to give executive and personal assistants what the profession has long lacked: a standard, a credential, and a community. We are building it from Ghana, for the whole continent, and the founding cohort is forming now."

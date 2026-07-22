@@ -38,7 +38,7 @@ export default function EventsPage() {
         title="Where the profession"
         highlight="comes together."
         subtitle="From the flagship Annual Conference in Accra to regional meetups and live masterclasses, AIPEA brings executive assistants across Africa face to face."
-        image="/images/conference/optimized/events-hero.webp"
+        image="/images/conference/optimized/events-stage.webp"
         primary={{ label: 'Register interest', href: '#conference' }}
         secondary={{ label: 'See the calendar', href: '#calendar' }}
       />
@@ -46,12 +46,12 @@ export default function EventsPage() {
       <section id="conference" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
           <SplitFeature
-            image="/images/conference/optimized/events-stage.webp"
+            image="/images/conference/optimized/gallery-02.webp"
             eyebrow="Flagship event"
             title="AIPEA Annual Conference 2026."
             body="Three days of keynotes, workshops and networking in Accra, Ghana. The gathering is built to be the best place on the continent to grow your standing and your network."
             points={[
-              'Accra, Ghana · September 2026',
+              'Accra, Ghana · July 2026',
               'Keynotes from executives and industry leaders',
               'Hands-on workshops and CPD-eligible sessions',
               'Member discounts of up to 40%',
