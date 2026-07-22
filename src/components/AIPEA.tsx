@@ -16,6 +16,7 @@ import { ArrowRight, Plus, Check, ChevronLeft, ChevronRight, Lock, Users, BookOp
 import { SiteNav } from '@/components/site/SiteNav'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { PricingBreakdown, type PriceTier, type PriceRow } from '@/components/site/PageKit'
+import { CONFERENCE, CONTACT, MEMBERSHIP_BENEFITS, STRANDS, LEADERSHIP, FIGURES, DNA } from '@/lib/facts'
 
 // --- Tokens -------------------------------------------------------------------
 
@@ -65,8 +66,8 @@ const INNER: React.CSSProperties   = { maxWidth: 1400, margin: '0 auto' }
 // Labels are kept to one line each so the three sub-lines share a baseline.
 const VISION = [
   { label: 'Pan-African', sub: 'Built for the whole continent from day one.' },
-  { label: 'One standard', sub: 'A single CPD-backed credential for the role.' },
-  { label: 'Founding cohort', sub: 'Join the members who set the benchmark.' },
+  { label: 'Six designations', sub: 'Across the PA, EA and Chief of Staff strands.' },
+  { label: 'Founding cohort', sub: `${FIGURES.members}+ members setting the benchmark.` },
 ] as const
 
 // --- Utilities ----------------------------------------------------------------
@@ -347,10 +348,12 @@ function Hero() {
                 Confirmed event
               </p>
               <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 26, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 10 }}>
-                PA Conference 2026
+                {CONFERENCE.name}
               </h2>
               <p style={{ fontFamily: bod, fontSize: 14, color: 'rgba(255,255,255,0.72)', lineHeight: 1.6 }}>
-                Accra, Ghana · July 2026
+                {CONFERENCE.dateLabel}
+                <br />
+                {CONFERENCE.venue}, {CONFERENCE.city}
               </p>
               <div style={{ height: 1, background: 'rgba(255,255,255,0.16)', margin: '20px 0' }} />
               <p style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.62)', lineHeight: 1.6 }}>
@@ -452,7 +455,7 @@ function EditorialMoment() {
           style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto' }}
         >
           <p style={{ fontFamily: bod, fontSize: 16, lineHeight: 1.75, color: C.muted, marginBottom: 28 }}>
-            Your title doesn&apos;t capture the value you bring. AIPEA equips you with credentials, CPD, and a pan-African network built for executive assistants who lead from behind the desk.
+            Your title doesn&apos;t capture the value you bring. AIPEA equips you with accountability-based designations and a pan-African network built for the professionals who hold the executive office together.
           </p>
           <Link href="/sign-up"
             style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.white, background: C.orange, padding: '12px 24px', borderRadius: 8, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', transition: 'background 0.2s' }}
@@ -487,9 +490,9 @@ function EditorialMoment() {
 
 const pillars = [
   { icon: Users,         label: 'Membership',    title: 'Connect, learn, and grow.',     desc: 'Join a pan-African community of executive professionals.', href: '#membership' },
-  { icon: GraduationCap, label: 'Certification', title: 'Keep your career on standard.', desc: 'Earn credentials that employers and executives recognise.', href: '#membership' },
-  { icon: BookOpen,      label: 'Resources',     title: 'Tools for the role you want.',  desc: 'Courses, CPD tracking, and a library built for EAs.', href: '#courses' },
-  { icon: Calendar,      label: 'Events',        title: 'Peer-to-peer, face-to-face.',   desc: 'Annual conference and regional meetups across Africa.', href: '#events' },
+  { icon: GraduationCap, label: 'Certification', title: 'Certified on scope, not years.', desc: 'Six designations across three professional strands.', href: '/certification' },
+  { icon: BookOpen,      label: 'Resources',     title: 'Built to be deployed.',          desc: 'Every module ends in an artifact your employer can use.', href: '/resources' },
+  { icon: Calendar,      label: 'Events',        title: 'Peer-to-peer, face-to-face.',    desc: `${CONFERENCE.name} — ${CONFERENCE.dateLabel}, Accra.`, href: '#events' },
 ]
 
 function PillarStrip() {
@@ -547,7 +550,9 @@ function useCountdown(target: Date) {
   return left
 }
 
-const CONFERENCE_DATE = new Date('2026-07-23T09:00:00')
+// Sourced from facts.ts so the countdown, the hero card and the events page can
+// never drift apart again.
+const CONFERENCE_DATE = CONFERENCE.startDate
 
 function EventHighlight() {
   const { d, h, m, s } = useCountdown(CONFERENCE_DATE)
@@ -569,11 +574,13 @@ function EventHighlight() {
           <ScrollReveal>
             <p style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: 16 }}>Join us in person</p>
             <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.02, letterSpacing: '-0.03em', marginBottom: 16 }}>
-              AIPEA Annual Conference
+              {CONFERENCE.name}
             </h2>
-            <p style={{ fontFamily: bod, fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: 8 }}>Accra, Ghana · July 2026</p>
+            <p style={{ fontFamily: bod, fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: 8 }}>
+              {CONFERENCE.dateLabel} · {CONFERENCE.venue}, {CONFERENCE.city}
+            </p>
             <p style={{ fontFamily: bod, fontSize: 14, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, maxWidth: 420 }}>
-              Connect with executive assistants across Africa. Elevate your skills, expand your network, and learn from industry leaders.
+              Two days with administrative and operational professionals from across the continent. Speaker line-up and registration details to be announced.
             </p>
             <a href="#contact"
               style={{ marginTop: 28, display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.navyDark, background: C.white, padding: '13px 26px', borderRadius: 8, textDecoration: 'none', transition: 'transform 0.2s' }}
@@ -606,9 +613,9 @@ function EventHighlight() {
 // --- Pathway strip (ASAP “What are you waiting for?”) -------------------------
 
 const pathwaySteps = [
-  { n: '1', title: 'Join AIPEA',       desc: 'Choose your tier and apply.', href: '/sign-up' },
-  { n: '2', title: 'Get certified',   desc: 'Earn your AIPEA credential.', href: '#membership' },
-  { n: '3', title: 'Attend conference', desc: 'Meet peers across Africa.', href: '#events' },
+  { n: '1', title: 'Join AIPEA',        desc: 'Associate membership is free.', href: '/sign-up' },
+  { n: '2', title: 'Get certified',     desc: 'Earn the designation for your scope.', href: '/certification' },
+  { n: '3', title: 'Attend conference', desc: 'Meet peers across the continent.', href: '#events' },
 ]
 
 function PathwayStrip() {
@@ -665,7 +672,7 @@ function About() {
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,16,40,0.72) 0%, rgba(10,16,40,0.25) 34%, rgba(10,16,40,0.05) 60%)' }} />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(10,16,40,0.68) 0%, rgba(10,16,40,0.3) 16%, transparent 32%)' }} />
               <div style={{ position: 'absolute', top: 22, left: 26, fontFamily: dis, fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', zIndex: 2 }}>
-                AIPEA Community · 2025
+                AIPEA Community · PA Conference
               </div>
               <div style={{ position: 'absolute', bottom: 24, left: 26, display: 'flex', alignItems: 'center', zIndex: 2 }}>
                 {([['AA', C.orange], ['JO', '#1B2A5E'], ['NK', '#059669'], ['FM', '#7c3aed'], ['TM', '#0891b2']] as [string, string][]).map(([ini, color], i) => (
@@ -699,10 +706,12 @@ function About() {
 
 // --- Core values (from the AIPEA brochure) -------------------------------------
 
+// The AIPEA DNA. Titles come from facts.ts; the three words under each are a
+// house summary of the fuller descriptions there.
 const coreValues = [
-  { n: '01', title: 'Growth', words: ['Learn', 'Advance', 'Lead'] },
-  { n: '02', title: 'Value',  words: ['Excellence', 'Integrity', 'You first'] },
-  { n: '03', title: 'Impact', words: ['Empower', 'Connect', 'Champion'] },
+  { n: '01', title: DNA[0].title, words: ['Learn', 'Advance', 'Lead'] },
+  { n: '02', title: DNA[1].title, words: ['Excellence', 'Integrity', 'ROI'] },
+  { n: '03', title: DNA[2].title, words: ['Empower', 'Connect', 'Champion'] },
 ]
 
 function ValueCard({ value }: { value: (typeof coreValues)[number] }) {
@@ -776,32 +785,22 @@ function CoreValues() {
 
 // --- Pricing breakdown (detailed tier comparison) -----------------------------
 
+// Associate is the only confirmed price. Professional and Fellow route to the
+// Secretariat rather than publishing a figure the client has not given us.
 const priceTiers: PriceTier[] = [
-  { name: 'Associate',    blurb: 'For emerging EAs',    price: 'Free',   cadence: '', href: '/sign-up?tier=Associate' },
-  { name: 'Professional', blurb: 'For established EAs',  price: '₵1,200', cadence: '/yr', href: '/sign-up?tier=Professional', featured: true },
-  { name: 'Fellow',       blurb: 'For senior leaders',  price: '₵2,500', cadence: '/yr', href: '/sign-up?tier=Fellow' },
+  { name: 'Associate',    blurb: 'Entry membership',        price: 'Free',       cadence: '', href: '/sign-up', featured: true, badge: 'Free to join' },
+  { name: 'Professional', blurb: 'Established professionals', price: 'On request', cadence: '', href: '#contact', cta: 'Contact us' },
+  { name: 'Fellow',       blurb: 'Senior practitioners',    price: 'On request', cadence: '', href: '#contact', cta: 'Contact us' },
 ]
 
-const priceRows: PriceRow[] = [
-  { feature: 'Member directory listing',              values: [true, true, true] },
-  { feature: 'CPD hours tracker',                     values: [true, true, true] },
-  { feature: 'Digital membership certificate',        values: [true, true, true] },
-  { feature: 'Member events & community',             values: [true, true, true] },
-  { feature: 'Annual conference discount',            values: ['10%', '25%', '40%'] },
-  { feature: 'Course library access',                 values: [false, true, true] },
-  { feature: 'Priority conference booking',           values: [false, true, true] },
-  { feature: 'Voting rights in AIPEA elections',      values: [false, true, true] },
-  { feature: 'Fellowship credential (post-nominals)', values: [false, false, true] },
-  { feature: '1:1 mentorship matching',               values: [false, false, true] },
-  { feature: 'Speaking & committee opportunities',    values: [false, false, true] },
-]
+const priceRows: PriceRow[] = MEMBERSHIP_BENEFITS.map(r => ({ ...r, values: [...r.values] }))
 
 function PricingSection() {
   return (
     <section id="membership" style={{ ...SECTION, background: C.surface }}>
       <div style={INNER}>
-        <SectionHeader align="center" statement="Choose the membership that fits your stage." aside="Every tier includes the essentials, compared line by line." />
-        <PricingBreakdown tiers={priceTiers} rows={priceRows} note="All payments processed securely via Paystack. Annual renewal. Cancel anytime." />
+        <SectionHeader align="center" statement="Choose the membership that fits your stage." aside="Membership is your standing in the institute. Certification is earned separately." />
+        <PricingBreakdown tiers={priceTiers} rows={priceRows} note="Membership renews annually from your intake date. Professional and Fellow pricing is confirmed by the Secretariat on application." />
       </div>
     </section>
   )
@@ -809,17 +808,15 @@ function PricingSection() {
 
 // --- Courses ------------------------------------------------------------------
 
-const courses = [
-  { title: 'Executive Communication Mastery',  desc: 'Influence without authority.', type: 'Workshop',  when: 'Q2 2026' },
-  { title: 'Calendar & Priorities Management', desc: 'Protect executive time.',       type: 'Seminar',   when: 'Q3 2026' },
-  { title: 'Board & C-Suite Support',          desc: 'Support senior leadership.',     type: 'Cert prep', when: 'Q4 2026' },
-]
+// These were three invented course titles with invented 2026 quarters. AIPEA's
+// actual offer is the three certification strands.
+const courses = STRANDS.map(s => ({ title: s.name, desc: s.focus, type: `${s.tracks[0].acronym} · ${s.tracks[1].acronym}`, when: s.duration }))
 
 function Courses() {
   return (
     <section id="courses" style={{ ...SECTION, background: C.bg }}>
       <div style={INNER}>
-        <SectionHeader align="center" nowrap statement="A full course library. Coming soon." aside="Members get first access." />
+        <SectionHeader align="center" nowrap statement="Three strands. Six designations." aside="Certified on scope, not on years served." />
         <div style={{ display: 'grid', gridTemplateColumns: '0.95fr 1.2fr', gap: 22, alignItems: 'stretch' }} className="aipea-course-showcase">
           <Reveal from="left">
             <div className="aipea-course-hero" style={{ minHeight: 520, borderRadius: 24, padding: 38, background: `linear-gradient(145deg, ${C.navyDark} 0%, ${C.navy} 100%)`, color: C.white, position: 'relative', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -840,9 +837,12 @@ function Courses() {
                   <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(32px,4vw,60px)', lineHeight: 0.95, letterSpacing: '-0.05em' }}>
                     A curriculum built for Africa&apos;s executive assistants.
                   </h3>
+                  <p style={{ fontFamily: bod, fontSize: 14, lineHeight: 1.7, color: 'rgba(255,255,255,0.6)', marginTop: 18, maxWidth: 420 }}>
+                    Every module ends in a deliverable your employer can deploy — not a certificate of attendance.
+                  </p>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 40 }}>
-                  {['CPD Ledger', 'Executive Tools', 'Board Support', 'Credential Path'].map((item, ci) => (
+                  {['Live Crucibles', 'Corporate Playbooks', 'Board Frameworks', 'Oral Defense'].map((item, ci) => (
                     <motion.div key={item}
                       initial={{ opacity: 0, scale: 0.92 }}
                       whileInView={{ opacity: 1, scale: 1 }}
@@ -887,11 +887,13 @@ function Courses() {
 
 // --- Process ------------------------------------------------------------------
 
+// Certificates are NOT issued on joining — the client was explicit that they come
+// only on completing a certification. This flow describes membership only.
 const steps = [
-  { name: 'Choose your tier',         desc: 'Associate, Professional, or Fellow.', stat: '3 tiers.'             },
-  { name: 'Complete your details',    desc: 'Under 5 minutes. No waiting list.', stat: '< 5 minutes.'           },
-  { name: 'Pay securely via Paystack', desc: 'Cards and mobile money. Cancel any time.', stat: 'Paystack secured.' },
-  { name: 'Get your credentials',     desc: 'Certificate and member ID, instantly.', stat: 'Instant.'            },
+  { name: 'Create your account',   desc: 'Email or Google. Associate membership is free.', stat: 'Free to join.' },
+  { name: 'Complete your profile', desc: 'Tell us the scope you carry in your role.', stat: '< 5 minutes.' },
+  { name: 'Get your member ID',    desc: 'Issued on sign-up, and listed in the member directory.', stat: 'Issued on sign-up.' },
+  { name: 'Choose a track',        desc: 'Apply for the certification that matches your scope.', stat: 'Six designations.' },
 ]
 
 function Process() {
@@ -906,7 +908,7 @@ function Process() {
   return (
     <section id="process" style={{ ...SECTION, background: C.surface }}>
       <div style={INNER}>
-        <SectionHeader align="center" statement="From sign-up to credentialed member in one sitting." aside="Active before you close the tab." />
+        <SectionHeader align="center" statement="From sign-up to member ID in one sitting." aside="Free to join. Certification comes next." />
         <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: 22, alignItems: 'stretch' }} className="aipea-process-grid">
           <Reveal from="left" delay={0.08}>
             <div className="aipea-process-hero" style={{ minHeight: 580, borderRadius: 24, background: C.bg, border: `1px solid ${C.border}`, padding: 36, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', overflow: 'hidden' }}>
@@ -927,7 +929,7 @@ function Process() {
                 </h3>
               </div>
               <div style={{ marginTop: 40, borderRadius: 20, overflow: 'hidden', border: `1px solid ${C.border}`, background: C.surface }}>
-                {[['Tier', 'Membership chosen', '01'], ['Details', 'Profile completed', '02'], ['Payment', 'Paystack confirmed', '03'], ['Credential', 'Member ID issued', '04']].map(([title, detail, number], index) => (
+                {[['Account', 'Membership created', '01'], ['Details', 'Profile completed', '02'], ['Member ID', 'Issued and listed', '03'], ['Track', 'Certification applied for', '04']].map(([title, detail, number], index) => (
                   <div key={title} className="aipea-process-item" style={{ display: 'grid', gridTemplateColumns: '64px 1fr auto', gap: 16, alignItems: 'center', padding: '20px 22px', borderBottom: index < 3 ? `1px solid ${C.border}` : 'none' }}>
                     <span style={{ fontFamily: dis, fontSize: 30, fontWeight: 800, color: index === 3 ? C.orange : C.elevated, letterSpacing: '-0.06em' }}>{number}</span>
                     <span>
@@ -1016,8 +1018,8 @@ function Contact() {
                 <div style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orangeOnDark, marginBottom: 24 }}>Reach us directly</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                   {[
-                    { icon: Mail,   label: 'Email',       value: 'hello@aipea.africa' },
-                    { icon: MapPin, label: 'Head office', value: 'Accra, Ghana' },
+                    { icon: Mail,   label: 'Email',       value: CONTACT.email },
+                    { icon: MapPin, label: 'Head office', value: CONTACT.location },
                   ].map(c => {
                     const Ico = c.icon
                     return (
@@ -1032,7 +1034,7 @@ function Contact() {
                   })}
                 </div>
               </div>
-              <p style={{ position: 'relative', zIndex: 1, fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.62)', lineHeight: 1.7, marginTop: 28 }}>Prefer to join straight away? You can <Link href="/sign-up" style={{ color: C.orangeOnDark, fontWeight: 600 }}>sign up here</Link> and get your credential on the spot.</p>
+              <p style={{ position: 'relative', zIndex: 1, fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.62)', lineHeight: 1.7, marginTop: 28 }}>Prefer to join straight away? Associate membership is free — you can <Link href="/sign-up" style={{ color: C.orangeOnDark, fontWeight: 600 }}>sign up here</Link>.</p>
             </div>
 
             <div style={{ background: C.bg, padding: 42 }}>
@@ -1096,14 +1098,18 @@ function CTABanner() {
 
 // --- Leadership Section -------------------------------------------------------
 
-const leaders = [
-  {
-    name: 'Madina Kadiatou',
-    title: 'Executive leadership',
-    image: '/images/conference/optimized/leader-ama.webp',
-    bio: 'AIPEA is led by professionals committed to giving executive and personal assistants a clear standard, a credible credential, and a community that reflects the value they bring to leadership teams across Africa.',
-  },
-]
+// Names and titles per the client's approved list. Bios are not yet approved, so
+// the rotator carries a statement about the Secretariat rather than putting words
+// in a named person's mouth.
+const SECRETARIAT_STATEMENT =
+  'The AIPEA Secretariat serves as your career advocate, your learning mentor and your community guide — backed by a Governing Council of corporate directors, academics, executive coaches and Chief of Staff veterans.'
+
+const leaders = LEADERSHIP.map(l => ({
+  name: l.name,
+  title: l.title,
+  image: l.image ?? '/images/conference/optimized/leader-ama.webp',
+  bio: SECRETARIAT_STATEMENT,
+}))
 
 function LeadershipSection() {
   const [i, setI] = useState(0)
@@ -1128,7 +1134,7 @@ function LeadershipSection() {
         <ScrollReveal>
           <div style={{ maxWidth: 640, marginBottom: S.headerGap }}>
             <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange, marginBottom: S.xs }}>Leadership</p>
-            <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(30px,3.5vw,48px)', color: C.white, lineHeight: 1.1, letterSpacing: '-0.03em' }}>Visionaries leading the profession forward.</h2>
+            <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(30px,3.5vw,48px)', color: C.white, lineHeight: 1.1, letterSpacing: '-0.03em' }}>The Secretariat, headquartered in Accra.</h2>
           </div>
         </ScrollReveal>
 

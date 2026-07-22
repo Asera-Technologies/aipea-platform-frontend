@@ -121,7 +121,7 @@ function CredentialCard({ user }: { user: MemberProfile }) {
       {/* CPD + meta */}
       <div style={{ position: 'relative', zIndex: 1 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'rgba(255,255,255,0.32)', marginBottom: 7, fontFamily: bod }}>
-          <span>CPD Progress</span><span>0 / 100 hrs</span>
+          <span>CPD Progress</span><span>Framework pending</span>
         </div>
         <div style={{ height: 3, background: 'rgba(255,255,255,0.1)', borderRadius: 100, overflow: 'hidden', marginBottom: 20 }}>
           {/* Empty track when hours are 0 — an animated sliver at near-zero
@@ -139,7 +139,7 @@ function CredentialCard({ user }: { user: MemberProfile }) {
         </div>
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 14, marginTop: 16 }}>
           <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.16)', letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: bod }}>
-            Africa Institute of Professional &amp; Executive Assistants
+            Africa Institute of Personal &amp; Executive Assistants
           </span>
         </div>
       </div>
@@ -170,8 +170,10 @@ function CPDTile() {
     <div style={{ background: WHITE, border: `1px solid ${BORDER}`, borderLeft: `3px solid ${NAVY_DARK}`, borderRadius: 14, padding: '22px 24px' }}>
       <p style={{ fontFamily: bod, fontSize: 10, color: FAINT, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>CPD Progress</p>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+        {/* AIPEA has not yet defined CPD hours, renewal period or categories, so
+            the tile shows the tracker as pending rather than inventing a target. */}
         <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, color: TEXT, letterSpacing: '-0.02em', lineHeight: 1 }}>0</span>
-        <span style={{ fontFamily: bod, fontSize: 13, color: MUTED }}> / 100 hrs</span>
+        <span style={{ fontFamily: bod, fontSize: 13, color: MUTED }}> hrs logged</span>
       </div>
       <div style={{ marginTop: 12, height: 3, background: SURFACE, borderRadius: 100, overflow: 'hidden' }}>
         <motion.div initial={{ width: 0 }} animate={{ width: '0%' }} transition={{ duration: 1.2, delay: 0.9, ease: EASE }}
@@ -275,7 +277,7 @@ export default function Dashboard() {
       <section style={{ background: SURFACE, borderBottom: `1px solid ${BORDER}`, padding: '28px 48px' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }} className="aipea-stats-row">
           <CPDTile />
-          <StatTile label="Membership" value="Active" sub={user.tier === 'Associate' ? 'Free — no renewal needed' : 'Annual subscription'} leftBorder={ORANGE} />
+          <StatTile label="Membership" value="Active" sub={user.tier === 'Associate' ? 'Free · renews annually' : 'Renews annually from your intake date'} leftBorder={ORANGE} />
           <StatTile label="Tier" value={user.tier} sub="Compare available tiers" />
           <StatTile label="Member since" value={formatJoinDate(user.joinedAt)} sub="Founding cohort" />
         </div>
@@ -302,9 +304,9 @@ export default function Dashboard() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }} className="aipea-features-row">
             {[
               { iconColor: ORANGE,    icon: <Users     size={18} color={ORANGE} />,    title: 'Member Directory',    desc: 'Connect with executive assistants across all 33 African countries in the AIPEA network.' },
-              { iconColor: NAVY_DARK, icon: <BarChart3 size={18} color={NAVY_DARK} />, title: 'CPD Tracker',         desc: 'Log your professional development hours and track progress toward annual certification targets.' },
+              { iconColor: NAVY_DARK, icon: <BarChart3 size={18} color={NAVY_DARK} />, title: 'CPD Tracker',         desc: 'Log your professional development hours. The CPD framework is being finalised.' },
               { iconColor: '#7c3aed', icon: <BookOpen  size={18} color="#7c3aed" />,   title: 'Course Library',      desc: 'Certification-backed courses built specifically for executive and personal assistants in Africa.' },
-              { iconColor: '#059669', icon: <Calendar  size={18} color="#059669" />,   title: 'Events & Conference', desc: 'Annual AIPEA conference, regional chapter meetups, and exclusive member networking events.' },
+              { iconColor: '#059669', icon: <Calendar  size={18} color="#059669" />,   title: 'Events & Conference', desc: 'PA Conference 2026 in Accra, plus member meetups as the calendar is confirmed.' },
             ].map((card, i) => (
               <motion.div key={card.title} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.62, delay: 0.08 + i * 0.07, ease: EASE }}>
                 <FeatureCard {...card} />

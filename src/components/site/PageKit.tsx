@@ -237,7 +237,12 @@ export function CTASection({ title, body, primary, secondary }: {
 
 // --- Pricing breakdown (comparison table) ---------------------------------------
 
-export type PriceTier = { name: string; blurb: string; price: string; cadence: string; featured?: boolean; href: string }
+// `cta` overrides the default "Join <tier>" button label. Tiers whose price the
+// client has not yet supplied route to contact instead of sign-up, and the button
+// has to say so.
+// `badge` labels the highlighted tier. It used to be hardcoded to "Most popular",
+// which is a claim about member behaviour that AIPEA has no data for.
+export type PriceTier = { name: string; blurb: string; price: string; cadence: string; featured?: boolean; href: string; cta?: string; badge?: string }
 export type PriceRow = { feature: string; values: (boolean | string)[] }
 
 function Cell({ v, featured }: { v: boolean | string; featured?: boolean }) {
@@ -271,7 +276,7 @@ export function PricingBreakdown({ tiers, rows, note }: { tiers: PriceTier[]; ro
               borderBottom: 'none', position: 'relative',
             }}>
               {t.featured && (
-                <span style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', background: C.navyDark, color: C.white, fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', padding: '5px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>Most popular</span>
+                <span style={{ position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)', background: C.navyDark, color: C.white, fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', padding: '5px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>{t.badge ?? 'Start here'}</span>
               )}
               <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 19, color: C.text }}>{t.name}</div>
               <div style={{ fontFamily: bod, fontSize: 11, color: C.muted, marginTop: 4 }}>{t.blurb}</div>
@@ -282,7 +287,7 @@ export function PricingBreakdown({ tiers, rows, note }: { tiers: PriceTier[]; ro
               <Link href={t.href} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 16, fontFamily: dis, fontWeight: 700, fontSize: 12.5, padding: '9px 18px', borderRadius: 999, transition: 'transform 0.2s', background: t.featured ? C.orange : C.white, color: t.featured ? C.white : C.text, border: t.featured ? 'none' : `1px solid ${C.border}` }}
                 onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-1px)')}
                 onMouseLeave={e => (e.currentTarget.style.transform = 'none')}>
-                Join {t.name}
+                {t.cta ?? `Join ${t.name}`}
               </Link>
             </div>
           ))}
@@ -324,7 +329,7 @@ export function PricingBreakdown({ tiers, rows, note }: { tiers: PriceTier[]; ro
           border: t.featured ? '1px solid rgba(232,80,26,0.28)' : `1px solid ${C.border}`,
         }}>
           {t.featured && (
-            <span style={{ position: 'absolute', top: -11, left: 22, background: C.navyDark, color: C.white, fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', padding: '5px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>Most popular</span>
+            <span style={{ position: 'absolute', top: -11, left: 22, background: C.navyDark, color: C.white, fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', padding: '5px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>{t.badge ?? 'Start here'}</span>
           )}
           <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 19, color: C.text }}>{t.name}</div>
           <div style={{ fontFamily: bod, fontSize: 12, color: C.muted, marginTop: 4 }}>{t.blurb}</div>
@@ -333,7 +338,7 @@ export function PricingBreakdown({ tiers, rows, note }: { tiers: PriceTier[]; ro
             <span style={{ fontFamily: bod, fontSize: 12, color: C.muted }}>{t.cadence}</span>
           </div>
           <Link href={t.href} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 16, fontFamily: dis, fontWeight: 700, fontSize: 13, padding: '11px 18px', borderRadius: 999, background: t.featured ? C.orange : C.white, color: t.featured ? C.white : C.text, border: t.featured ? 'none' : `1px solid ${C.border}` }}>
-            Join {t.name}
+            {t.cta ?? `Join ${t.name}`}
           </Link>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 22, paddingTop: 20, borderTop: `1px solid ${C.border}` }}>
             {rows.map(r => (

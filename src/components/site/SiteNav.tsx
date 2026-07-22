@@ -32,47 +32,47 @@ const NAV: NavItem[] = [
       { label: 'Why join AIPEA',   desc: 'The case for professional membership.', href: '/membership#why',       icon: TrendingUp },
       { label: 'Membership tiers', desc: 'Associate, Professional & Fellow.',      href: '/membership#tiers',     icon: LayoutGrid },
       { label: 'Member benefits',  desc: 'Everything included with your seat.',    href: '/membership#benefits',  icon: BadgeCheck },
-      { label: 'Member directory', desc: 'Verified professionals across Africa.',    href: '/membership#directory', icon: Users },
+      { label: 'Member directory', desc: 'A searchable register of members.',      href: '/membership#directory', icon: Users },
     ],
-    featured: { eyebrow: 'Join today', title: 'Take your place in the profession', desc: 'Sign up in under five minutes and get your credential straight away.', href: '/membership', cta: 'Apply for membership', image: '/images/conference/optimized/nav-membership.webp' },
+    featured: { eyebrow: 'Join today', title: 'Take your place in the profession', desc: 'Associate membership is free, and your member ID is issued on sign-up.', href: '/membership', cta: 'Apply for membership', image: '/images/conference/optimized/nav-membership.webp' },
   },
   {
     label: 'Certification', href: '/certification',
     links: [
-      { label: 'The AIPEA credential', desc: 'A recognised standard for EAs.',     href: '/certification#credential', icon: ShieldCheck },
-      { label: 'Certification pathways', desc: 'Choose the route for your stage.',  href: '/certification#pathways',   icon: Compass },
-      { label: 'CPD framework',        desc: 'Track and grow your practice hours.', href: '/certification#cpd',        icon: GraduationCap },
-      { label: 'Verify a credential',  desc: 'Confirm any member’s standing.',      href: '/certification#verify',     icon: ClipboardCheck },
+      { label: 'The AIPEA credential', desc: 'Accountability-based certification.',  href: '/certification#credential', icon: ShieldCheck },
+      { label: 'Designations & tracks', desc: 'Three strands, six designations.',    href: '/certification#strands',    icon: Compass },
+      { label: 'How assessment works', desc: 'Application through to certified.',    href: '/certification#assessment', icon: GraduationCap },
+      { label: 'The Continental Registry', desc: 'Verified, licensed corporate partners.', href: '/certification#registry', icon: ClipboardCheck },
     ],
-    featured: { eyebrow: 'Get certified', title: 'Keep your career on standard', desc: 'Earn a credential employers and executives recognise.', href: '/certification', cta: 'Explore certification', image: '/images/conference/optimized/nav-certification.webp' },
+    featured: { eyebrow: 'Get certified', title: 'Certified on scope, not on years served', desc: 'Six designations across the PA, EA and Chief of Staff strands.', href: '/certification', cta: 'Explore certification', image: '/images/conference/optimized/nav-certification.webp' },
   },
   {
     label: 'Events', href: '/events',
     links: [
-      { label: 'Annual Conference',   desc: 'Accra · July 2026.',            href: '/events#conference', icon: CalendarDays },
-      { label: 'Regional meetups',    desc: 'Face-to-face across the continent.', href: '/events#regional',   icon: MapPin },
-      { label: 'Webinars & masterclasses', desc: 'Learn live, from anywhere.',    href: '/events#webinars',   icon: Video },
+      { label: 'PA Conference 2026',  desc: '23–24 July 2026, Accra.',            href: '/events#conference', icon: CalendarDays },
+      { label: 'Regional meetups',    desc: 'Calendar in preparation.',           href: '/events#regional',   icon: MapPin },
+      { label: 'Webinars & masterclasses', desc: 'Programme being confirmed.',    href: '/events#webinars',   icon: Video },
       { label: 'Events calendar',     desc: 'Everything on one timeline.',        href: '/events#calendar',   icon: CalendarClock },
     ],
-    featured: { eyebrow: 'Flagship event', title: 'AIPEA Annual Conference 2026', desc: 'Three days of executive excellence in Accra, Ghana.', href: '/events', cta: 'Register interest', image: '/images/conference/optimized/nav-events.webp' },
+    featured: { eyebrow: 'Flagship event', title: 'PA Conference 2026', desc: 'Two days at the Labadi Beach Hotel, Accra. 23–24 July 2026.', href: '/events', cta: 'Register interest', image: '/images/conference/optimized/nav-events.webp' },
   },
   {
     label: 'Resources', href: '/resources',
     links: [
-      { label: 'Course library',   desc: 'CPD-aligned learning for EAs.',   href: '/resources#courses',   icon: BookOpen },
-      { label: 'Templates & tools', desc: 'Practical assets for the role.',  href: '/resources#tools',     icon: FileText },
-      { label: 'Career guides',    desc: 'Move from support to strategy.',   href: '/resources#guides',    icon: Lightbulb },
-      { label: 'News & insights',  desc: 'Stories from the profession.',     href: '/resources#insights',  icon: Newspaper },
+      { label: 'Certification tracks', desc: 'What each designation covers.',  href: '/certification#strands', icon: BookOpen },
+      { label: 'Templates & tools', desc: 'In preparation for members.',       href: '/resources#tools',     icon: FileText },
+      { label: 'Trimester artifacts', desc: 'What you build on a long track.', href: '/resources#artifacts', icon: Lightbulb },
+      { label: 'News & insights',  desc: 'Coming soon.',                       href: '/resources#insights',  icon: Newspaper },
     ],
-    featured: { eyebrow: 'Members only', title: 'A library built for the role you want', desc: 'Courses, templates and CPD tracking in one place.', href: '/resources', cta: 'Browse resources', image: '/images/conference/optimized/nav-resources.webp' },
+    featured: { eyebrow: 'Members', title: 'Workplace-deployable, not passive learning', desc: 'Every module ends in a concrete deliverable for your employer.', href: '/resources', cta: 'Browse resources', image: '/images/conference/optimized/nav-resources.webp' },
   },
   {
     label: 'About', href: '/about',
     links: [
-      { label: 'Our story',   desc: 'Rooted in Ghana, serving Africa.', href: '/about#story',      icon: Landmark },
-      { label: 'Leadership',  desc: 'The team behind the standard.',    href: '/about#leadership', icon: UsersRound },
-      { label: 'Governance',  desc: 'How AIPEA is run and held to account.', href: '/about#governance', icon: Scale },
-      { label: 'Contact us',  desc: 'Talk to the AIPEA team.',          href: '/about#contact',    icon: Mail },
+      { label: 'Our story',   desc: 'Founded 2024, based in Accra.',     href: '/about#story',      icon: Landmark },
+      { label: 'The Secretariat', desc: 'The team behind the standard.', href: '/about#leadership', icon: UsersRound },
+      { label: 'Governance',  desc: 'How AIPEA is structured.',          href: '/about#governance', icon: Scale },
+      { label: 'Contact us',  desc: 'Talk to the AIPEA Secretariat.',    href: '/about#contact',    icon: Mail },
     ],
     featured: { eyebrow: 'Our purpose', title: 'Championing Africa’s executive assistants', desc: 'A professional home for the people behind executive performance.', href: '/about', cta: 'About AIPEA', image: '/images/conference/optimized/nav-about.webp' },
   },
@@ -233,7 +233,7 @@ export function SiteNav({ overDark = false }: { overDark?: boolean }) {
         <Link href="/" onClick={() => setOpen(null)} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 16, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange }}>AIPEA</span>
           <span className="aipea-nav-tag" style={{ fontFamily: bod, fontSize: 11, color: inkSoft, lineHeight: 1.15, borderLeft: `1px solid ${rule}`, paddingLeft: 12, maxWidth: 150, transition: 'color 0.35s, border-color 0.35s' }}>
-            Africa Institute of Executive Assistants
+            Africa Institute of Personal &amp; Executive Assistants
           </span>
         </Link>
 

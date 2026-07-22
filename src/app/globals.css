@@ -173,7 +173,20 @@ body {
   .aipea-statband     { grid-template-columns: repeat(2,1fr) !important; }
   .aipea-footer-grid  { grid-template-columns: 1fr 1fr !important; }
 }
+/* Certification page. The six assessment stages and four trimester cards are far
+   too narrow to read side by side below desktop, and the two tracks in a strand
+   stack rather than shrink so the accountability copy stays legible. */
+@media (max-width: 1100px) {
+  .aipea-assessment-grid { grid-template-columns: repeat(3,1fr) !important; }
+}
+@media (max-width: 900px) {
+  .aipea-track-pair      { grid-template-columns: 1fr !important; }
+  /* The divider between tracks was a left border; it becomes a top border once stacked. */
+  .aipea-track-pair > div:last-child { border-left: none !important; border-top: 1px solid rgba(27,42,94,0.09) !important; }
+  .aipea-trimester-grid  { grid-template-columns: repeat(2,1fr) !important; }
+}
 @media (max-width: 640px) {
+  .aipea-assessment-grid { grid-template-columns: repeat(2,1fr) !important; }
   .aipea-feature-grid    { grid-template-columns: 1fr !important; }
   .aipea-leader-grid     { grid-template-columns: 1fr !important; }
   .aipea-megapanel-links { grid-template-columns: 1fr !important; }
