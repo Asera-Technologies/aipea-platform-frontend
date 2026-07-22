@@ -225,9 +225,24 @@ const HERO_SLIDES = [
     objectPosition: 'center center',
   },
   {
-    src: '/images/conference/optimized/hero-main.webp',
-    alt: 'The AIPEA annual conference in session in Accra',
-    objectPosition: '62% 26%',
+    src: '/images/conference/optimized/hero-crowd-1.jpg',
+    alt: 'Delegates seated across the PA Conference hall in Accra',
+    objectPosition: 'center 55%',
+  },
+  {
+    src: '/images/conference/optimized/hero-crowd-2.jpg',
+    alt: 'A full hall of delegates facing the main stage',
+    objectPosition: 'center 55%',
+  },
+  {
+    src: '/images/conference/optimized/hero-crowd-3.jpg',
+    alt: 'Delegates at their tables during a conference session',
+    objectPosition: 'center 55%',
+  },
+  {
+    src: '/images/conference/optimized/hero-crowd-4.jpg',
+    alt: 'The audience watching a speaker at the PA Conference',
+    objectPosition: 'center 55%',
   },
 ]
 
@@ -895,7 +910,7 @@ function Process() {
               {/* Subtle background image */}
               <div style={{ position: 'absolute', inset: 0, opacity: 0.03, zIndex: 0 }}>
                 <Image
-                  src="/images/conference/optimized/gallery-03.webp"
+                  src="/images/conference/optimized/hero-main.webp"
                   alt=""
                   fill
                   sizes="500px"

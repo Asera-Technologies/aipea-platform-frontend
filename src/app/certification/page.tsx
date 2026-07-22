@@ -78,7 +78,7 @@ export default function CertificationPage() {
       <section id="verify" style={{ ...SECTION, background: C.surface }}>
         <div style={INNER}>
           <SplitFeature
-            image="/images/conference/optimized/certification-verify.webp"
+            image="/images/conference/optimized/recognition.jpg"
             eyebrow="Verify a credential"
             title="Confirm any member's standing in seconds."
             body="Hiring an AIPEA member? Every credential carries a unique member ID. Employers and executives can confirm a member's tier and good standing directly with the institute."

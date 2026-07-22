@@ -9,7 +9,7 @@ import {
 import { Reveal } from '@/components/site/Reveal'
 
 const leaders = [
-  { name: 'Madina Kadiatou', title: 'Executive leadership', image: '/images/conference/optimized/leader-ama.webp' },
+  { name: 'Madina Kadiatou', title: 'Executive leadership', image: '/images/conference/optimized/leader-madina.jpg' },
 ]
 
 const governance = [

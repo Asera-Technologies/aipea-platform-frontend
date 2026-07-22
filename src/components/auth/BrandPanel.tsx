@@ -17,12 +17,12 @@ const SLIDES = [
     local: true,
   },
   {
-    src: '/images/conference/optimized/gallery-04.webp',
+    src: '/images/conference/optimized/conference-hall.jpg',
     alt: 'An AIPEA member at the annual conference',
     local: true,
   },
   {
-    src: '/images/conference/optimized/auth-stage.webp',
+    src: '/images/conference/optimized/auth-networking.jpg',
     alt: 'AIPEA members in conversation at the conference',
     local: true,
   },
