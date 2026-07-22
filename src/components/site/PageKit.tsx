@@ -254,7 +254,8 @@ function Cell({ v, featured }: { v: boolean | string; featured?: boolean }) {
 export function PricingBreakdown({ tiers, rows, note }: { tiers: PriceTier[]; rows: PriceRow[]; note?: string }) {
   const cols = `minmax(200px, 1.4fr) ${tiers.map(() => 'minmax(140px, 1fr)').join(' ')}`
   return (
-    <div style={{ overflowX: 'auto' }}>
+    <>
+    <div className="aipea-pricing-table" style={{ overflowX: 'auto' }}>
       <div style={{ minWidth: 720, paddingTop: 18 }}>
         {/* Header: tier + price + CTA */}
         <div style={{ display: 'grid', gridTemplateColumns: cols, alignItems: 'stretch', gap: 0 }}>
@@ -307,5 +308,42 @@ export function PricingBreakdown({ tiers, rows, note }: { tiers: PriceTier[]; ro
       </div>
       {note && <p style={{ fontFamily: bod, fontSize: 12, color: C.faint, textAlign: 'center', marginTop: 22 }}>{note}</p>}
     </div>
+
+    {/* Stacked cards: the comparison table needs 720px+ to stay readable, so phones
+        get one full-width card per tier instead of a table they'd have to scroll
+        sideways to read. Swapped in by CSS at the same breakpoint the table's
+        horizontal scroll would otherwise kick in. */}
+    <div className="aipea-pricing-cards" style={{ display: 'none', flexDirection: 'column', gap: 18 }}>
+      {tiers.map((t, ti) => (
+        <div key={t.name} style={{
+          borderRadius: 18, padding: '26px 22px', position: 'relative',
+          background: t.featured ? 'rgba(232,80,26,0.05)' : C.bg,
+          border: t.featured ? '1px solid rgba(232,80,26,0.28)' : `1px solid ${C.border}`,
+        }}>
+          {t.featured && (
+            <span style={{ position: 'absolute', top: -11, left: 22, background: C.navyDark, color: C.white, fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', padding: '5px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>Most popular</span>
+          )}
+          <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 19, color: C.text }}>{t.name}</div>
+          <div style={{ fontFamily: bod, fontSize: 12, color: C.muted, marginTop: 4 }}>{t.blurb}</div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginTop: 14 }}>
+            <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 30, color: t.featured ? C.orange : C.text, letterSpacing: '-0.03em' }}>{t.price}</span>
+            <span style={{ fontFamily: bod, fontSize: 12, color: C.muted }}>{t.cadence}</span>
+          </div>
+          <Link href={t.href} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 16, fontFamily: dis, fontWeight: 700, fontSize: 13, padding: '11px 18px', borderRadius: 999, background: t.featured ? C.orange : C.white, color: t.featured ? C.white : C.text, border: t.featured ? 'none' : `1px solid ${C.border}` }}>
+            Join {t.name}
+          </Link>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 22, paddingTop: 20, borderTop: `1px solid ${C.border}` }}>
+            {rows.map(r => (
+              <div key={r.feature} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                <span style={{ fontFamily: bod, fontSize: 13.5, color: C.text }}>{r.feature}</span>
+                <Cell v={r.values[ti]} featured={t.featured} />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+      {note && <p style={{ fontFamily: bod, fontSize: 12, color: C.faint, textAlign: 'center', marginTop: 4 }}>{note}</p>}
+    </div>
+    </>
   )
 }

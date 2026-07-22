@@ -7,20 +7,23 @@ import { motion } from 'framer-motion'
 import { Users, BookOpen, Calendar, BarChart3, LogOut, ArrowRight } from 'lucide-react'
 import { signOutMember, formatJoinDate, firstName } from '@/lib/auth'
 import { useAuth, type MemberProfile } from '@/hooks/useAuth'
+import { C, dis, bod, EASE } from '@/components/site/tokens'
 
-const ORANGE     = '#E8501A'
-const ORANGE_DIM = '#c94314'
-const NAVY       = '#1B2A5E'
-const NAVY_DARK  = '#111c42'
-const WHITE      = '#ffffff'
-const SURFACE    = '#f7f8fc'
-const BORDER     = 'rgba(27,42,94,0.09)'
-const TEXT       = '#111c42'
-const MUTED      = 'rgba(17,28,66,0.52)'
-const FAINT      = 'rgba(17,28,66,0.28)'
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
-const dis = 'var(--font-syne), sans-serif'
-const bod = 'var(--font-inter), sans-serif'
+// Local aliases so the diff against the rest of this file stays small —
+// values are the shared tokens, not re-declared constants.
+const ORANGE     = C.orange
+const ORANGE_DIM = C.orangeDim
+const NAVY       = C.navy
+const NAVY_DARK  = C.navyDark
+const WHITE      = C.white
+const SURFACE    = C.surface
+const BORDER     = C.border
+const TEXT       = C.text
+const MUTED      = C.muted
+const FAINT      = C.faint
+// Brand orange fails WCAG AA at small sizes directly on navy (see tokens.ts) —
+// use this instead of ORANGE for text sitting on the dark hero/card/nav surfaces.
+const ORANGE_ON_DARK = C.orangeOnDark
 
 function greeting() {
   const h = new Date().getHours()
@@ -56,12 +59,12 @@ function DashNav({ user, onSignOut }: { user: MemberProfile; onSignOut: () => vo
       background: 'rgba(17,28,66,0.97)', backdropFilter: 'blur(24px)',
       borderBottom: '1px solid rgba(255,255,255,0.07)',
     }}>
-      <Link href="/" style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE, textDecoration: 'none' }}>
+      <Link href="/" style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE_ON_DARK, textDecoration: 'none' }}>
         AIPEA
       </Link>
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(232,80,26,0.18)', border: '1px solid rgba(232,80,26,0.36)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: ORANGE, flexShrink: 0 }}>
+          <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(232,80,26,0.18)', border: '1px solid rgba(232,80,26,0.36)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: ORANGE_ON_DARK, flexShrink: 0 }}>
             {initials}
           </div>
           <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontFamily: bod }}>{user.name}</span>
@@ -95,7 +98,7 @@ function CredentialCard({ user }: { user: MemberProfile }) {
 
       {/* Top row */}
       <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE }}>AIPEA</span>
+        <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE_ON_DARK }}>AIPEA</span>
         <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 12, color: WHITE }}>
           {initials}
         </div>
@@ -121,7 +124,9 @@ function CredentialCard({ user }: { user: MemberProfile }) {
           <span>CPD Progress</span><span>0 / 100 hrs</span>
         </div>
         <div style={{ height: 3, background: 'rgba(255,255,255,0.1)', borderRadius: 100, overflow: 'hidden', marginBottom: 20 }}>
-          <motion.div initial={{ width: 0 }} animate={{ width: '3%' }} transition={{ duration: 1.2, delay: 0.7, ease: EASE }}
+          {/* Empty track when hours are 0 — an animated sliver at near-zero
+              width read as a rendering glitch rather than "not started." */}
+          <motion.div initial={{ width: 0 }} animate={{ width: '0%' }} transition={{ duration: 1.2, delay: 0.7, ease: EASE }}
             style={{ height: '100%', background: ORANGE, borderRadius: 100 }} />
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
@@ -169,7 +174,7 @@ function CPDTile() {
         <span style={{ fontFamily: bod, fontSize: 13, color: MUTED }}> / 100 hrs</span>
       </div>
       <div style={{ marginTop: 12, height: 3, background: SURFACE, borderRadius: 100, overflow: 'hidden' }}>
-        <motion.div initial={{ width: 0 }} animate={{ width: '3%' }} transition={{ duration: 1.2, delay: 0.9, ease: EASE }}
+        <motion.div initial={{ width: 0 }} animate={{ width: '0%' }} transition={{ duration: 1.2, delay: 0.9, ease: EASE }}
           style={{ height: '100%', background: NAVY_DARK, borderRadius: 100 }} />
       </div>
       <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, marginTop: 8 }}>Annual target. Logs open soon.</p>
@@ -184,13 +189,8 @@ function FeatureCard({ iconColor, icon, title, desc }: { iconColor: string; icon
     <div style={{ background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 14, padding: '26px 26px 30px', display: 'flex', flexDirection: 'column', gap: 16, transition: 'box-shadow 0.22s, border-color 0.22s, transform 0.22s' }}
       onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 12px 36px rgba(27,42,94,0.08)'; e.currentTarget.style.borderColor = 'rgba(27,42,94,0.18)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
       onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = BORDER; e.currentTarget.style.transform = 'none' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
-        <div style={{ width: 42, height: 42, borderRadius: 12, background: `${iconColor}12`, border: `1px solid ${iconColor}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          {icon}
-        </div>
-        <span style={{ fontFamily: dis, fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: FAINT, border: `1px solid ${BORDER}`, padding: '3px 9px', borderRadius: 100, whiteSpace: 'nowrap' }}>
-          Coming soon
-        </span>
+      <div style={{ width: 42, height: 42, borderRadius: 12, background: `${iconColor}12`, border: `1px solid ${iconColor}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        {icon}
       </div>
       <div>
         <h3 style={{ fontFamily: dis, fontWeight: 700, fontSize: 15, color: TEXT, lineHeight: 1.2, letterSpacing: '-0.01em' }}>{title}</h3>
@@ -249,7 +249,7 @@ export default function Dashboard() {
                 <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 12, color: 'rgba(255,255,255,0.88)' }}>Active Member</span>
               </div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 0, background: 'rgba(232,80,26,0.14)', border: '1px solid rgba(232,80,26,0.32)', borderRadius: 100, padding: '6px 14px' }}>
-                <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 12, color: ORANGE }}>AIPEA {user.tier}</span>
+                <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 12, color: ORANGE_ON_DARK }}>AIPEA {user.tier}</span>
               </div>
             </motion.div>
 
@@ -275,8 +275,8 @@ export default function Dashboard() {
       <section style={{ background: SURFACE, borderBottom: `1px solid ${BORDER}`, padding: '28px 48px' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }} className="aipea-stats-row">
           <CPDTile />
-          <StatTile label="Membership" value="Active" sub="Annual subscription" leftBorder={ORANGE} />
-          <StatTile label="Tier" value={user.tier} sub="Upgrade available" />
+          <StatTile label="Membership" value="Active" sub={user.tier === 'Associate' ? 'Free — no renewal needed' : 'Annual subscription'} leftBorder={ORANGE} />
+          <StatTile label="Tier" value={user.tier} sub="Compare available tiers" />
           <StatTile label="Member since" value={formatJoinDate(user.joinedAt)} sub="Founding cohort" />
         </div>
       </section>
@@ -322,7 +322,7 @@ export default function Dashboard() {
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: WHITE, fontFamily: dis, fontWeight: 700, fontSize: 13, padding: '11px 22px', borderRadius: 8, textDecoration: 'none', transition: 'background 0.2s', whiteSpace: 'nowrap' }}
               onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = ORANGE_DIM)}
               onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = ORANGE)}>
-              Upgrade tier <ArrowRight size={14} />
+              Compare membership tiers <ArrowRight size={14} />
             </Link>
           </div>
         </div>

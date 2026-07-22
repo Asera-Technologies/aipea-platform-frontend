@@ -108,8 +108,6 @@ body {
   .aipea-hero-content { padding: 92px 20px 92px !important; align-items: center !important; }
   .aipea-hero-layout { grid-template-columns: 1fr !important; gap: 24px !important; }
   .aipea-hero-card { justify-self: start !important; width: min(100%, 320px) !important; padding: 18px !important; }
-  .aipea-hero-values { left: 20px !important; right: 20px !important; bottom: 18px !important; }
-  .aipea-hero-inner   { padding: 0 20px !important; }
   .aipea-hero-sub     { max-width: 90% !important; }
   /* Three labelled stats plus their descriptions overflow 100svh on a phone.
      Keep the labels as a single compact row, drop the supporting lines. */
@@ -124,12 +122,28 @@ body {
   .aipea-course-lock    { display: none !important; }
   .aipea-form-row       { grid-template-columns: 1fr !important; }
   .aipea-nav            { padding: 0 16px !important; }
+  /* The comparison table needs 720px+ to stay legible; below that, swap for one
+     full-width card per tier instead of a table the user has to scroll sideways
+     to read. */
+  .aipea-pricing-table { display: none !important; }
+  .aipea-pricing-cards { display: flex !important; }
 }
 @media (max-width: 480px) {
   .aipea-footer-grid   { grid-template-columns: 1fr !important; gap: 24px !important; }
   .aipea-countdown     { grid-template-columns: repeat(2,1fr) !important; }
   .aipea-process-item  { grid-template-columns: 48px 1fr !important; }
   .aipea-process-dot   { display: none !important; }
+}
+
+/* Fixed card heights are tuned for a desktop column. On a phone the same content
+   is a third as wide and twice as tall, so the floor only adds dead space —
+   let the content set the height instead. */
+@media (max-width: 768px) {
+  /* space-between has nothing to distribute once the height floor is gone, so the
+     header row and the title would butt together — hold them apart with a gap. */
+  .aipea-value-card   { min-height: 0 !important; padding: 26px !important; gap: 36px !important; }
+  .aipea-course-hero  { min-height: 0 !important; padding: 28px !important; }
+  .aipea-process-hero { min-height: 0 !important; padding: 26px !important; }
 }
 
 /* ── Site nav (mega-menu) ─────────────────────────────────────── */
@@ -176,19 +190,11 @@ body {
 .aipea section.aipea-hero-section { padding: 0 !important; }
 
 /* --- Landing hero sizing -------------------------------------------------
-   svh (not vh) so mobile browser chrome collapsing mid-scroll cannot resize
-   the sticky pin under the scroll maths. vh first as the fallback: browsers
-   without svh keep the old behaviour instead of dropping height entirely.
-   The section and its sticky child must use the same unit or the pin
-   release point drifts. */
-.aipea-hero-section { height: 170vh; height: 170svh; }
-.aipea-hero-sticky  { height: 100vh; height: 100svh; }
+   svh (not vh) so mobile browser chrome collapsing on load doesn't leave a
+   too-tall or too-short first frame. vh is the fallback for browsers without
+   svh support. */
+.aipea-hero-section { min-height: 100vh; min-height: 100svh; }
 
 @media (max-width: 768px) {
   .aipea-vision-row { grid-template-columns: 1fr !important; gap: 20px !important; margin-top: 40px !important; }
-}
-
-@media (max-width: 768px) {
-  /* Match the hero content's mobile floor so both phases keep a shared baseline. */
-  .aipea-hero-inner { padding: 0 20px 40px !important; }
 }

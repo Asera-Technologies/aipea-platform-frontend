@@ -9,9 +9,7 @@ import {
 import { Reveal } from '@/components/site/Reveal'
 
 const leaders = [
-  { name: 'Ama Mensah',      title: 'Founder & Executive Director',     image: '/images/conference/optimized/leader-ama.webp' },
-  { name: 'Samuel Boateng',  title: 'Director, Professional Standards',  image: '/images/conference/optimized/leader-samuel.webp' },
-  { name: 'Nana Adjei',      title: 'Director, Partnerships & Events',    image: '/images/conference/optimized/leader-nana.webp' },
+  { name: 'AIPEA Leadership', title: 'Executive leadership', image: '/images/conference/optimized/leader-ama.webp' },
 ]
 
 const governance = [
@@ -58,8 +56,8 @@ export default function AboutPage() {
 
       <section id="leadership" style={{ ...SECTION, background: C.surface }}>
         <div style={INNER}>
-          <SectionHeading eyebrow="Leadership" title="Visionaries leading the profession forward." aside="Meet the team dedicated to elevating executive assistants across Africa." />
-          <div className="aipea-leader-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
+          <SectionHeading eyebrow="Leadership" title="Visionaries leading the profession forward." aside="Meet the leadership dedicated to elevating executive assistants across Africa." />
+          <div className="aipea-leader-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 420px)', justifyContent: 'center', gap: 24 }}>
             {leaders.map((leader, i) => (
               <Reveal key={leader.name} delay={0.1 * i}>
                 <div style={{ position: 'relative', height: 420, borderRadius: 20, overflow: 'hidden' }}>
