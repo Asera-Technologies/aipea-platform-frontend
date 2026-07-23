@@ -321,13 +321,17 @@ export const LEADERSHIP = [
   {
     name: 'Madina Kadiatou Barry',
     title: 'Coordinating Consultant',
-    image: '/images/conference/optimized/leader-madina.jpg',
+    // Her own supplied studio portrait. The earlier `leader-madina.jpg` (a
+    // striped-dress stage shot) was a mislabel and has been removed.
+    image: '/images/conference/optimized/leader-ama.webp',
     bio: null,
   },
   {
     name: 'Noreen Norkor Nortey',
     title: 'Operations Consultant',
-    image: null,
+    // Frame PA-CON-25-0818 from the Maame_Ekua_Gaisey conference set, confirmed
+    // by the client (2026-07-22) as Noreen's photo.
+    image: '/images/conference/optimized/leader-noreen.jpg',
     bio: null,
   },
 ] as const
@@ -372,8 +376,8 @@ export const PENDING = {
   careerGuides: 'Client did not recognise the category — nothing published.',
   /** [CI §7] "glean from LI" — not yet written or approved. */
   leadershipBios: 'No approved bios for either consultant.',
-  /** [CI §7] "Get Norkor's from Nasim." */
-  leadershipHeadshots: "Noreen Norkor Nortey's headshot not supplied.",
+  /** [CI §7] Both headshots now supplied. Bios still outstanding. */
+  leadershipHeadshots: 'Both leader photos supplied and in use.',
   /** [CI §7] "yes. Picture from Nasim." */
   founder: 'Founder may be named and quoted, but no name, quote or picture supplied.',
   /** [CI §8] "we will have these later." */
