@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useRef } from 'react'
-import { motion, useInView, useReducedMotion, type Transition } from 'framer-motion'
+import { motion, useInView, type Transition } from 'framer-motion'
 import { EASE } from './tokens'
 
 type Dir = 'up' | 'left' | 'right' | 'scale'
@@ -16,12 +16,15 @@ export function Reveal({ children, delay = 0, from = 'up', style, className }: {
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-60px' as `${number}px` })
-  const reduced = useReducedMotion()
+  // `initial` must be identical on the server and the client's first render, so
+  // it can't depend on useReducedMotion() (which the server can't evaluate).
+  // MotionConfig reducedMotion="user" in providers.tsx handles the accessibility
+  // side, disabling the transform animation for reduce-motion visitors.
   return (
     <motion.div ref={ref} className={className} style={style}
-      initial={reduced ? { opacity: 0 } : { opacity: 0, ...offset[from] }}
+      initial={{ opacity: 0, ...offset[from] }}
       animate={inView ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
-      transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : delay, ease: EASE } satisfies Transition}>
+      transition={{ duration: 0.7, delay, ease: EASE } satisfies Transition}>
       {children}
     </motion.div>
   )

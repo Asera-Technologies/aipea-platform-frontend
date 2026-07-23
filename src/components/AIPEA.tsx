@@ -83,8 +83,8 @@ function ScrollReveal({ children, delay = 0, style, className }: {
   const reduced = useReducedMotion()
   return (
     <motion.div ref={ref} className={className} style={style}
-      initial={{ opacity: 0, y: reduced ? 0 : 28 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: reduced ? 0 : 28 }}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
       transition={{ duration: reduced ? 0 : 0.65, delay: reduced ? 0 : delay, ease: EASE } satisfies Transition}
     >
       {children}
@@ -151,7 +151,7 @@ function Reveal({ children, delay = 0, from = 'up', style, className }: {
   const offset: Record<Dir, Record<string, number>> = { up: { y: 30 }, left: { x: -44 }, right: { x: 44 }, scale: { scale: 0.92 } }
   return (
     <motion.div ref={ref} className={className} style={style}
-      initial={reduced ? { opacity: 0 } : { opacity: 0, ...offset[from] }}
+      initial={{ opacity: 0, ...offset[from] }}
       animate={inView ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
       transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : delay, ease: EASE } satisfies Transition}>
       {children}
@@ -186,7 +186,7 @@ function SectionHeader({ statement, aside, align = 'split', nowrap = false }: {
   const inView = useInView(ref, { once: true, margin: '-80px' as `${number}px` })
   const reduced = useReducedMotion()
   const rise = (delay: number) => ({
-    initial: reduced ? { opacity: 0 } : { opacity: 0, y: 22 },
+    initial: { opacity: 0, y: 22 },
     animate: inView ? { opacity: 1, y: 0 } : {},
     transition: { duration: reduced ? 0 : 0.7, delay: reduced ? 0 : delay, ease: EASE } satisfies Transition,
   })
@@ -406,13 +406,12 @@ function Marquee() {
 function EditorialMoment() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' as `${number}px` })
-  const reduced = useReducedMotion()
   return (
     <section style={{ padding: `${S.lg}px 40px ${S.section}px`, background: C.bg, borderBottom: `1px solid ${C.border}` }}>
       <div ref={ref} style={{ ...INNER }}>
         {/* Full-width image with overlaid headline */}
         <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 24 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: EASE }}
           style={{ position: 'relative', height: 480, borderRadius: 20, overflow: 'hidden', marginBottom: S.lg }}
@@ -438,7 +437,7 @@ function EditorialMoment() {
               Rewrite your role.
             </motion.p>
             <motion.h2
-              initial={{ opacity: 0, y: reduced ? 0 : 28 }}
+              initial={{ opacity: 0, y: 28 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.75, delay: 0.2, ease: EASE }}
               style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(36px,5.5vw,72px)', lineHeight: 0.95, letterSpacing: '-0.035em', color: C.white }}
@@ -468,7 +467,7 @@ function EditorialMoment() {
         {/* Moved down from the hero: on a full-bleed photo these sat too high in the
             frame to stay legible. They read better here on white anyway. */}
         <motion.div
-          initial={{ opacity: 0, y: reduced ? 0 : 20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.42, ease: EASE }}
           className="aipea-vision-row"
@@ -1152,7 +1151,7 @@ function LeadershipSection() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={leader.name}
-                  initial={{ opacity: 0, scale: reduced ? 1 : 1.04 }}
+                  initial={{ opacity: 0, scale: 1.04 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: reduced ? 0 : 0.6, ease: EASE }}
@@ -1176,7 +1175,7 @@ function LeadershipSection() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={leader.name}
-                  initial={{ opacity: 0, y: reduced ? 0 : 14 }}
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: reduced ? 0 : -10 }}
                   transition={{ duration: reduced ? 0 : 0.5, ease: EASE }}
