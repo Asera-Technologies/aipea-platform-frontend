@@ -756,12 +756,12 @@ function CoreValues() {
 
 // --- Pricing breakdown (detailed tier comparison) -----------------------------
 
-// Associate is the only confirmed price. Professional and Fellow route to the
-// Secretariat rather than publishing a figure the client has not given us.
+// Published membership pricing. Paid tiers still route through the Secretariat
+// until checkout has real payment verification.
 const priceTiers: PriceTier[] = [
   { name: 'Associate',    blurb: 'Entry membership',        price: 'Free',       cadence: '', href: '/sign-up', featured: true, badge: 'Free to join' },
-  { name: 'Professional', blurb: 'Established professionals', price: 'On request', cadence: '', href: '#contact', cta: 'Contact us' },
-  { name: 'Fellow',       blurb: 'Senior practitioners',    price: 'On request', cadence: '', href: '#contact', cta: 'Contact us' },
+  { name: 'Professional', blurb: 'Established professionals', price: 'Ghc 1,200', cadence: '', href: '#contact', cta: 'Contact us' },
+  { name: 'Fellow',       blurb: 'Senior practitioners',    price: 'Ghc 2,000', cadence: '', href: '#contact', cta: 'Contact us' },
 ]
 
 const priceRows: PriceRow[] = MEMBERSHIP_BENEFITS.map(r => ({ ...r, values: [...r.values] }))
@@ -771,7 +771,7 @@ function PricingSection() {
     <section id="membership" style={{ ...SECTION, background: C.surface }}>
       <div style={INNER}>
         <SectionHeader align="center" statement="Choose the membership that fits your stage." aside="Membership is your standing in the institute. Certification is earned separately." />
-        <PricingBreakdown tiers={priceTiers} rows={priceRows} note="Membership renews annually from your intake date. Professional and Fellow pricing is confirmed by the Secretariat on application." />
+        <PricingBreakdown tiers={priceTiers} rows={priceRows} note="Membership renews annually from your intake date. Professional and Fellow applications are completed through the Secretariat." />
       </div>
     </section>
   )

@@ -131,7 +131,7 @@ export const STRANDS: Strand[] = [
     duration: '6 months',
     tracks: [
       {
-        acronym: 'CPA',
+        acronym: 'CERTPA',
         name: 'Certified Personal Assistant',
         scope: 'A',
         scopeLabel: 'Individual & execution mastery',
@@ -256,8 +256,8 @@ export const ASSESSMENT_STAGES = [
 
 // [CI §3]. Membership is NOT the same as a professional credential — the client was
 // explicit about this, and the site must never present the tiers as certification
-// pathways. Prices for Professional and Fellow were left blank by the client, so
-// they are not published; those tiers route to contact instead.
+// pathways. Paid tiers route through the Secretariat until checkout has real
+// payment verification.
 export const MEMBERSHIP = {
   /** "Annual. On intake date so it is due a year from sign up." */
   renewal: 'Annual, from your intake date',
@@ -270,8 +270,8 @@ export const MEMBERSHIP = {
       cadence: '',
       priceConfirmed: true,
     },
-    { name: 'Professional', blurb: 'Established professionals', price: 'On request', cadence: '', priceConfirmed: false },
-    { name: 'Fellow', blurb: 'Senior practitioners', price: 'On request', cadence: '', priceConfirmed: false },
+    { name: 'Professional', blurb: 'Established professionals', price: 'Ghc 1,200', cadence: '', priceConfirmed: true },
+    { name: 'Fellow', blurb: 'Senior practitioners', price: 'Ghc 2,000', cadence: '', priceConfirmed: true },
   ],
 } as const
 
@@ -350,8 +350,6 @@ export const SECRETARIAT = {
 export const PENDING = {
   /** [CI §2] "Let me share 1 when I get into the office." */
   phoneAndWhatsApp: 'No number supplied — nothing published.',
-  /** [CI §3] Left blank for Professional and Fellow. */
-  tierPricing: 'Professional and Fellow prices not supplied — tiers route to contact.',
   /** [CI §4] "CPD will be defined. Document will be loaded in the folder." */
   cpdFramework: 'Hours, renewal period and categories all undefined.',
   /** [CI §4] "We should build that in." / "Yes. Let's do that." — intent, not a live system. */

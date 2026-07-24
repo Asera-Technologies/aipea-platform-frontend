@@ -15,13 +15,12 @@ const why = [
   { icon: Megaphone,   label: 'Advocacy',    title: 'A voice for the profession',        desc: 'AIPEA champions the value of EAs to organisations and leaders across Africa.' },
 ]
 
-// Associate is the only tier whose price the client supplied ("Yes. No hidden
-// costs."). Professional and Fellow were left blank, so they carry no figure and
-// route to the Secretariat rather than to a checkout that would need one.
+// Published membership pricing. Paid tiers still route through the Secretariat
+// until checkout has real payment verification.
 const tiers: PriceTier[] = [
   { name: 'Associate',    blurb: 'Entry membership',        price: 'Free',       cadence: '', href: '/sign-up', featured: true, badge: 'Free to join' },
-  { name: 'Professional', blurb: 'Established professionals', price: 'On request', cadence: '', href: '/about#contact', cta: 'Contact us' },
-  { name: 'Fellow',       blurb: 'Senior practitioners',    price: 'On request', cadence: '', href: '/about#contact', cta: 'Contact us' },
+  { name: 'Professional', blurb: 'Established professionals', price: 'Ghc 1,200', cadence: '', href: '/about#contact', cta: 'Contact us' },
+  { name: 'Fellow',       blurb: 'Senior practitioners',    price: 'Ghc 2,000', cadence: '', href: '/about#contact', cta: 'Contact us' },
 ]
 
 // Only benefits the client confirmed. Removed: a CPD tracker (framework still
@@ -61,7 +60,7 @@ export default function MembershipPage() {
       <section id="tiers" style={{ ...SECTION, background: C.surface }}>
         <div style={INNER}>
           <SectionHeading eyebrow="Membership tiers" title="Choose the membership that fits your stage." aside="Membership is not the same as a professional credential. Your tier sets your standing in the institute; your designation is earned through certification." />
-          <PricingBreakdown tiers={tiers} rows={rows} note={`Membership renews annually from your intake date. Professional and Fellow pricing is confirmed by the Secretariat on application.`} />
+          <PricingBreakdown tiers={tiers} rows={rows} note={`Membership renews annually from your intake date. Professional and Fellow applications are completed through the Secretariat.`} />
         </div>
       </section>
 

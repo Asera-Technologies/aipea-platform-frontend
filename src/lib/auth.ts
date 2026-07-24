@@ -30,7 +30,7 @@ export interface PendingSignup extends AssociateSignupInput {
 export const TIER_PRICING: Record<MembershipTier, number> = {
   Associate: 0,
   Professional: 1200,
-  Fellow: 2500,
+  Fellow: 2000,
 }
 
 export function formatCedis(amount: number): string {

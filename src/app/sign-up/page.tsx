@@ -100,7 +100,7 @@ export default function SignUp() {
 
           <Field label="Country" value={country} onChange={setCountry} placeholder="Ghana" autoComplete="country-name" />
 
-          <PasswordField label="Password" value={password} onChange={setPassword} autoComplete="new-password" />
+          <PasswordField label="Create a password" value={password} onChange={setPassword} autoComplete="new-password" />
 
           <ConsentCheckbox checked={newsletterConsent} onChange={setNewsletterConsent}>
             Send me AIPEA news, event invites, and the occasional newsletter. Unsubscribe anytime.
