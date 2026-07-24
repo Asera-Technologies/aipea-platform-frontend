@@ -180,9 +180,8 @@ body {
   .aipea-assessment-grid { grid-template-columns: repeat(3,1fr) !important; }
 }
 @media (max-width: 900px) {
-  .aipea-track-pair      { grid-template-columns: 1fr !important; }
-  /* The divider between tracks was a left border; it becomes a top border once stacked. */
-  .aipea-track-pair > div:last-child { border-left: none !important; border-top: 1px solid rgba(27,42,94,0.09) !important; }
+  /* Track band: scope rail stacks above its detail on narrow screens. */
+  .aipea-track-row       { grid-template-columns: 1fr !important; }
   .aipea-trimester-grid  { grid-template-columns: repeat(2,1fr) !important; }
 }
 @media (max-width: 640px) {

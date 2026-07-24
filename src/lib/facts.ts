@@ -34,8 +34,10 @@ export const ORG = {
 // --- Contact --------------------------------------------------------------------
 
 export const CONTACT = {
-  /** [CI §2] The one address the client confirmed as live ("This is sorted now"). */
-  email: 'info.aipea@fivesixfive.co',
+  /** Public contact address — unified on the aipea.co brand domain (matches the
+      Resend email templates' reply-to and the www.aipea.co site). Superseded the
+      earlier fivesixfive.co address per Caleb's 2026-07-24 direction. */
+  email: 'secretariat@aipea.co',
   /** [CI §2] "Yes. Accra, Ghana. We will update soon." No street address approved yet. */
   location: 'Accra, Ghana',
   /** [CI §2] "Only LI for now" — every other social channel is unopened. */

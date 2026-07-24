@@ -58,8 +58,7 @@ export function AuthHeader({ eyebrow, title, highlight, sub }: {
 }) {
   return (
     <div style={{ marginBottom: 30 }}>
-      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-        <span style={{ width: 26, height: 2, background: C.orange, borderRadius: 2 }} />
+      <span style={{ display: 'inline-flex', alignItems: 'center', marginBottom: 16 }}>
         <span style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange }}>
           {eyebrow}
         </span>

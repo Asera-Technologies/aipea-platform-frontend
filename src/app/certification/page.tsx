@@ -90,55 +90,77 @@ export default function CertificationPage() {
             {STRANDS.map((strand, si) => (
               <Reveal key={strand.id} delay={0.06 * si}>
                 <article style={{ borderRadius: 24, border: `1px solid ${C.border}`, background: C.bg, overflow: 'hidden', boxShadow: '0 18px 50px rgba(17,28,66,0.08)' }}>
-                  {/* Strand header — a navy band carrying a photo of the profession,
-                      so the card leads with an image and the whole strand reads as a
-                      single object rather than a grey/white split. */}
-                  <header style={{ position: 'relative', padding: 'clamp(30px,3.4vw,44px)', overflow: 'hidden', background: `linear-gradient(120deg, ${C.navyDark} 0%, ${C.navy} 100%)`, color: C.white }}>
-                    <div style={{ position: 'absolute', inset: 0, opacity: 0.16 }}>
-                      <Image
-                        src={STRAND_IMAGES[si % STRAND_IMAGES.length]}
-                        alt=""
-                        fill
-                        sizes="(max-width: 900px) 100vw, 1360px"
-                        style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
-                      />
-                    </div>
-                    <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(120deg, ${C.navyDark} 12%, rgba(27,42,94,0.55) 100%)` }} />
-                    <div style={{ position: 'absolute', top: -70, right: -70, width: 220, height: 220, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,80,26,0.3), transparent 70%)', pointerEvents: 'none' }} />
+                  {/* Strand header — the profession's photograph carries the band at
+                      full strength behind a directional scrim, so the strand leads
+                      with an image instead of a flat navy fill. */}
+                  <header style={{ position: 'relative', padding: 'clamp(32px,3.6vw,52px)', overflow: 'hidden', color: C.white, minHeight: 'clamp(230px,24vw,300px)', display: 'flex', alignItems: 'flex-end' }}>
+                    <Image
+                      src={STRAND_IMAGES[si % STRAND_IMAGES.length]}
+                      alt=""
+                      fill
+                      sizes="(max-width: 900px) 100vw, 1360px"
+                      style={{ objectFit: 'cover', objectPosition: 'center 28%' }}
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(115deg, rgba(9,14,33,0.94) 0%, rgba(13,24,49,0.82) 42%, rgba(27,42,94,0.42) 100%)` }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(9,14,33,0.72) 0%, transparent 45%)' }} />
+                    <div style={{ position: 'absolute', top: -70, right: -70, width: 260, height: 260, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,80,26,0.34), transparent 70%)', pointerEvents: 'none' }} />
                     <div style={{ position: 'relative', zIndex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
-                        <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 34, lineHeight: 1, letterSpacing: '-0.05em', color: 'rgba(255,255,255,0.32)' }}>{strand.n}</span>
-                        <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(22px,2.6vw,32px)', letterSpacing: '-0.03em', color: C.white, lineHeight: 1.1 }}>{strand.name}</h3>
-                        <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.orangeOnDark, background: 'rgba(232,80,26,0.18)', border: '1px solid rgba(232,80,26,0.35)', padding: '6px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>{strand.duration}</span>
+                        <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 38, lineHeight: 1, letterSpacing: '-0.05em', color: 'rgba(255,255,255,0.34)' }}>{strand.n}</span>
+                        <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(24px,2.8vw,34px)', letterSpacing: '-0.03em', color: C.white, lineHeight: 1.1 }}>{strand.name}</h3>
+                        <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.orangeOnDark, background: 'rgba(232,80,26,0.2)', border: '1px solid rgba(232,80,26,0.4)', padding: '6px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>{strand.duration}</span>
                       </div>
                       <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.orangeOnDark, marginTop: 14 }}>{strand.focus}</p>
-                      <p style={{ fontFamily: bod, fontSize: 14.5, lineHeight: 1.75, color: 'rgba(255,255,255,0.72)', marginTop: 10, maxWidth: 760 }}>{strand.audience}</p>
-                      <p style={{ fontFamily: bod, fontSize: 13.5, lineHeight: 1.7, color: 'rgba(255,255,255,0.86)', marginTop: 14, fontStyle: 'italic' }}>
+                      <p style={{ fontFamily: bod, fontSize: 14.5, lineHeight: 1.75, color: 'rgba(255,255,255,0.82)', marginTop: 10, maxWidth: 720 }}>{strand.audience}</p>
+                      <p style={{ fontFamily: bod, fontSize: 13.5, lineHeight: 1.7, color: 'rgba(255,255,255,0.9)', marginTop: 14, fontStyle: 'italic' }}>
                         The question this role answers: “{strand.coreQuestion}”
                       </p>
                     </div>
                   </header>
 
-                  {/* The two tracks, side by side — both on the card's white surface,
-                      separated only by a hairline divider (no grey fill). */}
-                  <div className="aipea-track-pair" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-                    {strand.tracks.map((track, ti) => (
-                      <div key={track.acronym} style={{ padding: 'clamp(24px,2.6vw,34px)', borderLeft: ti === 1 ? `1px solid ${C.border}` : 'none' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                          <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, letterSpacing: '-0.02em', color: C.text }}>{track.acronym}</span>
-                          <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.orange, background: 'rgba(232,80,26,0.08)', border: `1px solid rgba(232,80,26,0.2)`, padding: '4px 9px', borderRadius: 999 }}>Track {track.scope}</span>
-                        </div>
-                        <p style={{ fontFamily: bod, fontSize: 14, color: C.text, marginTop: 8, fontWeight: 600 }}>{track.name}</p>
-                        <p style={{ fontFamily: bod, fontSize: 12, color: C.muted, marginTop: 4 }}>{track.scopeLabel}</p>
-
-                        <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orange, marginTop: 22, marginBottom: 8 }}>Accountabilities</p>
-                        <p style={{ fontFamily: bod, fontSize: 13.5, lineHeight: 1.7, color: C.muted }}>{track.accountabilities}</p>
-
-                        <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orange, marginTop: 20, marginBottom: 8 }}>Capstone</p>
-                        <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 15, color: C.text, lineHeight: 1.3, letterSpacing: '-0.01em' }}>{track.capstone.name}</p>
-                        <p style={{ fontFamily: bod, fontSize: 13, lineHeight: 1.7, color: C.muted, marginTop: 6 }}>{track.capstone.desc}</p>
-                      </div>
-                    ))}
+                  {/* Two tracks stacked as a progression, not a left/right split:
+                      Track A (individual mastery) then the senior Track B that builds
+                      on it. Each track is one full-width horizontal band with a scope
+                      rail on the left; a connector between them names the step up. */}
+                  <div style={{ padding: 'clamp(22px,2.6vw,34px)' }}>
+                    {strand.tracks.map((track, ti) => {
+                      const senior = track.scope === 'B'
+                      const accent = senior ? C.orange : C.navy
+                      return (
+                        <Fragment key={track.acronym}>
+                          {ti === 1 && (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '4px 0 4px 8px' }}>
+                              <span style={{ width: 1, height: 26, background: C.border }} />
+                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.faint }}>
+                                <CornerRightDown size={14} color={C.orange} /> The senior track builds on the above
+                              </span>
+                            </div>
+                          )}
+                          <div className="aipea-track-row" style={{ display: 'grid', gridTemplateColumns: '236px 1fr', gap: 'clamp(20px,2.4vw,36px)', padding: 'clamp(22px,2.4vw,30px)', borderRadius: 18, background: senior ? 'linear-gradient(120deg, rgba(232,80,26,0.06), rgba(232,80,26,0.015))' : 'linear-gradient(120deg, rgba(27,42,94,0.06), rgba(27,42,94,0.015))', border: `1px solid ${senior ? 'rgba(232,80,26,0.22)' : 'rgba(27,42,94,0.16)'}` }}>
+                            {/* Scope rail */}
+                            <div style={{ borderLeft: `3px solid ${accent}`, paddingLeft: 18 }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap' }}>
+                                <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 26, letterSpacing: '-0.02em', color: C.text }}>{track.acronym}</span>
+                                <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: senior ? C.orange : C.navy, background: senior ? 'rgba(232,80,26,0.1)' : 'rgba(27,42,94,0.07)', border: `1px solid ${senior ? 'rgba(232,80,26,0.28)' : 'rgba(27,42,94,0.16)'}`, padding: '4px 9px', borderRadius: 999 }}>Track {track.scope}</span>
+                              </div>
+                              <p style={{ fontFamily: bod, fontSize: 14.5, color: C.text, marginTop: 10, fontWeight: 600, lineHeight: 1.35 }}>{track.name}</p>
+                              <p style={{ fontFamily: bod, fontSize: 12.5, color: C.muted, marginTop: 6, lineHeight: 1.5 }}>{track.scopeLabel}</p>
+                            </div>
+                            {/* Detail */}
+                            <div>
+                              <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orange, marginBottom: 8 }}>Accountabilities</p>
+                              <p style={{ fontFamily: bod, fontSize: 13.5, lineHeight: 1.7, color: C.muted }}>{track.accountabilities}</p>
+                              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 18 }}>
+                                <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orange }}>Capstone</p>
+                                <span style={{ flex: 1, height: 1, background: C.border }} />
+                              </div>
+                              <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 15.5, color: C.text, lineHeight: 1.3, letterSpacing: '-0.01em', marginTop: 8 }}>{track.capstone.name}</p>
+                              <p style={{ fontFamily: bod, fontSize: 13, lineHeight: 1.7, color: C.muted, marginTop: 6 }}>{track.capstone.desc}</p>
+                            </div>
+                          </div>
+                        </Fragment>
+                      )
+                    })}
                   </div>
                 </article>
               </Reveal>

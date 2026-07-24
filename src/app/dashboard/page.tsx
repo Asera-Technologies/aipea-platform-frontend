@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Users, BookOpen, Calendar, BarChart3, LogOut, ArrowRight } from 'lucide-react'
 import { signOutMember, formatJoinDate, firstName } from '@/lib/auth'
 import { useAuth, type MemberProfile } from '@/hooks/useAuth'
@@ -82,25 +82,42 @@ function DashNav({ user, onSignOut }: { user: MemberProfile; onSignOut: () => vo
 
 // --- Credential card ----------------------------------------------------------
 
+const MONO = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace'
+
 function CredentialCard({ user }: { user: MemberProfile }) {
   const initials = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
+  const reduced = useReducedMotion()
   return (
     <div style={{
       position: 'relative', borderRadius: 22, overflow: 'hidden',
       background: 'linear-gradient(145deg, #1e3070 0%, #111c42 55%, #071024 100%)',
       border: '1px solid rgba(255,255,255,0.16)',
       boxShadow: '0 32px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
-      padding: '32px 32px 28px', display: 'flex', flexDirection: 'column', gap: 32,
+      padding: '30px 32px 26px', display: 'flex', flexDirection: 'column', gap: 26,
     }}>
       {/* glows */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 85% 15%, rgba(232,80,26,0.45) 0%, transparent 42%)', pointerEvents: 'none' }} />
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 15% 85%, rgba(27,42,94,0.6) 0%, transparent 50%)', pointerEvents: 'none' }} />
+      {/* Guilloché — faint diagonal engine-turning, the security-print texture of
+          a real credential. Pure CSS repeating gradient, very low opacity. */}
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.5, pointerEvents: 'none', backgroundImage: 'repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 8px)' }} />
+      {/* One-shot holographic sheen sweeping across on load. */}
+      {!reduced && (
+        <motion.div
+          initial={{ x: '-140%' }}
+          animate={{ x: '140%' }}
+          transition={{ duration: 1.5, delay: 0.5, ease: EASE }}
+          style={{ position: 'absolute', top: 0, bottom: 0, width: '55%', background: 'linear-gradient(105deg, transparent, rgba(255,255,255,0.16), transparent)', pointerEvents: 'none', transform: 'skewX(-18deg)' }}
+        />
+      )}
 
-      {/* Top row */}
+      {/* Top row: wordmark + chip */}
       <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE_ON_DARK }}>AIPEA</span>
-        <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 12, color: WHITE }}>
-          {initials}
+        {/* EMV-style chip */}
+        <div style={{ width: 40, height: 30, borderRadius: 7, background: 'linear-gradient(135deg, #e9c46a 0%, #d4a437 45%, #b8860b 100%)', border: '1px solid rgba(255,255,255,0.35)', position: 'relative', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.5)' }}>
+          <div style={{ position: 'absolute', inset: '6px 0', borderTop: '1px solid rgba(90,60,0,0.4)', borderBottom: '1px solid rgba(90,60,0,0.4)' }} />
+          <div style={{ position: 'absolute', top: 0, bottom: 0, left: '50%', width: 1, background: 'rgba(90,60,0,0.4)' }} />
         </div>
       </div>
 
@@ -118,31 +135,25 @@ function CredentialCard({ user }: { user: MemberProfile }) {
         </div>
       </div>
 
-      {/* CPD + meta */}
+      {/* Member ID — embossed, monospaced, the way it reads on a card face */}
       <div style={{ position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'rgba(255,255,255,0.32)', marginBottom: 7, fontFamily: bod }}>
-          <span>CPD Progress</span><span>Framework pending</span>
+        <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', fontFamily: bod, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Member ID</div>
+        <div style={{ fontFamily: MONO, fontSize: 17, fontWeight: 600, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.94)', textShadow: '0 1px 0 rgba(0,0,0,0.4)' }}>{user.memberId}</div>
+      </div>
+
+      {/* Footer meta */}
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16, borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 14 }}>
+        <div>
+          <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.26)', fontFamily: bod, marginBottom: 3, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Member since</div>
+          <div style={{ fontFamily: MONO, fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>{formatJoinDate(user.joinedAt)}</div>
         </div>
-        <div style={{ height: 3, background: 'rgba(255,255,255,0.1)', borderRadius: 100, overflow: 'hidden', marginBottom: 20 }}>
-          {/* Empty track when hours are 0 — an animated sliver at near-zero
-              width read as a rendering glitch rather than "not started." */}
-          <motion.div initial={{ width: 0 }} animate={{ width: '0%' }} transition={{ duration: 1.2, delay: 0.7, ease: EASE }}
-            style={{ height: '100%', background: ORANGE, borderRadius: 100 }} />
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-          {[['Member since', formatJoinDate(user.joinedAt)], ['Member ID', user.memberId]].map(([l, v]) => (
-            <div key={l}>
-              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.26)', fontFamily: bod, marginBottom: 3 }}>{l}</div>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', fontFamily: bod, wordBreak: 'break-all' }}>{v}</div>
-            </div>
-          ))}
-        </div>
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 14, marginTop: 16 }}>
-          <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.16)', letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: bod }}>
-            Africa Institute of Personal &amp; Executive Assistants
-          </span>
+        <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 12, color: WHITE, flexShrink: 0 }}>
+          {initials}
         </div>
       </div>
+      <span style={{ position: 'relative', zIndex: 1, fontSize: 9, color: 'rgba(255,255,255,0.16)', letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: bod }}>
+        Africa Institute of Personal &amp; Executive Assistants
+      </span>
     </div>
   )
 }
@@ -186,16 +197,33 @@ function CPDTile() {
 
 // --- Feature card -------------------------------------------------------------
 
-function FeatureCard({ iconColor, icon, title, desc }: { iconColor: string; icon: React.ReactNode; title: string; desc: string }) {
+// Status encodes the real build state of each feature, so the roadmap tells the
+// member the truth about what's live vs coming rather than a flat "soon".
+type FeatureStatus = 'Building' | 'Planned'
+const STATUS_STYLE: Record<FeatureStatus, { fg: string; bg: string; bd: string }> = {
+  Building: { fg: '#b45309', bg: 'rgba(232,80,26,0.09)', bd: 'rgba(232,80,26,0.28)' },
+  Planned:  { fg: FAINT, bg: 'rgba(17,28,66,0.05)', bd: BORDER },
+}
+
+function FeatureCard({ iconColor, icon, title, desc, status, step }: { iconColor: string; icon: React.ReactNode; title: string; desc: string; status: FeatureStatus; step: string }) {
+  const s = STATUS_STYLE[status]
   return (
-    <div style={{ background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 14, padding: '26px 26px 30px', display: 'flex', flexDirection: 'column', gap: 16, transition: 'box-shadow 0.22s, border-color 0.22s, transform 0.22s' }}
-      onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 12px 36px rgba(27,42,94,0.08)'; e.currentTarget.style.borderColor = 'rgba(27,42,94,0.18)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+    <div style={{ position: 'relative', background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '24px 24px 26px', display: 'flex', flexDirection: 'column', gap: 14, height: '100%', overflow: 'hidden', transition: 'box-shadow 0.22s, border-color 0.22s, transform 0.22s' }}
+      onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 14px 40px rgba(27,42,94,0.1)'; e.currentTarget.style.borderColor = 'rgba(27,42,94,0.2)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
       onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = BORDER; e.currentTarget.style.transform = 'none' }}>
-      <div style={{ width: 42, height: 42, borderRadius: 12, background: `${iconColor}12`, border: `1px solid ${iconColor}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-        {icon}
+      {/* Ghost step number — quiet ordering cue for the roadmap. */}
+      <span style={{ position: 'absolute', top: 10, right: 16, fontFamily: dis, fontWeight: 800, fontSize: 44, lineHeight: 1, letterSpacing: '-0.05em', color: 'rgba(17,28,66,0.045)' }}>{step}</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+        <div style={{ width: 42, height: 42, borderRadius: 12, background: `${iconColor}12`, border: `1px solid ${iconColor}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          {icon}
+        </div>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: dis, fontWeight: 700, fontSize: 9.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: s.fg, background: s.bg, border: `1px solid ${s.bd}`, borderRadius: 999, padding: '4px 10px' }}>
+          {status === 'Building' && <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#e8501a' }} />}
+          {status}
+        </span>
       </div>
-      <div>
-        <h3 style={{ fontFamily: dis, fontWeight: 700, fontSize: 15, color: TEXT, lineHeight: 1.2, letterSpacing: '-0.01em' }}>{title}</h3>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <h3 style={{ fontFamily: dis, fontWeight: 700, fontSize: 15.5, color: TEXT, lineHeight: 1.2, letterSpacing: '-0.01em' }}>{title}</h3>
         <p style={{ fontFamily: bod, fontSize: 13, color: MUTED, marginTop: 6, lineHeight: 1.65 }}>{desc}</p>
       </div>
     </div>
@@ -290,26 +318,26 @@ export default function Dashboard() {
           {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 44, paddingBottom: 28, borderBottom: `1px solid ${BORDER}`, gap: 24, flexWrap: 'wrap' }}>
             <div>
-              <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE, marginBottom: 8 }}>Your platform</p>
+              <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE, marginBottom: 8 }}>Your platform roadmap</p>
               <h2 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(24px, 2.8vw, 36px)', color: TEXT, letterSpacing: '-0.02em', lineHeight: 1.05 }}>
-                Built for you. Launching soon.
+                What we&apos;re building for you.
               </h2>
             </div>
-            <p style={{ fontFamily: bod, fontSize: 14, color: MUTED, maxWidth: 200, textAlign: 'right', lineHeight: 1.65 }}>
-              Early members get access first.
+            <p style={{ fontFamily: bod, fontSize: 14, color: MUTED, maxWidth: 210, textAlign: 'right', lineHeight: 1.65 }}>
+              As a founding member, each drops for you first.
             </p>
           </div>
 
-          {/* Feature cards */}
+          {/* Feature roadmap — status-tagged so each card states its real build state */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }} className="aipea-features-row">
-            {[
-              { iconColor: ORANGE,    icon: <Users     size={18} color={ORANGE} />,    title: 'Member Directory',    desc: 'Connect with executive assistants across all 33 African countries in the AIPEA network.' },
-              { iconColor: NAVY_DARK, icon: <BarChart3 size={18} color={NAVY_DARK} />, title: 'CPD Tracker',         desc: 'Log your professional development hours. The CPD framework is being finalised.' },
-              { iconColor: '#7c3aed', icon: <BookOpen  size={18} color="#7c3aed" />,   title: 'Course Library',      desc: 'Certification-backed courses built specifically for executive and personal assistants in Africa.' },
-              { iconColor: '#059669', icon: <Calendar  size={18} color="#059669" />,   title: 'Events & Conference', desc: 'PA Conference 2026 in Accra, plus member meetups as the calendar is confirmed.' },
-            ].map((card, i) => (
-              <motion.div key={card.title} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.62, delay: 0.08 + i * 0.07, ease: EASE }}>
-                <FeatureCard {...card} />
+            {([
+              { iconColor: ORANGE,    icon: <Users     size={18} color={ORANGE} />,    title: 'Member Directory',    desc: 'Connect with executive assistants across the AIPEA network as it grows.', status: 'Building' as const },
+              { iconColor: NAVY_DARK, icon: <BarChart3 size={18} color={NAVY_DARK} />, title: 'CPD Tracker',         desc: 'Log your professional development hours once the CPD framework is finalised.', status: 'Building' as const },
+              { iconColor: '#7c3aed', icon: <BookOpen  size={18} color="#7c3aed" />,   title: 'Course Library',      desc: 'Certification-backed courses built specifically for assistants in Africa.', status: 'Planned' as const },
+              { iconColor: '#059669', icon: <Calendar  size={18} color="#059669" />,   title: 'Events & Conference', desc: 'PA Conference 2026 in Accra, plus member meetups as the calendar is confirmed.', status: 'Building' as const },
+            ]).map((card, i) => (
+              <motion.div key={card.title} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.62, delay: 0.08 + i * 0.07, ease: EASE }} style={{ height: '100%' }}>
+                <FeatureCard {...card} step={String(i + 1).padStart(2, '0')} />
               </motion.div>
             ))}
           </div>

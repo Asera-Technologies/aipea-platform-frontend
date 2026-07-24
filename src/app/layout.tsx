@@ -19,6 +19,7 @@ const dmSansBody = DM_Sans({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.aipea.co'),
   title: 'AIPEA: Africa Institute of Personal and Executive Assistants',
   description:
     "The professional membership body for executive and personal assistants across Africa. Membership, CPD certification and community.",
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
     description:
       'Professional membership, CPD certification, and community for EAs across Africa.',
     type: 'website',
+    url: 'https://www.aipea.co',
   },
 }
 
