@@ -625,13 +625,13 @@ function PathwayStrip() {
 
 function About() {
   return (
-    <section id="about" style={{ ...SECTION, background: C.bg }}>
+    <section id="about" className="aipea-about-section" style={{ ...SECTION, background: C.bg }}>
       <div style={INNER}>
         <SectionHeader align="center" statement="Africa's home for executive professionals." aside="One membership. Everything you need." />
           {/* Full-bleed photograph with the purpose statement overlaid, so the
               image carries the whole section rather than sitting as a banner
               above a separate text block. */}
-          <Reveal style={{ position: 'relative', borderRadius: 22, overflow: 'hidden', minHeight: 'clamp(460px,64vh,640px)', background: 'linear-gradient(135deg, #0d1831 0%, #1B2A5E 55%, #24396e 100%)' }}>
+          <Reveal className="aipea-about-story-card" style={{ position: 'relative', borderRadius: 22, overflow: 'hidden', minHeight: 'clamp(460px,64vh,640px)', background: 'linear-gradient(135deg, #0d1831 0%, #1B2A5E 55%, #24396e 100%)' }}>
             <div className="aipea-about-photo" style={{ position: 'absolute', inset: 0 }}>
               <Image
                 src="/images/conference/optimized/about-story.webp"
@@ -645,26 +645,26 @@ function About() {
                 while leaving the photograph's midtones visible. */}
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(10,16,40,0.6) 0%, rgba(10,16,40,0.18) 22%, rgba(10,16,40,0.28) 55%, rgba(10,16,40,0.82) 100%)' }} />
 
-            <div style={{ position: 'absolute', top: 26, left: 30, fontFamily: dis, fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)' }}>
+            <div className="aipea-about-kicker" style={{ position: 'absolute', top: 26, left: 30, fontFamily: dis, fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)' }}>
               AIPEA Community · PA Conference
             </div>
 
-            <div style={{ position: 'absolute', top: 22, right: 30, display: 'flex', alignItems: 'center' }}>
+            <div className="aipea-about-avatars" style={{ position: 'absolute', top: 22, right: 30, display: 'flex', alignItems: 'center' }}>
               {([['AA', C.orange], ['JO', '#1B2A5E'], ['NK', '#059669'], ['FM', '#7c3aed'], ['TM', '#0891b2']] as [string, string][]).map(([ini, color], i) => (
                 <div key={ini} style={{ width: 34, height: 34, borderRadius: '50%', background: color, border: '2.5px solid rgba(255,255,255,0.3)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 10, color: C.white, marginLeft: i > 0 ? -12 : 0, zIndex: 10 - i, position: 'relative' }}>{ini}</div>
               ))}
             </div>
 
             {/* Overlaid statement, anchored to the lower half of the image. */}
-            <div style={{ position: 'absolute', left: 'clamp(28px,5vw,72px)', right: 'clamp(28px,5vw,72px)', bottom: 'clamp(36px,5vw,64px)', textAlign: 'center' }}>
-              <p style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, color: C.orange, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>Our purpose</p>
-              <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(28px,3.6vw,52px)', lineHeight: 1.08, letterSpacing: '-0.025em', color: C.white, maxWidth: 900, margin: '0 auto', textShadow: '0 2px 24px rgba(6,10,30,0.5)' }}>
+            <div className="aipea-about-statement" style={{ position: 'absolute', left: 'clamp(28px,5vw,72px)', right: 'clamp(28px,5vw,72px)', bottom: 'clamp(36px,5vw,64px)', textAlign: 'center' }}>
+              <p className="aipea-about-purpose" style={{ fontFamily: dis, fontSize: 11, fontWeight: 700, color: C.orange, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 18 }}>Our purpose</p>
+              <p className="aipea-about-title" style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(28px,3.6vw,52px)', lineHeight: 1.08, letterSpacing: '-0.025em', color: C.white, maxWidth: 900, margin: '0 auto', textShadow: '0 2px 24px rgba(6,10,30,0.5)' }}>
                 Where assistants and the leaders they support succeed together.
               </p>
-              <p style={{ fontFamily: bod, fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.78)', maxWidth: 560, margin: '18px auto 0' }}>
+              <p className="aipea-about-desc" style={{ fontFamily: bod, fontSize: 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.78)', maxWidth: 560, margin: '18px auto 0' }}>
                 Professional recognition for the people behind executive performance.
               </p>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap', marginTop: 28 }}>
+              <div className="aipea-about-pills" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap', marginTop: 28 }}>
                 <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.white, border: '1px solid rgba(255,255,255,0.35)', borderRadius: 999, padding: '8px 16px' }}>Rooted in Ghana</span>
                 <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.white, border: '1px solid rgba(255,255,255,0.35)', borderRadius: 999, padding: '8px 16px' }}>Serving Africa</span>
               </div>

@@ -230,3 +230,109 @@ body {
 @media (max-width: 768px) {
   .aipea-vision-row { grid-template-columns: 1fr !important; gap: 20px !important; margin-top: 40px !important; }
 }
+
+/* Homepage story block: on phones this is the first quiet brand moment after the
+   hero, so it needs to feel like a composed membership card rather than a tall
+   desktop poster squeezed into a narrow column. */
+@media (max-width: 640px) {
+  .aipea-about-section {
+    padding: 44px 18px 54px !important;
+  }
+
+  .aipea-about-section h2 {
+    max-width: 340px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: clamp(30px, 8.3vw, 38px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  .aipea-about-section h2 + p {
+    margin-top: 12px !important;
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  .aipea-about-story-card {
+    min-height: 430px !important;
+    border-radius: 26px !important;
+    box-shadow: 0 22px 60px rgba(17, 28, 66, 0.18) !important;
+  }
+
+  .aipea-about-photo {
+    bottom: auto !important;
+    height: 52% !important;
+  }
+
+  .aipea-about-kicker {
+    top: 22px !important;
+    left: 22px !important;
+    max-width: 180px !important;
+    font-size: 8px !important;
+    letter-spacing: 0.2em !important;
+  }
+
+  .aipea-about-avatars {
+    top: 18px !important;
+    right: 20px !important;
+  }
+
+  .aipea-about-avatars > div {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 9px !important;
+    border-width: 2px !important;
+  }
+
+  .aipea-about-statement {
+    left: 22px !important;
+    right: 22px !important;
+    bottom: 28px !important;
+  }
+
+  .aipea-about-purpose {
+    margin-bottom: 12px !important;
+    font-size: 9px !important;
+    letter-spacing: 0.22em !important;
+  }
+
+  .aipea-about-title {
+    max-width: 330px !important;
+    font-size: clamp(26px, 7.4vw, 34px) !important;
+    line-height: 1.03 !important;
+  }
+
+  .aipea-about-desc {
+    max-width: 300px !important;
+    margin-top: 14px !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+
+  .aipea-about-pills {
+    gap: 8px !important;
+    margin-top: 20px !important;
+  }
+
+  .aipea-about-pills span {
+    padding: 7px 13px !important;
+    font-size: 9px !important;
+    letter-spacing: 0.16em !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .aipea-about-section {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .aipea-about-story-card {
+    min-height: 408px !important;
+  }
+
+  .aipea-about-desc {
+    display: none !important;
+  }
+}
