@@ -295,3 +295,51 @@ export function AuthFooterLink({ prompt, href, label }: { prompt: string; href: 
     </div>
   )
 }
+
+export function AuthRedirectOverlay({ message = 'Preparing your dashboard' }: { message?: string }) {
+  return (
+    <div style={{ minHeight: '100vh', background: C.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <style>{`
+        @keyframes aipeaPulse{0%,100%{opacity:.34}50%{opacity:1}}
+        @keyframes aipeaShimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+      `}</style>
+
+      <div style={{
+        width: '100%', maxWidth: 420, background: C.white, border: `1px solid ${C.border}`,
+        borderRadius: 22, padding: 28, boxShadow: '0 22px 60px rgba(17,28,66,0.10)',
+      }}>
+        <span style={{
+          fontFamily: dis, fontWeight: 800, fontSize: 12, letterSpacing: '0.2em',
+          textTransform: 'uppercase', color: C.orange, animation: 'aipeaPulse 1.4s ease-in-out infinite',
+        }}>
+          AIPEA
+        </span>
+
+        <h1 style={{ fontFamily: dis, fontSize: 28, lineHeight: 1.05, letterSpacing: '-0.03em', color: C.text, margin: '18px 0 8px' }}>
+          You&apos;re signed in.
+        </h1>
+        <p style={{ fontFamily: bod, fontSize: 14, lineHeight: 1.6, color: C.muted, margin: 0 }}>
+          {message}. This should only take a moment.
+        </p>
+
+        <div style={{ display: 'grid', gap: 12, marginTop: 26 }} aria-hidden="true">
+          {[88, 100, 72].map((width, index) => (
+            <span
+              key={width}
+              style={{
+                position: 'relative', overflow: 'hidden', display: 'block', height: index === 0 ? 16 : 12,
+                width: `${width}%`, borderRadius: 999, background: 'rgba(27,42,94,0.08)',
+              }}
+            >
+              <span style={{
+                position: 'absolute', inset: 0, width: '58%',
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.72), transparent)',
+                animation: 'aipeaShimmer 1.25s ease-in-out infinite',
+              }} />
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}

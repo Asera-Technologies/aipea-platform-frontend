@@ -6,9 +6,9 @@ import { signInMember, continueWithGoogle, completeGoogleRedirect, getAuthErrorM
 import { BrandPanel } from '@/components/auth/BrandPanel'
 import {
   AuthCard, AuthHeader, Field, PasswordField,
-  FormError, PrimaryButton, GoogleButton, Divider, AuthFooterLink,
+  FormError, PrimaryButton, GoogleButton, Divider, AuthFooterLink, AuthRedirectOverlay,
 } from '@/components/auth/AuthKit'
-import { C, bod, dis } from '@/components/site/tokens'
+import { C, bod } from '@/components/site/tokens'
 
 export default function SignIn() {
   const router = useRouter()
@@ -65,7 +65,7 @@ export default function SignIn() {
     }
   }
 
-  if (redirecting) return <RedirectOverlay />
+  if (redirecting) return <AuthRedirectOverlay message="Loading your member dashboard" />
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: C.bg }}>
@@ -109,22 +109,6 @@ export default function SignIn() {
 
         <AuthFooterLink prompt="Don't have an account?" href="/sign-up" label="Join AIPEA →" />
       </AuthCard>
-    </div>
-  )
-}
-
-// Full-screen brand veil shown from the instant auth succeeds until the
-// dashboard mounts, so the sign-in form never reappears mid-navigation.
-function RedirectOverlay() {
-  return (
-    <div style={{ minHeight: '100vh', background: C.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <style>{`@keyframes aipeaPulse{0%,100%{opacity:.25}50%{opacity:1}}`}</style>
-      <span style={{
-        fontFamily: dis, fontWeight: 800, fontSize: 16, letterSpacing: '0.18em',
-        textTransform: 'uppercase', color: C.orange, animation: 'aipeaPulse 1.4s ease-in-out infinite',
-      }}>
-        AIPEA
-      </span>
     </div>
   )
 }

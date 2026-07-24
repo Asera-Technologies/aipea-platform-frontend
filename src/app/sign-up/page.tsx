@@ -6,7 +6,7 @@ import { signUpAssociate, continueWithGoogle, completeGoogleRedirect, getAuthErr
 import { BrandPanel } from '@/components/auth/BrandPanel'
 import {
   AuthCard, AuthHeader, Field, PasswordField, ConsentCheckbox,
-  FormError, PrimaryButton, GoogleButton, Divider, AuthFooterLink,
+  FormError, PrimaryButton, GoogleButton, Divider, AuthFooterLink, AuthRedirectOverlay,
 } from '@/components/auth/AuthKit'
 import { C, bod } from '@/components/site/tokens'
 
@@ -24,13 +24,14 @@ export default function SignUp() {
   const [error,    setError]    = useState('')
   const [loading,  setLoading]  = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
+  const [redirecting, setRedirecting] = useState(false)
 
   // Finish a redirect-based Google signup when the tab returns from Google.
   useEffect(() => {
     setGoogleLoading(true)
     completeGoogleRedirect()
       .then((completed) => {
-        if (completed) router.push('/dashboard')
+        if (completed) { setRedirecting(true); router.push('/dashboard') }
         else setGoogleLoading(false)
       })
       .catch((err) => {
@@ -57,6 +58,7 @@ export default function SignUp() {
         password,
         newsletterConsent,
       })
+      setRedirecting(true)
       router.push('/dashboard')
     } catch (err) {
       setError(getAuthErrorMessage(err))
@@ -69,12 +71,15 @@ export default function SignUp() {
     setGoogleLoading(true)
     try {
       await continueWithGoogle(newsletterConsent)
+      setRedirecting(true)
       router.push('/dashboard')
     } catch (err) {
       setError(getAuthErrorMessage(err))
       setGoogleLoading(false)
     }
   }
+
+  if (redirecting) return <AuthRedirectOverlay message="Creating your member dashboard" />
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: C.bg }}>
