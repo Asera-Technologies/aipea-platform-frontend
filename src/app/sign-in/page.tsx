@@ -8,7 +8,7 @@ import {
   AuthCard, AuthHeader, Field, PasswordField,
   FormError, PrimaryButton, GoogleButton, Divider, AuthFooterLink,
 } from '@/components/auth/AuthKit'
-import { C, bod } from '@/components/site/tokens'
+import { C, bod, dis } from '@/components/site/tokens'
 
 export default function SignIn() {
   const router = useRouter()
@@ -17,13 +17,16 @@ export default function SignIn() {
   const [error,    setError]    = useState('')
   const [loading,  setLoading]  = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
+  // Stays true from the moment auth succeeds until the dashboard takes over, so
+  // the sign-in form never flashes back during the navigation + auth rehydrate.
+  const [redirecting, setRedirecting] = useState(false)
 
   // Finish a redirect-based Google sign-in when the tab returns from Google.
   useEffect(() => {
     setGoogleLoading(true)
     completeGoogleRedirect()
       .then((completed) => {
-        if (completed) router.push('/dashboard')
+        if (completed) { setRedirecting(true); router.push('/dashboard') }
         else setGoogleLoading(false)
       })
       .catch((err) => {
@@ -39,6 +42,7 @@ export default function SignIn() {
     setLoading(true)
     try {
       await signInMember(email.trim(), password)
+      setRedirecting(true)
       router.push('/dashboard')
     } catch (err) {
       setError(getAuthErrorMessage(err))
@@ -53,12 +57,15 @@ export default function SignIn() {
       // Existing members keep whatever preference they signed up with; this
       // flag only applies if Google creates a brand-new profile.
       await continueWithGoogle(false)
+      setRedirecting(true)
       router.push('/dashboard')
     } catch (err) {
       setError(getAuthErrorMessage(err))
       setGoogleLoading(false)
     }
   }
+
+  if (redirecting) return <RedirectOverlay />
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: C.bg }}>
@@ -102,6 +109,22 @@ export default function SignIn() {
 
         <AuthFooterLink prompt="Don't have an account?" href="/sign-up" label="Join AIPEA →" />
       </AuthCard>
+    </div>
+  )
+}
+
+// Full-screen brand veil shown from the instant auth succeeds until the
+// dashboard mounts, so the sign-in form never reappears mid-navigation.
+function RedirectOverlay() {
+  return (
+    <div style={{ minHeight: '100vh', background: C.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <style>{`@keyframes aipeaPulse{0%,100%{opacity:.25}50%{opacity:1}}`}</style>
+      <span style={{
+        fontFamily: dis, fontWeight: 800, fontSize: 16, letterSpacing: '0.18em',
+        textTransform: 'uppercase', color: C.orange, animation: 'aipeaPulse 1.4s ease-in-out infinite',
+      }}>
+        AIPEA
+      </span>
     </div>
   )
 }

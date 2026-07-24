@@ -54,7 +54,7 @@ function LoadingScreen() {
 function DashNav({ user, onSignOut }: { user: MemberProfile; onSignOut: () => void }) {
   const initials = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
   return (
-    <nav style={{
+    <nav className="aipea-dash-nav" style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, height: 64,
       padding: '0 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       background: 'rgba(17,28,66,0.97)', backdropFilter: 'blur(24px)',
@@ -63,15 +63,15 @@ function DashNav({ user, onSignOut }: { user: MemberProfile; onSignOut: () => vo
       <Link href="/" style={{ textDecoration: 'none', display: 'block' }}>
         <Logo height={50} priority />
       </Link>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(232,80,26,0.18)', border: '1px solid rgba(232,80,26,0.36)', display: 'grid', placeItems: 'center', fontFamily: dis, fontWeight: 800, fontSize: 11, color: ORANGE_ON_DARK, flexShrink: 0 }}>
             {initials}
           </div>
-          <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontFamily: bod }}>{user.name}</span>
+          <span className="aipea-dash-name" style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontFamily: bod, whiteSpace: 'nowrap' }}>{user.name}</span>
         </div>
         <button onClick={onSignOut}
-          style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: '1px solid rgba(255,255,255,0.11)', borderRadius: 6, padding: '7px 14px', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', fontSize: 12, fontFamily: bod, transition: 'border-color 0.2s, color 0.2s' }}
+          style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: '1px solid rgba(255,255,255,0.11)', borderRadius: 6, padding: '7px 14px', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', fontSize: 12, fontFamily: bod, whiteSpace: 'nowrap', flexShrink: 0, transition: 'border-color 0.2s, color 0.2s' }}
           onMouseEnter={e => { e.currentTarget.style.borderColor = ORANGE; e.currentTarget.style.color = ORANGE }}
           onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.11)'; e.currentTarget.style.color = 'rgba(255,255,255,0.4)' }}>
           <LogOut size={13} /> Sign out
