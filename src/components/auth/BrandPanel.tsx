@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Logo } from '@/components/site/Logo'
 
 const ORANGE    = '#E8501A'
 const NAVY_DARK = '#111c42'
@@ -110,7 +111,7 @@ export function BrandPanel({ headline, sub, flex = '0 0 46%' }: {
 
         {/* top row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link href="/" style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none' }}>AIPEA</Link>
+          <Link href="/" style={{ textDecoration: 'none', display: 'block' }}><Logo height={54} priority /></Link>
           <RotatingSeal />
         </div>
 

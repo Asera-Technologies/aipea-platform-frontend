@@ -8,6 +8,7 @@ import { Users, BookOpen, Calendar, BarChart3, LogOut, ArrowRight } from 'lucide
 import { signOutMember, formatJoinDate, firstName } from '@/lib/auth'
 import { useAuth, type MemberProfile } from '@/hooks/useAuth'
 import { C, dis, bod, EASE } from '@/components/site/tokens'
+import { Logo } from '@/components/site/Logo'
 
 // Local aliases so the diff against the rest of this file stays small —
 // values are the shared tokens, not re-declared constants.
@@ -59,8 +60,8 @@ function DashNav({ user, onSignOut }: { user: MemberProfile; onSignOut: () => vo
       background: 'rgba(17,28,66,0.97)', backdropFilter: 'blur(24px)',
       borderBottom: '1px solid rgba(255,255,255,0.07)',
     }}>
-      <Link href="/" style={{ fontFamily: dis, fontWeight: 800, fontSize: 14, letterSpacing: '0.18em', textTransform: 'uppercase', color: ORANGE_ON_DARK, textDecoration: 'none' }}>
-        AIPEA
+      <Link href="/" style={{ textDecoration: 'none', display: 'block' }}>
+        <Logo height={50} priority />
       </Link>
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

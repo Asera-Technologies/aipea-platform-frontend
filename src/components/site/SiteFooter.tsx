@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { C, dis, bod, INNER } from './tokens'
+import { Logo } from './Logo'
 import { ORG, CONTACT } from '@/lib/facts'
 
 // LinkedIn is the only channel AIPEA has opened. The X, Instagram and Facebook
@@ -51,7 +52,7 @@ export function SiteFooter() {
       <div style={INNER}>
         <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr 1fr', gap: 48, paddingBottom: 48, borderBottom: '1px solid rgba(255,255,255,0.12)' }} className="aipea-footer-grid">
           <div>
-            <div style={{ fontFamily: dis, fontWeight: 800, fontSize: 15, color: C.orange, letterSpacing: '0.18em' }}>AIPEA</div>
+            <Logo height={58} />
             <p style={{ fontFamily: bod, fontSize: 13, color: 'rgba(255,255,255,0.62)', maxWidth: 240, marginTop: 16, lineHeight: 1.75 }}>
               {ORG.tagline}
             </p>

@@ -14,6 +14,7 @@ import {
   type LucideProps,
 } from 'lucide-react'
 import { C, dis, bod, INNER } from './tokens'
+import { Logo } from './Logo'
 
 type Icon = React.ComponentType<LucideProps>
 
@@ -231,7 +232,7 @@ export function SiteNav({ overDark = false }: { overDark?: boolean }) {
       <div style={{ ...INNER, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Brand */}
         <Link href="/" onClick={() => setOpen(null)} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 16, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.orange }}>AIPEA</span>
+          <Logo height={54} priority />
           <span className="aipea-nav-tag" style={{ fontFamily: bod, fontSize: 11, color: inkSoft, lineHeight: 1.15, borderLeft: `1px solid ${rule}`, paddingLeft: 12, maxWidth: 150, transition: 'color 0.35s, border-color 0.35s' }}>
             Africa Institute of Personal &amp; Executive Assistants
           </span>
