@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { signUpAssociate, continueWithGoogle, getAuthErrorMessage } from '@/lib/auth'
+import { signUpAssociate, continueWithGoogle, completeGoogleRedirect, getAuthErrorMessage } from '@/lib/auth'
 import { BrandPanel } from '@/components/auth/BrandPanel'
 import {
   AuthCard, AuthHeader, Field, PasswordField, ConsentCheckbox,
@@ -24,6 +24,20 @@ export default function SignUp() {
   const [error,    setError]    = useState('')
   const [loading,  setLoading]  = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
+
+  // Finish a redirect-based Google signup when the tab returns from Google.
+  useEffect(() => {
+    setGoogleLoading(true)
+    completeGoogleRedirect()
+      .then((completed) => {
+        if (completed) router.push('/dashboard')
+        else setGoogleLoading(false)
+      })
+      .catch((err) => {
+        setError(getAuthErrorMessage(err))
+        setGoogleLoading(false)
+      })
+  }, [router])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

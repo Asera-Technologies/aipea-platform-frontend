@@ -1,10 +1,13 @@
 import {
   createUserWithEmailAndPassword,
+  getRedirectResult,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
   signOut,
   updateProfile,
+  type User,
 } from 'firebase/auth'
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { getFirebaseAuth, getFirebaseDb } from './firebase'
@@ -117,31 +120,81 @@ export async function signUpAssociate(pending: AssociateSignupInput): Promise<vo
   })
 }
 
+// Carries the newsletter-consent choice across a full-page redirect sign-in,
+// since the redirect leaves and reloads the app before we can create the
+// profile. Only set right before a redirect; read + cleared on return.
+const GOOGLE_CONSENT_KEY = 'aipea_google_consent'
+
 /**
- * Google sign-in doubles as both signup and sign-in. If it's a first-time
- * Google user, this creates the same Associate Firestore profile the
- * password signup path creates (same shape, same rules-allowed fields), so
- * the existing onUserProfileCreated Cloud Function picks it up and sends
- * the welcome email exactly as it does for password signups — no backend
- * changes needed. Returning Google users just get signed in.
+ * Creates the Associate Firestore profile for a first-time Google user — the
+ * same shape and rules-allowed fields as the password signup path, so the
+ * existing onUserProfileCreated Cloud Function sends the welcome email with no
+ * backend changes. No-op for returning users who already have a profile.
+ */
+async function ensureGoogleProfile(user: User, newsletterConsent: boolean): Promise<void> {
+  const userRef = doc(getFirebaseDb(), 'users', user.uid)
+  const existing = await getDoc(userRef)
+  if (existing.exists()) return
+  await setDoc(userRef, {
+    uid: user.uid,
+    name: user.displayName || user.email?.split('@')[0] || 'AIPEA Member',
+    email: user.email ?? '',
+    country: '',
+    tier: 'Associate',
+    status: 'active',
+    newsletterConsent,
+    memberId: generateMemberId(),
+    createdAt: serverTimestamp(),
+  })
+}
+
+/**
+ * Google sign-in / signup. Tries the popup first; if the browser blocks the
+ * popup (popup blockers, Safari/Brave defaults, mobile), it falls back to a
+ * full-page redirect, which no browser can block. The redirect leaves the app,
+ * so profile creation on return is handled by completeGoogleRedirect() — this
+ * function does not resolve in the redirect case (the page navigates away).
  */
 export async function continueWithGoogle(newsletterConsent = false): Promise<void> {
-  const credential = await signInWithPopup(getFirebaseAuth(), new GoogleAuthProvider())
-  const userRef = doc(getFirebaseDb(), 'users', credential.user.uid)
-  const existing = await getDoc(userRef)
-  if (!existing.exists()) {
-    await setDoc(userRef, {
-      uid: credential.user.uid,
-      name: credential.user.displayName || credential.user.email?.split('@')[0] || 'AIPEA Member',
-      email: credential.user.email ?? '',
-      country: '',
-      tier: 'Associate',
-      status: 'active',
-      newsletterConsent,
-      memberId: generateMemberId(),
-      createdAt: serverTimestamp(),
-    })
+  const auth = getFirebaseAuth()
+  const provider = new GoogleAuthProvider()
+  try {
+    const credential = await signInWithPopup(auth, provider)
+    await ensureGoogleProfile(credential.user, newsletterConsent)
+  } catch (err) {
+    const code = (err as { code?: string } | null)?.code
+    if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-environment') {
+      // Persist consent so completeGoogleRedirect() can apply it after return.
+      try {
+        localStorage.setItem(GOOGLE_CONSENT_KEY, newsletterConsent ? '1' : '0')
+      } catch {
+        // localStorage unavailable — profile just defaults to no consent.
+      }
+      await signInWithRedirect(auth, provider)
+      return // page navigates away; nothing after this runs
+    }
+    throw err
   }
+}
+
+/**
+ * Completes a redirect-based Google sign-in when the tab returns. Safe to call
+ * on every mount of the auth pages: resolves to false when there is no pending
+ * redirect result, true when a redirect sign-in just completed (profile
+ * ensured). Rethrows real auth errors for the caller to surface.
+ */
+export async function completeGoogleRedirect(): Promise<boolean> {
+  const result = await getRedirectResult(getFirebaseAuth())
+  if (!result?.user) return false
+  let consent = false
+  try {
+    consent = localStorage.getItem(GOOGLE_CONSENT_KEY) === '1'
+    localStorage.removeItem(GOOGLE_CONSENT_KEY)
+  } catch {
+    // ignore storage errors; default consent already false
+  }
+  await ensureGoogleProfile(result.user, consent)
+  return true
 }
 
 export async function signInMember(email: string, password: string): Promise<void> {
