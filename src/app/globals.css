@@ -197,6 +197,18 @@ body {
   .aipea-statband { grid-template-columns: 1fr !important; }
 }
 
+/* Certification assessment — the S-path flow. Two horizontal rows joined by a
+   turn; below 860px the whole thing collapses into a single vertical column with
+   the connector arrows rotated to point down. The !important overrides the inline
+   row-reverse on the bottom row so it stacks in numeric order. */
+.aipea-flow-row  { display: flex; align-items: stretch; gap: 12px; }
+.aipea-flow-turn { display: flex; justify-content: flex-end; padding: 2px 7% 2px 0; }
+@media (max-width: 860px) {
+  .aipea-flow-row, .aipea-flow-rev { flex-direction: column !important; gap: 0 !important; }
+  .aipea-flow-arrow { transform: rotate(90deg); margin: 8px auto; }
+  .aipea-flow-turn  { justify-content: center !important; padding: 6px 0 !important; }
+}
+
 /* The blanket `.aipea section` padding in the media queries above also hits the
    landing hero, insetting the full-bleed image and leaving a white band under the
    nav. Higher specificity + !important to beat it at every breakpoint. This was

@@ -503,19 +503,20 @@ function PillarStrip() {
             const Icon = p.icon
             return (
               <ScrollReveal key={p.label} delay={0.06 * i}>
-                {/* These cards used to carry a photo at 4% opacity — invisible in
-                    practice, and it tied up four usable photographs. Icon and type
-                    carry the card on their own. */}
-                <a href={p.href} style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '28px 26px', borderRadius: 18, border: `1px solid ${C.border}`, background: C.surface, textDecoration: 'none', transition: 'border-color 0.22s, box-shadow 0.22s, transform 0.22s', position: 'relative', overflow: 'hidden' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = C.borderHover; e.currentTarget.style.boxShadow = '0 12px 40px rgba(27,42,94,0.07)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}>
-                  <div style={{ position: 'relative', zIndex: 1, width: 44, height: 44, borderRadius: 12, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', marginBottom: 20 }}>
+                {/* Solid navy cards: the client didn't want the off-white/grey
+                    surface reading flat against the white page. A navy gradient with
+                    an orange corner glow gives the strip depth and puts it on-brand. */}
+                <a href={p.href} style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '28px 26px', borderRadius: 18, border: '1px solid rgba(255,255,255,0.09)', background: `linear-gradient(155deg, ${C.navy} 0%, ${C.navyDark} 100%)`, textDecoration: 'none', transition: 'box-shadow 0.24s, transform 0.24s, border-color 0.24s', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(17,28,66,0.14)' }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(232,80,26,0.5)'; e.currentTarget.style.boxShadow = '0 20px 50px rgba(17,28,66,0.28)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(17,28,66,0.14)'; e.currentTarget.style.transform = 'none' }}>
+                  <div style={{ position: 'absolute', top: -60, right: -60, width: 180, height: 180, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,80,26,0.28), transparent 70%)', pointerEvents: 'none' }} />
+                  <div style={{ position: 'relative', zIndex: 1, width: 44, height: 44, borderRadius: 12, background: 'rgba(232,80,26,0.16)', border: '1px solid rgba(232,80,26,0.28)', display: 'grid', placeItems: 'center', marginBottom: 20 }}>
                     <Icon size={20} color={C.orange} />
                   </div>
-                  <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orange, marginBottom: 10 }}>{p.label}</p>
-                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, lineHeight: 1.15, letterSpacing: '-0.02em', color: C.text, marginBottom: 10 }}>{p.title}</h3>
-                  <p style={{ fontFamily: bod, fontSize: 13, lineHeight: 1.65, color: C.muted, flex: 1 }}>{p.desc}</p>
-                  <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 12, color: C.orange, marginTop: 18, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <p style={{ position: 'relative', zIndex: 1, fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orangeOnDark, marginBottom: 10 }}>{p.label}</p>
+                  <h3 style={{ position: 'relative', zIndex: 1, fontFamily: dis, fontWeight: 800, fontSize: 20, lineHeight: 1.15, letterSpacing: '-0.02em', color: C.white, marginBottom: 10 }}>{p.title}</h3>
+                  <p style={{ position: 'relative', zIndex: 1, fontFamily: bod, fontSize: 13, lineHeight: 1.65, color: 'rgba(255,255,255,0.62)', flex: 1 }}>{p.desc}</p>
+                  <span style={{ position: 'relative', zIndex: 1, fontFamily: dis, fontWeight: 700, fontSize: 12, color: C.orangeOnDark, marginTop: 18, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                     Learn more <ArrowRight size={13} />
                   </span>
                 </a>

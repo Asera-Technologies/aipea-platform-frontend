@@ -117,9 +117,9 @@ export function FeatureGrid({ items, columns = 3 }: { items: Feature[]; columns?
         const Icon = f.icon
         return (
           <Reveal key={f.title} delay={0.06 * i} style={{ height: '100%' }}>
-            <div style={{ height: '100%', padding: '30px 28px', borderRadius: 20, border: `1px solid ${C.border}`, background: C.surface, transition: 'border-color 0.22s, box-shadow 0.22s, transform 0.22s' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = C.borderHover; e.currentTarget.style.boxShadow = '0 14px 44px rgba(27,42,94,0.08)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}>
+            <div style={{ height: '100%', padding: '30px 28px', borderRadius: 20, border: `1px solid ${C.border}`, background: C.bg, boxShadow: '0 12px 34px rgba(17,28,66,0.06)', transition: 'border-color 0.22s, box-shadow 0.22s, transform 0.22s' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = C.borderHover; e.currentTarget.style.boxShadow = '0 18px 48px rgba(27,42,94,0.12)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = '0 12px 34px rgba(17,28,66,0.06)'; e.currentTarget.style.transform = 'none' }}>
               <div style={{ width: 46, height: 46, borderRadius: 13, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', marginBottom: 22 }}>
                 <Icon size={21} color={C.orange} />
               </div>

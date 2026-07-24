@@ -79,22 +79,26 @@ const LABEL: React.CSSProperties = {
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(17,28,66,0.42)', marginBottom: 8,
 }
 
+// Fields are white with a defined outline, not grey fills — the client wanted the
+// inputs to read as pronounced, tactile fields. The border carries the box; a soft
+// resting shadow lifts it off the page and the orange ring takes over on focus.
+const FIELD_BORDER = 'rgba(27,42,94,0.18)'
+
 const INPUT: React.CSSProperties = {
-  width: '100%', background: C.surface, border: `1px solid ${C.border}`,
-  borderRadius: 10, padding: '14px 16px', fontSize: 14.5, color: C.text,
+  width: '100%', background: C.white, border: `1.5px solid ${FIELD_BORDER}`,
+  borderRadius: 12, padding: '15px 17px', fontSize: 14.5, color: C.text,
   outline: 'none', fontFamily: bod,
-  transition: 'border-color 0.18s, box-shadow 0.18s, background 0.18s',
+  boxShadow: '0 1px 2px rgba(17,28,66,0.04)',
+  transition: 'border-color 0.18s, box-shadow 0.18s',
 }
 
 function focusOn(el: HTMLInputElement) {
   el.style.borderColor = C.orange
-  el.style.background = C.white
-  el.style.boxShadow = '0 0 0 3px rgba(232,80,26,0.12)'
+  el.style.boxShadow = '0 0 0 3px rgba(232,80,26,0.15)'
 }
 function focusOff(el: HTMLInputElement) {
-  el.style.borderColor = C.border
-  el.style.background = C.surface
-  el.style.boxShadow = 'none'
+  el.style.borderColor = FIELD_BORDER
+  el.style.boxShadow = '0 1px 2px rgba(17,28,66,0.04)'
 }
 
 export function Field({ label, type = 'text', value, onChange, placeholder, autoComplete }: {

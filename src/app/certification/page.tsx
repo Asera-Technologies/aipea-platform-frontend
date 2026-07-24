@@ -1,6 +1,8 @@
 'use client'
 
-import { Layers, ClipboardCheck, BadgeCheck } from 'lucide-react'
+import { Fragment } from 'react'
+import Image from 'next/image'
+import { Layers, ClipboardCheck, BadgeCheck, ArrowRight, ArrowLeft, CornerRightDown } from 'lucide-react'
 import { C, dis, bod, INNER, SECTION } from '@/components/site/tokens'
 import {
   PageShell, PageHero, SectionHeading, SplitFeature, StatBand, CTASection,
@@ -12,6 +14,38 @@ import { STRANDS, ASSESSMENT_STAGES, TRIMESTER_DELIVERABLES, CONTACT } from '@/l
 // pathways", which conflated membership with credentials. The client was explicit
 // that the two are separate. What follows is the actual framework: three strands,
 // two accountability tracks each, six designations, each with its own capstone.
+
+// One image per strand for the card headers, keyed by strand order. Reused from
+// the existing photo library rather than pulling anything new.
+const STRAND_IMAGES = [
+  '/images/conference/optimized/membership-community.webp',
+  '/images/conference/optimized/resources-workshop.webp',
+  '/images/conference/optimized/about-team.webp',
+]
+
+// --- Assessment flow -----------------------------------------------------------
+// The six stages read as a directional journey, not a row of tiles: a top row runs
+// left-to-right, turns down on the right, and the bottom row runs back left — an
+// S-path from Application to Certified. The final stage carries the orange accent.
+
+function StageNode({ stage, highlight = false }: { stage: { n: string; name: string; desc: string }; highlight?: boolean }) {
+  return (
+    <div style={{ flex: 1, minWidth: 0, position: 'relative', padding: '30px 24px 26px', borderRadius: 20, border: `1px solid ${highlight ? 'rgba(232,80,26,0.4)' : C.border}`, background: highlight ? 'linear-gradient(180deg, rgba(232,80,26,0.07), rgba(232,80,26,0.02))' : C.bg, boxShadow: highlight ? '0 16px 40px rgba(232,80,26,0.14)' : '0 12px 34px rgba(17,28,66,0.06)' }}>
+      <span style={{ display: 'grid', placeItems: 'center', width: 46, height: 46, borderRadius: '50%', background: highlight ? C.orange : `linear-gradient(150deg, ${C.navy}, ${C.navyDark})`, color: C.white, fontFamily: dis, fontWeight: 800, fontSize: 17, letterSpacing: '-0.02em', marginBottom: 18, boxShadow: highlight ? '0 8px 20px rgba(232,80,26,0.34)' : '0 8px 20px rgba(17,28,66,0.2)' }}>{stage.n}</span>
+      <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 16, color: C.text, letterSpacing: '-0.01em' }}>{stage.name}</h3>
+      <p style={{ fontFamily: bod, fontSize: 12.5, lineHeight: 1.6, color: C.muted, marginTop: 8 }}>{stage.desc}</p>
+    </div>
+  )
+}
+
+function FlowArrow({ dir }: { dir: 'right' | 'left' }) {
+  const Icon = dir === 'right' ? ArrowRight : ArrowLeft
+  return (
+    <span className="aipea-flow-arrow" style={{ flex: '0 0 auto', alignSelf: 'center', display: 'grid', placeItems: 'center', width: 34, height: 34, borderRadius: '50%', background: C.bg, border: `1px solid ${C.borderHover}`, color: C.orange }}>
+      <Icon size={16} />
+    </span>
+  )
+}
 
 export default function CertificationPage() {
   return (
@@ -55,31 +89,47 @@ export default function CertificationPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {STRANDS.map((strand, si) => (
               <Reveal key={strand.id} delay={0.06 * si}>
-                <article style={{ borderRadius: 24, border: `1px solid ${C.border}`, background: C.bg, overflow: 'hidden' }}>
-                  {/* Strand header */}
-                  <header style={{ padding: 'clamp(26px,3vw,36px)', borderBottom: `1px solid ${C.border}` }}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
-                      <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 34, lineHeight: 1, letterSpacing: '-0.05em', color: C.elevated }}>{strand.n}</span>
-                      <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(22px,2.6vw,32px)', letterSpacing: '-0.03em', color: C.text, lineHeight: 1.1 }}>{strand.name}</h3>
-                      <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.orange, background: 'rgba(232,80,26,0.08)', padding: '6px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>{strand.duration}</span>
+                <article style={{ borderRadius: 24, border: `1px solid ${C.border}`, background: C.bg, overflow: 'hidden', boxShadow: '0 18px 50px rgba(17,28,66,0.08)' }}>
+                  {/* Strand header — a navy band carrying a photo of the profession,
+                      so the card leads with an image and the whole strand reads as a
+                      single object rather than a grey/white split. */}
+                  <header style={{ position: 'relative', padding: 'clamp(30px,3.4vw,44px)', overflow: 'hidden', background: `linear-gradient(120deg, ${C.navyDark} 0%, ${C.navy} 100%)`, color: C.white }}>
+                    <div style={{ position: 'absolute', inset: 0, opacity: 0.16 }}>
+                      <Image
+                        src={STRAND_IMAGES[si % STRAND_IMAGES.length]}
+                        alt=""
+                        fill
+                        sizes="(max-width: 900px) 100vw, 1360px"
+                        style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
+                      />
                     </div>
-                    <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.orange, marginTop: 14 }}>{strand.focus}</p>
-                    <p style={{ fontFamily: bod, fontSize: 14.5, lineHeight: 1.75, color: C.muted, marginTop: 10, maxWidth: 760 }}>{strand.audience}</p>
-                    <p style={{ fontFamily: bod, fontSize: 13.5, lineHeight: 1.7, color: C.text, marginTop: 14, fontStyle: 'italic' }}>
-                      The question this role answers: “{strand.coreQuestion}”
-                    </p>
+                    <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(120deg, ${C.navyDark} 12%, rgba(27,42,94,0.55) 100%)` }} />
+                    <div style={{ position: 'absolute', top: -70, right: -70, width: 220, height: 220, borderRadius: '50%', background: 'radial-gradient(circle, rgba(232,80,26,0.3), transparent 70%)', pointerEvents: 'none' }} />
+                    <div style={{ position: 'relative', zIndex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
+                        <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 34, lineHeight: 1, letterSpacing: '-0.05em', color: 'rgba(255,255,255,0.32)' }}>{strand.n}</span>
+                        <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 'clamp(22px,2.6vw,32px)', letterSpacing: '-0.03em', color: C.white, lineHeight: 1.1 }}>{strand.name}</h3>
+                        <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.orangeOnDark, background: 'rgba(232,80,26,0.18)', border: '1px solid rgba(232,80,26,0.35)', padding: '6px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>{strand.duration}</span>
+                      </div>
+                      <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 14, color: C.orangeOnDark, marginTop: 14 }}>{strand.focus}</p>
+                      <p style={{ fontFamily: bod, fontSize: 14.5, lineHeight: 1.75, color: 'rgba(255,255,255,0.72)', marginTop: 10, maxWidth: 760 }}>{strand.audience}</p>
+                      <p style={{ fontFamily: bod, fontSize: 13.5, lineHeight: 1.7, color: 'rgba(255,255,255,0.86)', marginTop: 14, fontStyle: 'italic' }}>
+                        The question this role answers: “{strand.coreQuestion}”
+                      </p>
+                    </div>
                   </header>
 
-                  {/* The two tracks, side by side */}
+                  {/* The two tracks, side by side — both on the card's white surface,
+                      separated only by a hairline divider (no grey fill). */}
                   <div className="aipea-track-pair" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
                     {strand.tracks.map((track, ti) => (
-                      <div key={track.acronym} style={{ padding: 'clamp(24px,2.6vw,32px)', borderLeft: ti === 1 ? `1px solid ${C.border}` : 'none', background: ti === 1 ? C.surface : 'transparent' }}>
+                      <div key={track.acronym} style={{ padding: 'clamp(24px,2.6vw,34px)', borderLeft: ti === 1 ? `1px solid ${C.border}` : 'none' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                           <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, letterSpacing: '-0.02em', color: C.text }}>{track.acronym}</span>
-                          <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.muted, border: `1px solid ${C.border}`, padding: '4px 9px', borderRadius: 999 }}>Track {track.scope}</span>
+                          <span style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.orange, background: 'rgba(232,80,26,0.08)', border: `1px solid rgba(232,80,26,0.2)`, padding: '4px 9px', borderRadius: 999 }}>Track {track.scope}</span>
                         </div>
-                        <p style={{ fontFamily: bod, fontSize: 14, color: C.text, marginTop: 6, fontWeight: 500 }}>{track.name}</p>
-                        <p style={{ fontFamily: bod, fontSize: 12, color: C.faint, marginTop: 4 }}>{track.scopeLabel}</p>
+                        <p style={{ fontFamily: bod, fontSize: 14, color: C.text, marginTop: 8, fontWeight: 600 }}>{track.name}</p>
+                        <p style={{ fontFamily: bod, fontSize: 12, color: C.muted, marginTop: 4 }}>{track.scopeLabel}</p>
 
                         <p style={{ fontFamily: dis, fontWeight: 700, fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orange, marginTop: 22, marginBottom: 8 }}>Accountabilities</p>
                         <p style={{ fontFamily: bod, fontSize: 13.5, lineHeight: 1.7, color: C.muted }}>{track.accountabilities}</p>
@@ -105,17 +155,36 @@ export default function CertificationPage() {
             title="Six stages from application to designation."
             aside="No stage is skippable. The capstone is defended, not submitted."
           />
-          <div className="aipea-assessment-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 12 }}>
-            {ASSESSMENT_STAGES.map((stage, i) => (
-              <Reveal key={stage.n} delay={0.05 * i} style={{ height: '100%' }}>
-                <div style={{ height: '100%', padding: '24px 20px', borderRadius: 18, border: `1px solid ${i === ASSESSMENT_STAGES.length - 1 ? 'rgba(232,80,26,0.35)' : C.border}`, background: i === ASSESSMENT_STAGES.length - 1 ? 'rgba(232,80,26,0.05)' : C.surface }}>
-                  <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, letterSpacing: '-0.05em', color: i === ASSESSMENT_STAGES.length - 1 ? C.orange : C.elevated }}>{stage.n}</span>
-                  <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 16, color: C.text, marginTop: 12, letterSpacing: '-0.01em' }}>{stage.name}</h3>
-                  <p style={{ fontFamily: bod, fontSize: 12.5, lineHeight: 1.6, color: C.muted, marginTop: 8 }}>{stage.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {/* Top row: 01 → 02 → 03, left to right */}
+              <div className="aipea-flow-row">
+                {ASSESSMENT_STAGES.slice(0, 3).map((stage, i) => (
+                  <Fragment key={stage.n}>
+                    <StageNode stage={stage} />
+                    {i < 2 && <FlowArrow dir="right" />}
+                  </Fragment>
+                ))}
+              </div>
+              {/* The turn: the path drops down on the right into the bottom row */}
+              <div className="aipea-flow-turn">
+                <span style={{ display: 'grid', placeItems: 'center', width: 42, height: 42, borderRadius: '50%', background: C.orange, color: C.white, boxShadow: '0 8px 22px rgba(232,80,26,0.32)' }}>
+                  <CornerRightDown size={19} />
+                </span>
+              </div>
+              {/* Bottom row: 04 → 05 → 06, laid out right to left so the flow
+                  continues from the turn. DOM order stays numeric so it stacks
+                  correctly on mobile. */}
+              <div className="aipea-flow-row aipea-flow-rev" style={{ flexDirection: 'row-reverse' }}>
+                {ASSESSMENT_STAGES.slice(3).map((stage, i, arr) => (
+                  <Fragment key={stage.n}>
+                    <StageNode stage={stage} highlight={i === arr.length - 1} />
+                    {i < arr.length - 1 && <FlowArrow dir="left" />}
+                  </Fragment>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
