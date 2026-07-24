@@ -79,6 +79,13 @@ body {
   .aipea-stats-row    { grid-template-columns: 1fr !important; }
   .aipea-features-row { grid-template-columns: 1fr !important; }
 }
+/* Mobile is the primary dashboard surface — tighten gutters and de-clutter the bar. */
+@media (max-width: 700px) {
+  .aipea-dash-nav  { padding-left: 14px !important; padding-right: 14px !important; }
+  .aipea-dash-name { display: none !important; }
+  .aipea-dash-hero { padding-left: 14px !important; padding-right: 14px !important; padding-top: 48px !important; padding-bottom: 56px !important; }
+  .aipea-dash-sec  { padding-left: 14px !important; padding-right: 14px !important; }
+}
 
 /* ── Responsive grid overrides ────────────────────────────────── */
 @media (max-width: 1024px) {

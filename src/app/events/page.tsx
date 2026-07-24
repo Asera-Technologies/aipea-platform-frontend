@@ -100,7 +100,7 @@ export default function EventsPage() {
           <SectionHeading
             eyebrow="Events calendar"
             title="Everything on one timeline."
-            aside="One confirmed date so far. The rest of the year fills in as the calendar is signed off."
+            aside="Two confirmed dates so far. The rest of the year fills in as the calendar is signed off."
           />
           <div style={{ maxWidth: 860, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
             <Reveal>
@@ -111,6 +111,16 @@ export default function EventsPage() {
                   <span style={{ display: 'block', fontFamily: bod, fontSize: 13, color: C.muted, marginTop: 3 }}>{CONFERENCE.venue}, {CONFERENCE.city}</span>
                 </span>
                 <span className="aipea-cal-type" style={{ fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.orange, background: 'rgba(232,80,26,0.08)', padding: '6px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>Conference</span>
+              </div>
+            </Reveal>
+            <Reveal delay={0.04}>
+              <div className="aipea-cal-row" style={{ display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: 20, alignItems: 'center', padding: '22px 26px', background: C.bg, border: '1px solid rgba(232,80,26,0.28)', borderRadius: 16 }}>
+                <span style={{ fontFamily: dis, fontWeight: 800, fontSize: 13, letterSpacing: '0.08em', color: C.orange }}>OCT</span>
+                <span>
+                  <span style={{ display: 'block', fontFamily: dis, fontWeight: 800, fontSize: 17, color: C.text, letterSpacing: '-0.01em' }}>AI Workshop</span>
+                  <span style={{ display: 'block', fontFamily: bod, fontSize: 13, color: C.muted, marginTop: 3 }}>Exact date and venue to be confirmed</span>
+                </span>
+                <span className="aipea-cal-type" style={{ fontFamily: dis, fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: C.orange, background: 'rgba(232,80,26,0.08)', padding: '6px 12px', borderRadius: 999, whiteSpace: 'nowrap' }}>Workshop</span>
               </div>
             </Reveal>
             <Reveal delay={0.06}>

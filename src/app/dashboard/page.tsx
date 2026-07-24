@@ -96,9 +96,6 @@ function CredentialCard({ user }: { user: MemberProfile }) {
       boxShadow: '0 32px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
       padding: '30px 32px 26px', display: 'flex', flexDirection: 'column', gap: 26,
     }}>
-      {/* glows */}
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 85% 15%, rgba(232,80,26,0.45) 0%, transparent 42%)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 15% 85%, rgba(27,42,94,0.6) 0%, transparent 50%)', pointerEvents: 'none' }} />
       {/* Guilloché — faint diagonal engine-turning, the security-print texture of
           a real credential. Pure CSS repeating gradient, very low opacity. */}
       <div style={{ position: 'absolute', inset: 0, opacity: 0.5, pointerEvents: 'none', backgroundImage: 'repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 8px)' }} />
@@ -161,15 +158,18 @@ function CredentialCard({ user }: { user: MemberProfile }) {
 
 // --- Stat tile ----------------------------------------------------------------
 
-function StatTile({ label, value, sub, leftBorder }: { label: string; value: string; sub?: string; leftBorder?: string }) {
+function StatTile({ label, value, sub, tint }: { label: string; value: string; sub?: string; tint?: 'orange' | 'navy' }) {
+  // A soft full-card wash reads calmer than a hard left rule (which felt busy).
+  const bg = tint === 'orange'
+    ? 'linear-gradient(140deg, #ffffff 30%, rgba(232,80,26,0.07) 100%)'
+    : tint === 'navy'
+    ? 'linear-gradient(140deg, #ffffff 30%, rgba(17,28,66,0.06) 100%)'
+    : WHITE
+  const bd = tint === 'orange' ? 'rgba(232,80,26,0.22)' : tint === 'navy' ? 'rgba(17,28,66,0.14)' : BORDER
   return (
-    <div style={{
-      background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 14,
-      borderLeft: leftBorder ? `3px solid ${leftBorder}` : `1px solid ${BORDER}`,
-      padding: '22px 24px',
-    }}>
+    <div style={{ background: bg, border: `1px solid ${bd}`, borderRadius: 14, padding: '20px 22px' }}>
       <p style={{ fontFamily: bod, fontSize: 10, color: FAINT, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>{label}</p>
-      <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, color: leftBorder === ORANGE ? ORANGE : TEXT, letterSpacing: '-0.02em', lineHeight: 1 }}>{value}</p>
+      <p style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, color: tint === 'orange' ? ORANGE : TEXT, letterSpacing: '-0.02em', lineHeight: 1 }}>{value}</p>
       {sub && <p style={{ fontFamily: bod, fontSize: 12, color: MUTED, marginTop: 6 }}>{sub}</p>}
     </div>
   )
@@ -179,7 +179,7 @@ function StatTile({ label, value, sub, leftBorder }: { label: string; value: str
 
 function CPDTile() {
   return (
-    <div style={{ background: WHITE, border: `1px solid ${BORDER}`, borderLeft: `3px solid ${NAVY_DARK}`, borderRadius: 14, padding: '22px 24px' }}>
+    <div style={{ background: 'linear-gradient(140deg, #ffffff 30%, rgba(17,28,66,0.06) 100%)', border: '1px solid rgba(17,28,66,0.14)', borderRadius: 14, padding: '20px 22px' }}>
       <p style={{ fontFamily: bod, fontSize: 10, color: FAINT, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 10 }}>CPD Progress</p>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
         {/* AIPEA has not yet defined CPD hours, renewal period or categories, so
@@ -206,14 +206,12 @@ const STATUS_STYLE: Record<FeatureStatus, { fg: string; bg: string; bd: string }
   Planned:  { fg: FAINT, bg: 'rgba(17,28,66,0.05)', bd: BORDER },
 }
 
-function FeatureCard({ iconColor, icon, title, desc, status, step }: { iconColor: string; icon: React.ReactNode; title: string; desc: string; status: FeatureStatus; step: string }) {
+function FeatureCard({ iconColor, icon, title, desc, status }: { iconColor: string; icon: React.ReactNode; title: string; desc: string; status: FeatureStatus }) {
   const s = STATUS_STYLE[status]
   return (
     <div style={{ position: 'relative', background: WHITE, border: `1px solid ${BORDER}`, borderRadius: 16, padding: '24px 24px 26px', display: 'flex', flexDirection: 'column', gap: 14, height: '100%', overflow: 'hidden', transition: 'box-shadow 0.22s, border-color 0.22s, transform 0.22s' }}
       onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 14px 40px rgba(27,42,94,0.1)'; e.currentTarget.style.borderColor = 'rgba(27,42,94,0.2)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
       onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.borderColor = BORDER; e.currentTarget.style.transform = 'none' }}>
-      {/* Ghost step number — quiet ordering cue for the roadmap. */}
-      <span style={{ position: 'absolute', top: 10, right: 16, fontFamily: dis, fontWeight: 800, fontSize: 44, lineHeight: 1, letterSpacing: '-0.05em', color: 'rgba(17,28,66,0.045)' }}>{step}</span>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
         <div style={{ width: 42, height: 42, borderRadius: 12, background: `${iconColor}12`, border: `1px solid ${iconColor}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           {icon}
@@ -260,8 +258,7 @@ export default function Dashboard() {
 
       {/* -- Hero: navy banner ---------------------------------------- */}
       <section style={{ background: `linear-gradient(140deg, #0d1831 0%, ${NAVY} 55%, #162552 100%)`, position: 'relative', overflow: 'hidden', paddingTop: 64 }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 75% 55%, rgba(232,80,26,0.22) 0%, transparent 50%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 12% 20%, rgba(255,255,255,0.04) 0%, transparent 45%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 12% 20%, rgba(255,255,255,0.035) 0%, transparent 45%)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 1400, margin: '0 auto', padding: '72px 48px 88px', display: 'grid', gridTemplateColumns: '1fr 400px', gap: 64, alignItems: 'center' }} className="aipea-dash-hero">
 
@@ -303,17 +300,17 @@ export default function Dashboard() {
       </section>
 
       {/* -- Stats row ----------------------------------------------- */}
-      <section style={{ background: SURFACE, borderBottom: `1px solid ${BORDER}`, padding: '28px 48px' }}>
+      <section className="aipea-dash-sec" style={{ background: SURFACE, borderBottom: `1px solid ${BORDER}`, padding: '28px 48px' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }} className="aipea-stats-row">
           <CPDTile />
-          <StatTile label="Membership" value="Active" sub={user.tier === 'Associate' ? 'Free · renews annually' : 'Renews annually from your intake date'} leftBorder={ORANGE} />
+          <StatTile label="Membership" value="Active" sub={user.tier === 'Associate' ? 'Free · renews annually' : 'Renews annually from your intake date'} tint="orange" />
           <StatTile label="Tier" value={user.tier} sub="Compare available tiers" />
           <StatTile label="Member since" value={formatJoinDate(user.joinedAt)} sub="Founding cohort" />
         </div>
       </section>
 
       {/* -- Platform features --------------------------------------- */}
-      <section style={{ background: WHITE, padding: '80px 48px 100px' }}>
+      <section className="aipea-dash-sec" style={{ background: WHITE, padding: '80px 48px 100px' }}>
         <div style={{ maxWidth: 1400, margin: '0 auto' }}>
 
           {/* Header */}
@@ -338,13 +335,13 @@ export default function Dashboard() {
               { iconColor: '#059669', icon: <Calendar  size={18} color="#059669" />,   title: 'Events & Conference', desc: 'PA Conference 2026 in Accra, plus member meetups as the calendar is confirmed.', status: 'Building' as const },
             ]).map((card, i) => (
               <motion.div key={card.title} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.62, delay: 0.08 + i * 0.07, ease: EASE }} style={{ height: '100%' }}>
-                <FeatureCard {...card} step={String(i + 1).padStart(2, '0')} />
+                <FeatureCard {...card} />
               </motion.div>
             ))}
           </div>
 
           {/* Early member strip */}
-          <div style={{ marginTop: 44, padding: '28px 36px', background: SURFACE, border: `1px solid ${BORDER}`, borderLeft: `3px solid ${ORANGE}`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
+          <div style={{ marginTop: 44, padding: '28px 36px', background: SURFACE, border: `1px solid ${BORDER}`, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
             <div>
               <h3 style={{ fontFamily: dis, fontWeight: 700, fontSize: 17, color: TEXT, letterSpacing: '-0.01em' }}>You joined early.</h3>
               <p style={{ fontFamily: bod, fontSize: 14, color: MUTED, marginTop: 4 }}>Every feature comes to you first, at your current rate, permanently.</p>

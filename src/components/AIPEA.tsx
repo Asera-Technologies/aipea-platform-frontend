@@ -919,7 +919,7 @@ function Process() {
                         width: 44, height: 44, borderRadius: '50%',
                         display: 'grid', placeItems: 'center',
                         fontFamily: dis, fontWeight: 800, fontSize: 14,
-                        background: isActive ? C.orange : done ? 'rgba(232,80,26,0.12)' : C.bg,
+                        background: isActive ? C.orange : done ? '#fceae4' : C.bg,
                         color: isActive ? C.white : done ? C.orange : C.faint,
                         border: `2px solid ${isActive || done ? C.orange : C.border}`,
                         boxShadow: isActive ? '0 8px 24px rgba(232,80,26,0.28)' : 'none',

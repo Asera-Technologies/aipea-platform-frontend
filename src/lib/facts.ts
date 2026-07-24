@@ -328,14 +328,8 @@ export const LEADERSHIP = [
     image: '/images/conference/optimized/leader-ama.webp',
     bio: null,
   },
-  {
-    name: 'Noreen Norkor Nortey',
-    title: 'Operations Consultant',
-    // Frame PA-CON-25-0818 from the Maame_Ekua_Gaisey conference set, confirmed
-    // by the client (2026-07-22) as Noreen's photo.
-    image: '/images/conference/optimized/leader-noreen.jpg',
-    bio: null,
-  },
+  // Noreen Norkor Nortey removed at the client's request (2026-07-24): the
+  // supplied frame was not a correct likeness. Restore only with an approved photo.
 ] as const
 
 /** [ABT] The Secretariat structure, as described in the client's own copy. */
