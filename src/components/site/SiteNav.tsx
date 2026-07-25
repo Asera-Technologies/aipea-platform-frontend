@@ -41,11 +41,11 @@ const NAV: NavItem[] = [
     label: 'Certification', href: '/certification',
     links: [
       { label: 'The AIPEA credential', desc: 'Accountability-based certification.',  href: '/certification#credential', icon: ShieldCheck },
-      { label: 'Designations & tracks', desc: 'Three strands, six designations.',    href: '/certification#strands',    icon: Compass },
-      { label: 'How assessment works', desc: 'Application through to certified.',    href: '/certification#assessment', icon: GraduationCap },
-      { label: 'The Continental Registry', desc: 'Verified, licensed corporate partners.', href: '/certification#registry', icon: ClipboardCheck },
+      { label: 'Track Finder', desc: 'Map your scope to the right designation.', href: '/certification/track-finder', icon: Compass },
+      { label: 'Designations & tracks', desc: 'Three strands, six designations.',    href: '/certification#strands',    icon: GraduationCap },
+      { label: 'How assessment works', desc: 'Application through to certified.',    href: '/certification#assessment', icon: ClipboardCheck },
     ],
-    featured: { eyebrow: 'Get certified', title: 'Certified on scope, not on years served', desc: 'Six designations across the PA, EA and Chief of Staff strands.', href: '/certification', cta: 'Explore certification', image: '/images/conference/optimized/nav-certification.webp' },
+    featured: { eyebrow: 'Get certified', title: 'Find your certification track', desc: 'Complete the Professional Scope Audit and map your role to the exact AIPEA designation.', href: '/certification/track-finder', cta: 'Start the Track Finder', image: '/images/conference/optimized/nav-certification.webp' },
   },
   {
     label: 'Events', href: '/events',

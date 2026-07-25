@@ -1,18 +1,62 @@
 'use client'
 
-import { Award, Users, TrendingUp, Megaphone, BadgeCheck, FolderOpen } from 'lucide-react'
-import { C, INNER, SECTION } from '@/components/site/tokens'
+import { Award, Users, TrendingUp, Megaphone } from 'lucide-react'
+import { C, dis, bod, INNER, SECTION } from '@/components/site/tokens'
 import {
-  PageShell, PageHero, SectionHeading, FeatureGrid, SplitFeature,
+  PageShell, PageHero, SectionHeading, SplitFeature,
   StatBand, CTASection, PricingBreakdown, type PriceTier, type PriceRow,
 } from '@/components/site/PageKit'
-import { MEMBERSHIP, MEMBERSHIP_BENEFITS, FIGURES } from '@/lib/facts'
+import { Reveal } from '@/components/site/Reveal'
+import { MEMBERSHIP, MEMBERSHIP_BENEFITS, FIGURES, WHY_WE_EXIST } from '@/lib/facts'
 
+// [WHY] Four pillars from Why Join AIPEA. Post-nominals and salary-bracket claims
+// stay out — the client has not cleared them. Continental Registry is framed as
+// the goal already published elsewhere on the site.
 const why = [
-  { icon: Award,       label: 'Recognition', title: 'A credential that speaks for you', desc: 'Accountability-based designations that state your exact level of strategic impact.' },
-  { icon: Users,       label: 'Community',   title: 'Peers who know the role',          desc: 'A member network and events built for people who do this work every day.' },
-  { icon: TrendingUp,  label: 'Development',  title: 'Grow on a clear standard',         desc: 'Certification tracks that turn the scope you already carry into a recognised designation.' },
-  { icon: Megaphone,   label: 'Advocacy',    title: 'A voice for the profession',        desc: 'AIPEA champions the value of EAs to organisations and leaders across Africa.' },
+  {
+    icon: Award,
+    label: 'Recognition',
+    title: 'Earn the credence you have already worked for',
+    desc: 'You protect bottom lines, synchronise C-Suite priorities and drive operational momentum. AIPEA gives that experience formal corporate backing.',
+    points: [
+      'Accountability-based designations that signal your exact level of strategic impact',
+      'A verified place on the AIPEA Continental Registry as it is built',
+      'Recognition measured by scope and execution, not years at a desk',
+    ],
+  },
+  {
+    icon: Users,
+    label: 'Community',
+    title: 'Your continental network of peers',
+    desc: 'A trusted ecosystem across Africa and the diaspora — built for people who do this work every day, not for corporate fluff.',
+    points: [
+      'The Pan-African Bridge across West, East, Central, South and North Africa — Anglophone and Francophone',
+      'Physical and virtual meetups grounded in authenticity and peer exchange',
+      'Priority access and member rates for the annual Pan-African Conference',
+    ],
+  },
+  {
+    icon: TrendingUp,
+    label: 'Development',
+    title: 'Continuous growth for the modern economy',
+    desc: 'AIPEA is a growth engine of workplace-ready skills you can deploy the next morning — not passive listening.',
+    points: [
+      'Structured 6, 9 and 12-month tracks for Personal Assistants, Executive Assistants and Chiefs of Staff',
+      'AI and tech synchronisation for the modern executive office',
+      'Every module ends in a workplace-deployable artifact your employer can use',
+    ],
+  },
+  {
+    icon: Megaphone,
+    label: 'Advocacy',
+    title: 'A unified voice for the profession',
+    desc: 'AIPEA elevates how organisations view, compensate and empower executive support professionals across the continent.',
+    points: [
+      'Direct engagement with corporate leaders, HR heads and boards to redefine industry standards',
+      'Membership that signals integrity, confidentiality and institutional trust',
+      'Transparent career pathways from junior associate through to Chief of Staff',
+    ],
+  },
 ]
 
 // Published membership pricing. Paid tiers still route through the Secretariat
@@ -43,10 +87,54 @@ export default function MembershipPage() {
         secondary={{ label: 'Compare tiers', href: '#tiers' }}
       />
 
+      <section id="exist" style={{ ...SECTION, background: C.surface }}>
+        <div style={INNER}>
+          <SectionHeading
+            eyebrow="Why we exist"
+            title="Eliminate the gap between executive vision and daily execution."
+            aside={WHY_WE_EXIST}
+          />
+        </div>
+      </section>
+
       <section id="why" style={{ ...SECTION, background: C.bg }}>
         <div style={INNER}>
-          <SectionHeading eyebrow="Why join AIPEA" title="Membership that works as hard as you do." aside="Four reasons executive assistants across Africa make AIPEA their professional home." />
-          <FeatureGrid items={why} columns={4} />
+          <SectionHeading
+            eyebrow="Why join AIPEA"
+            title="We are licensing your future potential."
+            aside="Whether you are stepping on as an Associate or architecting the C-Suite as a Chief of Staff, AIPEA moves you from taking orders to owning business value."
+          />
+          <div className="aipea-feature-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 16 }}>
+            {why.map((item, i) => {
+              const Icon = item.icon
+              return (
+                <Reveal key={item.label} delay={0.06 * i} style={{ height: '100%' }}>
+                  <div
+                    style={{
+                      height: '100%', padding: '32px 30px', borderRadius: 20,
+                      border: `1px solid ${C.border}`, background: C.bg,
+                      boxShadow: '0 12px 34px rgba(17,28,66,0.06)',
+                    }}
+                  >
+                    <div style={{ width: 46, height: 46, borderRadius: 13, background: 'rgba(232,80,26,0.1)', display: 'grid', placeItems: 'center', marginBottom: 22 }}>
+                      <Icon size={21} color={C.orange} />
+                    </div>
+                    <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: C.orange, marginBottom: 10 }}>{item.label}</p>
+                    <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 22, lineHeight: 1.15, letterSpacing: '-0.02em', color: C.text, marginBottom: 12 }}>{item.title}</h3>
+                    <p style={{ fontFamily: bod, fontSize: 14, lineHeight: 1.7, color: C.muted, marginBottom: 18 }}>{item.desc}</p>
+                    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 10 }}>
+                      {item.points.map((point) => (
+                        <li key={point} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                          <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.orange, marginTop: 7, flexShrink: 0 }} />
+                          <span style={{ fontFamily: bod, fontSize: 13.5, lineHeight: 1.6, color: C.text }}>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Reveal>
+              )
+            })}
+          </div>
         </div>
       </section>
 

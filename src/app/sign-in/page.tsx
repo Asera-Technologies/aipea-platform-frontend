@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { signInMember, continueWithGoogle, completeGoogleRedirect, getAuthErrorMessage } from '@/lib/auth'
 import { BrandPanel } from '@/components/auth/BrandPanel'
 import {
@@ -10,30 +10,35 @@ import {
 } from '@/components/auth/AuthKit'
 import { C, bod } from '@/components/site/tokens'
 
-export default function SignIn() {
+function safeNextPath(raw: string | null): string {
+  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/dashboard'
+  return raw
+}
+
+function SignInForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const nextPath = safeNextPath(searchParams.get('next'))
+  const signUpHref = nextPath === '/dashboard' ? '/sign-up' : `/sign-up?next=${encodeURIComponent(nextPath)}`
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
   const [error,    setError]    = useState('')
   const [loading,  setLoading]  = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
-  // Stays true from the moment auth succeeds until the dashboard takes over, so
-  // the sign-in form never flashes back during the navigation + auth rehydrate.
   const [redirecting, setRedirecting] = useState(false)
 
-  // Finish a redirect-based Google sign-in when the tab returns from Google.
   useEffect(() => {
     setGoogleLoading(true)
     completeGoogleRedirect()
       .then((completed) => {
-        if (completed) { setRedirecting(true); router.push('/dashboard') }
+        if (completed) { setRedirecting(true); router.push(nextPath) }
         else setGoogleLoading(false)
       })
       .catch((err) => {
         setError(getAuthErrorMessage(err))
         setGoogleLoading(false)
       })
-  }, [router])
+  }, [router, nextPath])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -43,7 +48,7 @@ export default function SignIn() {
     try {
       await signInMember(email.trim(), password)
       setRedirecting(true)
-      router.push('/dashboard')
+      router.push(nextPath)
     } catch (err) {
       setError(getAuthErrorMessage(err))
       setLoading(false)
@@ -54,18 +59,22 @@ export default function SignIn() {
     setError('')
     setGoogleLoading(true)
     try {
-      // Existing members keep whatever preference they signed up with; this
-      // flag only applies if Google creates a brand-new profile.
       await continueWithGoogle(false)
       setRedirecting(true)
-      router.push('/dashboard')
+      router.push(nextPath)
     } catch (err) {
       setError(getAuthErrorMessage(err))
       setGoogleLoading(false)
     }
   }
 
-  if (redirecting) return <AuthRedirectOverlay message="Loading your member dashboard" />
+  if (redirecting) {
+    return (
+      <AuthRedirectOverlay
+        message={nextPath === '/dashboard' ? 'Loading your member dashboard' : 'Continuing where you left off'}
+      />
+    )
+  }
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: C.bg }}>
@@ -107,8 +116,16 @@ export default function SignIn() {
 
         <GoogleButton onClick={handleGoogle} loading={googleLoading} label="Continue with Google" />
 
-        <AuthFooterLink prompt="Don't have an account?" href="/sign-up" label="Join AIPEA →" />
+        <AuthFooterLink prompt="Don't have an account?" href={signUpHref} label="Join AIPEA →" />
       </AuthCard>
     </div>
+  )
+}
+
+export default function SignIn() {
+  return (
+    <Suspense fallback={<AuthRedirectOverlay message="Loading your member dashboard" />}>
+      <SignInForm />
+    </Suspense>
   )
 }

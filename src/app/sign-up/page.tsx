@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { signUpAssociate, continueWithGoogle, completeGoogleRedirect, getAuthErrorMessage } from '@/lib/auth'
 import { BrandPanel } from '@/components/auth/BrandPanel'
 import {
@@ -14,8 +14,16 @@ import { C, bod } from '@/components/site/tokens'
 // the Paystack checkout step are parked until paid tiers are confirmed, so
 // this form creates the account directly instead of routing via /checkout.
 
-export default function SignUp() {
+function safeNextPath(raw: string | null): string {
+  if (!raw || !raw.startsWith('/') || raw.startsWith('//')) return '/dashboard'
+  return raw
+}
+
+function SignUpForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const nextPath = safeNextPath(searchParams.get('next'))
+  const signInHref = nextPath === '/dashboard' ? '/sign-in' : `/sign-in?next=${encodeURIComponent(nextPath)}`
   const [name,     setName]     = useState('')
   const [email,    setEmail]    = useState('')
   const [country,  setCountry]  = useState('')
@@ -26,19 +34,18 @@ export default function SignUp() {
   const [googleLoading, setGoogleLoading] = useState(false)
   const [redirecting, setRedirecting] = useState(false)
 
-  // Finish a redirect-based Google signup when the tab returns from Google.
   useEffect(() => {
     setGoogleLoading(true)
     completeGoogleRedirect()
       .then((completed) => {
-        if (completed) { setRedirecting(true); router.push('/dashboard') }
+        if (completed) { setRedirecting(true); router.push(nextPath) }
         else setGoogleLoading(false)
       })
       .catch((err) => {
         setError(getAuthErrorMessage(err))
         setGoogleLoading(false)
       })
-  }, [router])
+  }, [router, nextPath])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -59,7 +66,7 @@ export default function SignUp() {
         newsletterConsent,
       })
       setRedirecting(true)
-      router.push('/dashboard')
+      router.push(nextPath)
     } catch (err) {
       setError(getAuthErrorMessage(err))
       setLoading(false)
@@ -72,14 +79,20 @@ export default function SignUp() {
     try {
       await continueWithGoogle(newsletterConsent)
       setRedirecting(true)
-      router.push('/dashboard')
+      router.push(nextPath)
     } catch (err) {
       setError(getAuthErrorMessage(err))
       setGoogleLoading(false)
     }
   }
 
-  if (redirecting) return <AuthRedirectOverlay message="Creating your member dashboard" />
+  if (redirecting) {
+    return (
+      <AuthRedirectOverlay
+        message={nextPath === '/dashboard' ? 'Creating your member dashboard' : 'Saving your track audit'}
+      />
+    )
+  }
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: C.bg }}>
@@ -128,8 +141,16 @@ export default function SignUp() {
           Your newsletter choice above applies either way.
         </p>
 
-        <AuthFooterLink prompt="Already a member?" href="/sign-in" label="Sign in →" />
+        <AuthFooterLink prompt="Already a member?" href={signInHref} label="Sign in →" />
       </AuthCard>
     </div>
+  )
+}
+
+export default function SignUp() {
+  return (
+    <Suspense fallback={<AuthRedirectOverlay message="Creating your member dashboard" />}>
+      <SignUpForm />
+    </Suspense>
   )
 }

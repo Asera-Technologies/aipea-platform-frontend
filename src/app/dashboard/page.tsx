@@ -304,7 +304,12 @@ export default function Dashboard() {
         <div style={{ maxWidth: 1400, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }} className="aipea-stats-row">
           <CPDTile />
           <StatTile label="Membership" value="Active" sub={user.tier === 'Associate' ? 'Free · renews annually' : 'Renews annually from your intake date'} tint="orange" />
-          <StatTile label="Tier" value={user.tier} sub="Compare available tiers" />
+          <StatTile
+            label="Recommended track"
+            value={user.recommendedTrack?.acronym ?? 'Not set'}
+            sub={user.recommendedTrack ? user.recommendedTrack.name : 'Complete the Track Finder'}
+            tint="navy"
+          />
           <StatTile label="Member since" value={formatJoinDate(user.joinedAt)} sub="Founding cohort" />
         </div>
       </section>
@@ -324,6 +329,31 @@ export default function Dashboard() {
             <p style={{ fontFamily: bod, fontSize: 14, color: MUTED, maxWidth: 210, textAlign: 'right', lineHeight: 1.65 }}>
               As a founding member, each drops for you first.
             </p>
+          </div>
+
+          {/* Track Finder prompt */}
+          <div style={{ marginBottom: 44, padding: '28px 32px', background: user.recommendedTrack ? 'linear-gradient(140deg, #ffffff 30%, rgba(232,80,26,0.07) 100%)' : SURFACE, border: `1px solid ${user.recommendedTrack ? 'rgba(232,80,26,0.22)' : BORDER}`, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
+            <div>
+              <p style={{ fontFamily: dis, fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: ORANGE, marginBottom: 8 }}>
+                Professional Scope Audit
+              </p>
+              <h3 style={{ fontFamily: dis, fontWeight: 800, fontSize: 20, color: TEXT, letterSpacing: '-0.02em' }}>
+                {user.recommendedTrack
+                  ? `Your track: ${user.recommendedTrack.acronym}`
+                  : 'Find the certification track that fits your scope.'}
+              </h3>
+              <p style={{ fontFamily: bod, fontSize: 14, color: MUTED, marginTop: 8, lineHeight: 1.65, maxWidth: 520 }}>
+                {user.recommendedTrack
+                  ? `${user.recommendedTrack.name} · ${user.recommendedTrack.strandName}. Retake the audit anytime if your accountability has changed.`
+                  : 'Two questions map the problems you solve daily to one of six AIPEA designations. Results save to your profile and email.'}
+              </p>
+            </div>
+            <Link href="/certification/track-finder"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: ORANGE, color: WHITE, fontFamily: dis, fontWeight: 700, fontSize: 13, padding: '11px 22px', borderRadius: 8, textDecoration: 'none', transition: 'background 0.2s', whiteSpace: 'nowrap' }}
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = ORANGE_DIM)}
+              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => (e.currentTarget.style.background = ORANGE)}>
+              {user.recommendedTrack ? 'View or retake audit' : 'Start the Track Finder'} <ArrowRight size={14} />
+            </Link>
           </div>
 
           {/* Feature roadmap — status-tagged so each card states its real build state */}

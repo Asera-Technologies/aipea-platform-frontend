@@ -15,6 +15,14 @@ export interface MemberProfile {
   status: 'active' | 'pending_payment'
   memberId: string
   joinedAt: string // ISO string
+  recommendedTrack: {
+    acronym: string
+    name: string
+    strandId: string
+    strandName: string
+    scope: 'A' | 'B'
+    horizon: 1 | 2 | 3
+  } | null
 }
 
 interface UseAuthResult {
@@ -55,6 +63,16 @@ export function useAuth(): UseAuthResult {
                 data.createdAt instanceof Timestamp
                   ? data.createdAt.toDate().toISOString()
                   : new Date().toISOString(),
+              recommendedTrack: data.recommendedTrack
+                ? {
+                    acronym: data.recommendedTrack.acronym,
+                    name: data.recommendedTrack.name,
+                    strandId: data.recommendedTrack.strandId,
+                    strandName: data.recommendedTrack.strandName,
+                    scope: data.recommendedTrack.scope,
+                    horizon: data.recommendedTrack.horizon,
+                  }
+                : null,
             }
           : null
       )

@@ -56,7 +56,7 @@ export default function CertificationPage() {
         highlight="not on years served."
         subtitle="AIPEA certifications are built on capability and role scope. Your credential reflects the nature of the corporate problems you are hired to solve, not how long you have held a title."
         image="/images/conference/optimized/certification-hero.webp"
-        primary={{ label: 'See the designations', href: '#strands' }}
+        primary={{ label: 'Find your track', href: '/certification/track-finder' }}
         secondary={{ label: 'How assessment works', href: '#assessment' }}
       />
 
@@ -73,7 +73,7 @@ export default function CertificationPage() {
               'Deliverables built for your current employer',
               'Duration from 6 to 12 months by strand',
             ]}
-            cta={{ label: 'Start your application', href: '/sign-up' }}
+            cta={{ label: 'Find your track', href: '/certification/track-finder' }}
           />
         </div>
       </section>
@@ -300,8 +300,8 @@ export default function CertificationPage() {
 
       <CTASection
         title="Certify the value you already bring."
-        body="Tell us the scope you carry and the Secretariat will place you on the right track."
-        primary={{ label: 'Join AIPEA', href: '/sign-up' }}
+        body="Complete the Professional Scope Audit to find your track, then talk to the Secretariat to secure your cohort seat."
+        primary={{ label: 'Start the Track Finder', href: '/certification/track-finder' }}
         secondary={{ label: 'Explore membership', href: '/membership' }}
       />
     </PageShell>

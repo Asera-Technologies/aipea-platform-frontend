@@ -9,8 +9,15 @@ import {
   updateProfile,
   type User,
 } from 'firebase/auth'
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
 import { getFirebaseAuth, getFirebaseDb } from './firebase'
+import {
+  buildScopeAuditRecord,
+  resolveTrack,
+  type HorizonId,
+  type ScopeLevel,
+  type TrackFinderResult,
+} from './trackFinder'
 
 export type MembershipTier = 'Associate' | 'Professional' | 'Fellow'
 
@@ -203,6 +210,41 @@ export async function signInMember(email: string, password: string): Promise<voi
 
 export async function signOutMember(): Promise<void> {
   await signOut(getFirebaseAuth())
+}
+
+/**
+ * Persists a completed Professional Scope Audit under the signed-in member,
+ * updates their recommended track, and creates a scopeAudits doc that triggers
+ * the post-audit email Cloud Function.
+ */
+export async function saveScopeAudit(
+  horizon: HorizonId,
+  scope: ScopeLevel,
+): Promise<TrackFinderResult> {
+  const auth = getFirebaseAuth()
+  const user = auth.currentUser
+  if (!user) throw new Error('You must be signed in to save your track audit.')
+
+  const result = resolveTrack(horizon, scope)
+  const db = getFirebaseDb()
+  const auditRef = doc(collection(db, 'users', user.uid, 'scopeAudits'))
+  const record = buildScopeAuditRecord(result, serverTimestamp())
+
+  await setDoc(auditRef, record)
+  await updateDoc(doc(db, 'users', user.uid), {
+    recommendedTrack: {
+      acronym: result.track.acronym,
+      name: result.track.name,
+      strandId: result.strand.id,
+      strandName: result.strand.name,
+      scope: result.scope,
+      horizon: result.horizon,
+      auditedAt: serverTimestamp(),
+      latestAuditId: auditRef.id,
+    },
+  })
+
+  return result
 }
 
 // --- Paid-tier (Professional/Fellow) placeholder, kept fake on purpose ------
